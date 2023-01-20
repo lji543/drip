@@ -32,7 +32,7 @@ const TotalsTable = ({ expenses }) => {
           <>
             {categories.map((cat) => {
               const categoryExpenses = expenses[cat];
-              const catVariance = categoryExpenses.budget - categoryExpenses.total;
+              const catVariance = categoryExpenses.catBudget - categoryExpenses.catTotal;
 
               return (
                 <TableRow

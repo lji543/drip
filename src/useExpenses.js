@@ -62,6 +62,7 @@ const useExpenses = () => {
           catTotal += expense.amount;
         });
         expenseList[month][cat].catTotal = catTotal;
+        expenseList[month][cat].catBudget = 0; // TODO: wont really need this
         expensesByCategory[cat].total += catTotal;
         monthTotal += catTotal;
         // console.log('expenseList ',expenseList)
@@ -73,7 +74,7 @@ const useExpenses = () => {
     });
     expenseList.yearTotal = yearTotal;
 
-    setState(state => ({ ...state, expensesByMonthAndCategory: expenseList }));
+    setState(state => ({ ...state, expensesByMonthAndCategory: expenseList, expensesByCategory: expensesByCategory }));
   }
 
   return {

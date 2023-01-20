@@ -1,4 +1,6 @@
-export const expensesByCategory = {
+export const getVariance = (budget, total) => budget - total;
+
+export const totalsByCategory = {
   transportation: {
     budget: 0,
     total: 0,
@@ -25,7 +27,7 @@ export const expensesByCategory = {
   },
 }
 
-export const expensesByMonthAndCategory = {
+export const totalsByMonthAndCategory = {
   yearTotal: 0,
   yearBudget: 0,
   0: {
@@ -170,12 +172,12 @@ export const expensesByMonthAndCategory = {
 // }
 
 export const categories = [
-  'transportation',
+  'clothes',
   'dining',
   'entertainment',
   'gifts',
-  'clothes',
   'toiletries',
+  'transportation',
 ]
 
 export const months = [

@@ -1,13 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box, Tab, Tabs as MUITabs } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import TabPanel from './TabPanel';
 
-const Tabs = ({ tabContent }) => {
-  // console.log('tabContent ',tabContent, typeof tabContent)
-  const [value, setValue] = React.useState(0);
+const Tabs = ({ currentTab, tabContent }) => {
+  const [value, setValue] = React.useState(currentTab);
+
+  useEffect(() => {
+    setValue(currentTab);
+  }, [currentTab])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

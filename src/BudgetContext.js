@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import { expensesByCategory, expensesByMonth, expensesByMonthAndCategory } from './utils/constants';
+import { totalsByCategory, expensesByMonth, totalsByMonthAndCategory } from './utils/constants';
 
 const BudgetContext = React.createContext([{}, () => {}]);
 
 const BudgetProvider = (props) => {
   const [state, setState] = useState({
-    expensesByCategory: expensesByCategory,
+    totalsByCategory: totalsByCategory,
     expensesByMonth: expensesByMonth,
-    expensesByMonthAndCategory: expensesByMonthAndCategory,
+    totalsByMonthAndCategory: totalsByMonthAndCategory,
   });
   return (
     <BudgetContext.Provider value={[state, setState]}>
@@ -18,10 +18,3 @@ const BudgetProvider = (props) => {
 }
 
 export { BudgetContext, BudgetProvider };
-
-// addNewExpense,
-// allExpenses: state.allExpenses,
-// expensesByMonth: state.expensesByMonth,
-// expensesByCategory: state.expensesByCategory,
-// totalByCategory,
-// totalByMonth,

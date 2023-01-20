@@ -9,11 +9,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { categories } from '../utils/constants'
+import { categories } from '../utils/constants';
 import useExpenses from '../useExpenses';
 
 const TotalsTable = ({ expenses }) => {
-  console.log('expenses ',expenses)
+  // console.log('expenses ',expenses)
+  // onst { getTotalsByMonthAndCategory } = useExpenses();
   const totalVariance = expenses.monthBudget - expenses.monthTotal;
 
   return (

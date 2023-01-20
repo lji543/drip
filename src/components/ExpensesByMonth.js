@@ -60,25 +60,29 @@ const testTabs = [
 ]
 
 const ExpensesByMonth = () => {
-  const { expensesByMonthAndCategory } = useExpenses();
+  const { totalsByMonthAndCategory } = useExpenses();
   const [tabContent, setTabContent] = useState();
+  const [currentMonth, setCurrentMonth] = useState();
+
+  const today = new Date();
+  const month = today.getMonth();
 
   const organizeTabContent = () => {
-    // console.log('expensesByMonth ',expensesByMonth)
     months.map((m, i) => {
-      return testTabs[i].panel = <MonthlyTotalsTable expenses={expensesByMonthAndCategory[i]} />;
+      return testTabs[i].panel = <MonthlyTotalsTable expenses={totalsByMonthAndCategory[i]} />;
     });
-    // console.log('ExpensesByMonth ',testTabs)
+
     setTabContent(testTabs);
   }
 
   useEffect(() => {
     organizeTabContent();
-  }, [expensesByMonthAndCategory])
+    setCurrentMonth(month);
+  }, [currentMonth, totalsByMonthAndCategory])
 
   return (
   <Box sx={{ width: '100%' }}>
-    <Tabs tabContent={tabContent} />
+    <Tabs currentTab={currentMonth} tabContent={tabContent} />
   </Box>
   );
 } 

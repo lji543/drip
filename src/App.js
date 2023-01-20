@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { collection, addDoc, serverTimestamp, getDocs } from 'firebase/firestore'
 
 import { Box, Button } from '@mui/material';
 
@@ -11,26 +12,21 @@ import useExpenses from './useExpenses';
 import './styles/App.css';
 
 function App() {
-  const { expensesByCategory, expensesByMonth, expensesByMonthAndCategory, totalByCategory, totalByMonth, totalByMonthAndCategory } = useExpenses();
+  const { totalsByCategory, totalsByMonthAndCategory, getTotalsByMonthAndCategory, totalByMonthAndCategory } = useExpenses();
   const [showExpenseForm, setShowExpenseForm] = useState(true);
   const [testExpenses, setTestExpenses] = useState([])
 
   const hideShowExpenseForm = () => setShowExpenseForm(!showExpenseForm);
-  // console.log('App showExpenseForm ',showExpenseForm)
-  // console.log('App testExpenses ',testExpenses)
 
   useEffect(() => {
-    // TODO: won't need to do this here once we are hooked up to the server
-    // totals will only need to be recalculated when new expenses are added
-    // totalByCategory();
-    // totalByMonth();
-    totalByMonthAndCategory();
+    getTotalsByMonthAndCategory();
+    // totalByMonthAndCategory();
   }, [])
 
   return (
     <div className="App">
       <ExpensesByMonth />
-      <YearlyTotalsTable expenses={expensesByCategory} />
+      <YearlyTotalsTable />
       <Button onClick={hideShowExpenseForm}>
         {showExpenseForm ? 'Cancel' : 'Add new Expense'}
       </Button>

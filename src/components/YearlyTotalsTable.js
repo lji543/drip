@@ -9,10 +9,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { categories, getVariance } from '../utils/constants';
 import useExpenses from '../useExpenses';
 
-const TotalsTable = ({ expenses }) => {
-  // const { expensesByCategory, expensesByMonth } = useExpenses();
+const TotalsTable = () => { // TODO: add timeframe as prop? so we can reuse this component
+  const { totalsByCategory } = useExpenses();
+  const totalVariance = getVariance(totalsByCategory.allBudget, totalsByCategory.allTotal);
 
   return (
     <TableContainer component={Paper}>
@@ -27,9 +29,9 @@ const TotalsTable = ({ expenses }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {Object.keys(expenses).map((cat) => {
-            const categoryExpenses = expenses[cat];
-            const variance = categoryExpenses.budget - categoryExpenses.total;
+          {categories.map((cat) => {
+            const categoryExpenses = totalsByCategory[cat];
+            const variance = getVariance(categoryExpenses.budget, categoryExpenses.total);
 
             return (
               <TableRow
@@ -46,6 +48,13 @@ const TotalsTable = ({ expenses }) => {
               </TableRow>
             )
           })}
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell component="th" scope="row">Total</TableCell>
+            <TableCell align="right">{totalsByCategory.allTotal}</TableCell>
+            <TableCell align="right"></TableCell>
+            <TableCell align="right">{totalsByCategory.allBudget}</TableCell>
+            <TableCell align="right">{totalVariance}</TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/index.css';
+import { BudgetProvider } from './BudgetContext';
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <BudgetProvider>
     <App />
+    </BudgetProvider>
   </React.StrictMode>
 );
 

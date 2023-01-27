@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-import { totalsByCategory, expensesByMonth, totalsByMonthAndCategory } from './utils/constants';
+import { totalsByCategory, expensesByCategoryAndMonth, totalsByMonthAndCategory } from './utils/constants';
 
 const BudgetContext = React.createContext([{}, () => {}]);
 
 const BudgetProvider = (props) => {
   const [state, setState] = useState({
     totalsByCategory: totalsByCategory,
-    expensesByMonth: expensesByMonth,
+    expensesByCategoryAndMonth: expensesByCategoryAndMonth,
     totalsByMonthAndCategory: totalsByMonthAndCategory,
   });
   return (

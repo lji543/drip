@@ -3,7 +3,7 @@ import { collection, addDoc, serverTimestamp, getDocs } from 'firebase/firestore
 
 import { db } from './utils/firebase.config';
 import { BudgetContext } from "./BudgetContext";
-import { categories, totalsByCategory, expensesByMonth, totalsByMonthAndCategory, months } from './utils/constants';
+import { categories, totalsByCategory, expensesByCategoryAndMonth, totalsByMonthAndCategory, months } from './utils/constants';
 
 const useExpenses = () => {
   const collectionRef = collection(db, 'expenses');
@@ -14,7 +14,7 @@ const useExpenses = () => {
     // that way we only have to update state once when adding multiple expenses at a time (update form too)
     const month = newExpense.date.getMonth();
     const catExpenses = state.totalsByCategory[newExpense.category].expenses.push(newExpense);
-    const monthExpenses = state.ExpensesByMonth[month].expenses.push(newExpense);
+    const monthExpenses = state.expensesByCategoryAndMonth[month].expenses.push(newExpense);
     // setState(state => ({ ...state, allExpenses: expenses }));
     // totalByCategory(catExpenses);
     // totalByMonth(monthExpenses);
@@ -40,7 +40,7 @@ const useExpenses = () => {
     const expenseList = totalsByMonthAndCategory;
     let yearTotal = 0;
 
-    expensesByMonth.map((monthExpenses, month) => {
+    expensesByCategoryAndMonth.map((monthExpenses, month) => {
       let monthTotal = 0;
       
       categories.map((cat) => {
@@ -94,7 +94,7 @@ const useExpenses = () => {
   return {
     addNewExpense,
     totalsByCategory: state.totalsByCategory,
-    expensesByMonth: state.expensesByMonth,
+    expensesByCategoryAndMonth: state.expensesByCategoryAndMonth,
     totalsByMonthAndCategory: state.totalsByMonthAndCategory,
     getTotalsByMonthAndCategory,
     totalByMonthAndCategory,

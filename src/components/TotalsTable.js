@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import useExpenses from '../useExpenses';
 
 const TotalsTable = ({ expenses }) => {
-  // const { expensesByCategory, expensesByMonth } = useExpenses();
+  // const { expensesByCategory, expensesByCategoryAndMonth } = useExpenses();
 
   return (
     <TableContainer component={Paper}>

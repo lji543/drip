@@ -197,7 +197,7 @@ export const months = [
 
 export const expenses = [];
 
-export const expensesByMonth = [
+export const expensesByCategoryAndMonth = [
   {
     transportation: {
       budget: 0,

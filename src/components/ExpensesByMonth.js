@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
-import { months } from '../utils/constants'
+import { months } from '../utils/ericConstants'
 import Tabs from './utilComponents/Tabs';
 import MonthlyTotalsTable from './MonthlyTotalsTable';
 import useExpenses from '../useExpenses';
@@ -66,6 +66,7 @@ const ExpensesByMonth = () => {
 
   const today = new Date();
   const month = today.getMonth();
+  // console.log('ExpensesByMonth expenses ',totalsByMonthAndCategory)
 
   const organizeTabContent = () => {
     months.map((m, i) => {
@@ -79,6 +80,7 @@ const ExpensesByMonth = () => {
     organizeTabContent();
     setCurrentMonth(month);
   }, [currentMonth, totalsByMonthAndCategory])
+
 
   return (
   <Box sx={{ width: '100%' }}>

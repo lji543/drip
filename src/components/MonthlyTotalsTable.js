@@ -9,13 +9,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { categories } from '../utils/constants';
+import { categories } from '../utils/ericConstants';
 import useExpenses from '../useExpenses';
 
-const TotalsTable = ({ expenses }) => {
-  // console.log('expenses ',expenses)
+const MonthlyTotalsTable = ({ expenses }) => {
+  console.log('Monthly Totals Table expenses ',expenses)
   // onst { getTotalsByMonthAndCategory } = useExpenses();
-  const totalVariance = expenses.monthBudget - expenses.monthTotal;
+  // const totalVariance = expenses.monthBudget - expenses._monthTotal;
 
   return (
     <TableContainer component={Paper}>
@@ -24,16 +24,23 @@ const TotalsTable = ({ expenses }) => {
           <TableRow>
             <TableCell></TableCell>
             <TableCell align="right">Total</TableCell>
-            <TableCell align="right"></TableCell>
+            {/* <TableCell align="right"></TableCell>
             <TableCell align="right">Budget</TableCell>
-            <TableCell align="right">Variance</TableCell>
+            <TableCell align="right">Variance</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
           <>
             {categories.map((cat) => {
               const categoryExpenses = expenses[cat];
-              const catVariance = categoryExpenses.catBudget - categoryExpenses.catTotal;
+              let categoryTotal;
+            
+            if (!categoryExpenses) {
+              categoryTotal = 0;
+            } else {
+              categoryTotal = categoryExpenses;
+            }
+            // const catVariance = categoryExpenses.catBudget - categoryExpenses.catTotal;
 
               return (
                 <TableRow
@@ -43,19 +50,19 @@ const TotalsTable = ({ expenses }) => {
                   <TableCell component="th" scope="row">
                     {cat}
                   </TableCell>
-                  <TableCell align="right">{categoryExpenses.catTotal}</TableCell>
-                  <TableCell align="right"></TableCell>
+                  <TableCell align="right">{categoryTotal}</TableCell>
+                  {/* <TableCell align="right"></TableCell>
                   <TableCell align="right">{categoryExpenses.catBudget}</TableCell>
-                  <TableCell align="right">{catVariance}</TableCell>
+                  <TableCell align="right">{catVariance}</TableCell> */}
                 </TableRow>
               )
             })}
             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell component="th" scope="row">Total</TableCell>
-              <TableCell align="right">{expenses.monthTotal}</TableCell>
-              <TableCell align="right"></TableCell>
+              <TableCell align="right">{expenses._monthTotal}</TableCell>
+              {/* <TableCell align="right"></TableCell>
               <TableCell align="right">{expenses.monthBudget}</TableCell>
-              <TableCell align="right">{totalVariance}</TableCell>
+              <TableCell align="right">{totalVariance}</TableCell> */}
             </TableRow>
           </>
         </TableBody>
@@ -64,4 +71,4 @@ const TotalsTable = ({ expenses }) => {
   );
 }
 
-export default TotalsTable;
+export default MonthlyTotalsTable;

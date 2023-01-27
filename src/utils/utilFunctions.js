@@ -1,0 +1,1 @@
+export const getVariance = (budget, total) => budget - total;

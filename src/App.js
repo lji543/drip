@@ -5,6 +5,7 @@ import { Box, Button } from '@mui/material';
 
 import ExpensesByMonth from './components/ExpensesByMonth';
 import NewExpense from './components/NewExpense';
+import SummaryTotalsTable from './components/SummaryTotalsTable';
 import YearlyTotalsTable from './components/YearlyTotalsTable';
 
 import useExpenses from './useExpenses';
@@ -25,26 +26,31 @@ function App() {
 
   return (
     <div className="App">
-      <ExpensesByMonth />
-      <YearlyTotalsTable />
-      <Button onClick={hideShowExpenseForm}>
-        {showExpenseForm ? 'Cancel' : 'Add new Expense'}
-      </Button>
-      {showExpenseForm && 
-        <NewExpense testExpenses={testExpenses} hideShowExpenseForm={hideShowExpenseForm} showExpenseForm={showExpenseForm} />
-      }
-      {/* <div>TEST:</div>
-      <div>
-        {testExpenses.length > 0 &&
-          testExpenses.map(exp => {
-            return (
-              <div>{exp.description} {exp.amount}</div>
-            )
-          })
-        }
-      </div> */}
+      <SummaryTotalsTable />
     </div>
   );
 }
 
 export default App;
+
+
+/* <div className="App">
+<ExpensesByMonth />
+<YearlyTotalsTable />
+<Button onClick={hideShowExpenseForm}>
+  {showExpenseForm ? 'Cancel' : 'Add new Expense'}
+</Button>
+{showExpenseForm && 
+  <NewExpense testExpenses={testExpenses} hideShowExpenseForm={hideShowExpenseForm} showExpenseForm={showExpenseForm} />
+}
+{/* <div>TEST:</div>
+<div>
+  {testExpenses.length > 0 &&
+    testExpenses.map(exp => {
+      return (
+        <div>{exp.description} {exp.amount}</div>
+      )
+    })
+  }
+</div> *//*} 
+</div> */

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { totalsByCategory, expensesByCategoryAndMonth, totalsByMonthAndCategory } from './utils/constants';
+// import { totalsByCategory, expensesByCategoryAndMonth, totalsByMonthAndCategory } from './utils/constants';
+import { totalsByCategory, expensesByCategoryAndMonth, totalsByMonthAndCategory } from './utils/ericConstants';
 
 const BudgetContext = React.createContext([{}, () => {}]);
 

@@ -5,3 +5,23 @@
 .select {
   min-width: 120px;;
 }
+
+.page-wrapper {
+  margin: 24px;
+}
+
+.table-column-header-lg {
+  font-weight: bold !important;
+  font-size: 16px !important;
+}
+.table-column-header {
+  font-weight: bold !important;
+  font-size: 0.75rem !important;
+}
+.table-row-header {
+  font-weight: 500 !important;
+  /* font-size: 16px !important; */
+}
+.table-cell {
+  font-size: 0.75rem !important;
+}

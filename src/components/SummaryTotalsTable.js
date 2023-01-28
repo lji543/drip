@@ -24,16 +24,16 @@ const SummaryTotalsTable = () => {
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>Category</TableCell>
+            <TableCell className='table-column-header-lg'>Category</TableCell>
             <TableCell align="right"></TableCell>
             {months.map((month, i) => {
-              return <TableCell align="right" key={i}>{month}</TableCell>;
+              return <TableCell className='table-column-header' align="right" key={i}>{month}</TableCell>;
             })}
-            <TableCell align="right">Total</TableCell>
             <TableCell align="right"></TableCell>
+            <TableCell className='table-column-header-lg' align="right">Total</TableCell>
             {/* <TableCell align="right">Category</TableCell> */}
-            <TableCell align="right">Total</TableCell>
-            <TableCell align="right">Average</TableCell>
+            {/* <TableCell className='table-column-header-lg' align="right">Total</TableCell> */}
+            <TableCell className='table-column-header-lg' align="right">Average</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -48,15 +48,15 @@ const SummaryTotalsTable = () => {
                   key={cat}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">{totalsByCategory[cat].name}</TableCell>
-                  <TableCell>{totalsByCategory[cat].details}</TableCell>
+                  <TableCell className='table-row-header' component="th" scope="row">{totalsByCategory[cat].name}</TableCell>
+                  <TableCell className='table-cell'>{totalsByCategory[cat].details}</TableCell>
                   {months.map((month, i) => {
-                    return <TableCell align="right" key={i}>{totalsByMonthAndCategory[i][cat]}</TableCell>;
+                    return <TableCell className='table-cell' align="right" key={i}>{totalsByMonthAndCategory[i][cat]}</TableCell>;
                   })}
-                  <TableCell align="right">{ttl}</TableCell>
                   <TableCell align="right"></TableCell>
-                  {/* <TableCell align="right">{totalsByCategory[cat].name}</TableCell> */}
                   <TableCell align="right">{ttl}</TableCell>
+                  {/* <TableCell align="right">{totalsByCategory[cat].name}</TableCell> */}
+                  {/* <TableCell align="right">{ttl}</TableCell> */}
                   <TableCell align="right">{avg}</TableCell>
                 </TableRow>
               )

@@ -4,7 +4,7 @@ const PageWrapper = (props) => {
 	const { children, value, index } = props;
 
 	return (
-		<div role="tabpanel" hidden={value !== index}>
+		<div role="page-tabpanel" hidden={value !== index}>
 			{value === index && <div className="page-wrapper">{children}</div>}
 		</div>
 	);

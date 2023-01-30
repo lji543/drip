@@ -25,7 +25,7 @@ const ExpenseList = ({category}) => {
 
       tabContent.push({
         label: mo,
-        panel: <ListedExpenses expenses={listedExpenses} />,
+        panel: <ListedExpenses category={category} expenses={listedExpenses} month={i} />,
       });
     });
 
@@ -72,7 +72,7 @@ const ExpensesListByCategory = () => {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Tabs currentTab={0} tabContent={tabContent} />
+      <Tabs currentTab={0} tabContent={tabContent} orientation='vertical' />
     </Box>
   );
 }

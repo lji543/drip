@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import { categories } from '../utils/ericConstants';
-import useExpenses from '../useExpenses';
+import useExpenses from '../state/useExpenses';
 
 const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reuse this component
   const { totalsByCategory } = useExpenses();

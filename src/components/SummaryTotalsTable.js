@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import { categories, months } from '../utils/ericConstants';
-import useExpenses from '../useExpenses';
+import useExpenses from '../state/useExpenses';
 
 const SummaryTotalsTable = () => {
   const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();

@@ -11,7 +11,7 @@ import {
 import { Button } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
-import useExpenses from '../useExpenses';
+import useExpenses from '../state/useExpenses';
 import { formatDate } from '../utils/utilFunctions';
 import NewExpense from './NewExpense';
 

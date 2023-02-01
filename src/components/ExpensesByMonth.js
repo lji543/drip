@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import { months } from '../utils/ericConstants'
 import Tabs from './utilComponents/Tabs';
 import MonthlyTotalsTable from './MonthlyTotalsTable';
-import useExpenses from '../useExpenses';
+import useExpenses from '../state/useExpenses';
 
 const testTabs = [
   {

@@ -9,7 +9,7 @@ import ListedExpenses from './ListedExpenses';
 import Tabs from './utilComponents/Tabs';
 
 import { categories, months, statusMessages } from '../utils/ericConstants';
-import useExpenses from '../useExpenses';
+import useExpenses from '../state/useExpenses';
 
 const ExpenseList = ({category}) => { // Month tabs, with categories as parent
   // console.log('ExpenseList ', category)

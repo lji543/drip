@@ -5,7 +5,7 @@ import Navigation from './components/Navigation';
 import PageWrapper from './components/Navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
 
-import useExpenses from './useExpenses';
+import useExpenses from './state/useExpenses';
 
 import './styles/App.css';
 

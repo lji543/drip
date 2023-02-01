@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
 
-import { db } from './utils/firebase.config';
+import { db } from '../utils/firebase.config';
 import { BudgetContext } from "./BudgetContext";
-import { categories } from './utils/ericConstants';
-import { roundNumberToTwo } from './utils/utilFunctions';
+import { categories } from '../utils/ericConstants';
+import { roundNumberToTwo } from '../utils/utilFunctions';
 
 const useExpenses = () => {
   const { stateBudgetContext, statusBudgetContext } = useContext(BudgetContext);

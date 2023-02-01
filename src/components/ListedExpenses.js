@@ -240,7 +240,6 @@ const ListedExpenses = ({ category, expenses, month}) => {
             />
           ) : (
             <Button
-              className='add-button'
               color="primary"
               startIcon={<AddIcon />}
               onClick={() => setIsAddingExpense(!isAddingExpense)}

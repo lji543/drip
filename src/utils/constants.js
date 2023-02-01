@@ -27,7 +27,7 @@ export const totalsByCategory = {
   },
 }
 
-export const totalsByMonthAndCategory = {
+export const totalsByCategoryAndMonth = {
   yearTotal: 0,
   yearBudget: 0,
   0: {

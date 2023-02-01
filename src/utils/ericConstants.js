@@ -1,5 +1,20 @@
 // TODO: move consistent expenses to different array or catalouge them differently?
 
+export const statusMessages = {
+  add: {
+    success: 'Your expense has been added.',
+    error: 'Your expense was not added. Please try again and report bug to Laura.'
+  },
+  delete: {
+    success: 'Your expense has been deleted.',
+    error: 'Your expense was not deleted. Please try again and report bug to Laura.'
+  },
+  update: {
+    success: 'Your expense has been updated.',
+    error: 'Your expense was not updated. Please try again and report bug to Laura.'
+  },
+}
+
 export const expensesByCategoryAndMonth = [
   // JANUARY
   {
@@ -8,7 +23,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '1/1/23',
-          amount: 74
+          amount: 74,
+          id: 'andrewdfasdf',
         },
       ],
     },
@@ -17,12 +33,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '1/1/23',
-          amount: 74
+          amount: 74,
+          id: 'adf235',
         },
         {
           details: 'bp',
           date: '1/15/23',
-          amount: 55
+          amount: 55,
+          id: 'a235',
         },
       ],
     },
@@ -31,7 +49,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '1/1/23',
-          amount: 150
+          amount: 150,
+          id: 'a6335',
         },
       ],
     },
@@ -40,7 +59,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '1/1/23',
-          amount: 10
+          amount: 10,
+          id: 's3d3ericd4f',
         },
       ],
     },
@@ -49,7 +69,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '1/1/23',
-          amount: 1800
+          amount: 1800,
+          id: '262565',
         },
       ],
     },
@@ -61,7 +82,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: '245fgsh',
         },
       ],
     },
@@ -70,12 +92,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: '3568',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: '2345ads',
         },
       ],
     },
@@ -84,7 +108,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: '23546sdfgbsfdgsdfg',
         },
       ],
     },
@@ -93,7 +118,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 'q345adfvqw4radsvc',
         },
       ],
     },
@@ -102,7 +128,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: '3245tadfvaerg',
         },
       ],
     },
@@ -114,7 +141,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: '34tadsf',
         },
       ],
     },
@@ -123,12 +151,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 120
+          amount: 120,
+          id: '2546sfdfzv',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 120
+          amount: 120,
+          id: 'q345advaef',
         },
       ],
     },
@@ -137,7 +167,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 'cadq4w',
         },
       ],
     },
@@ -146,7 +177,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 'd2345sdfb',
         },
       ],
     },
@@ -155,7 +187,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 'eq34w5dvc',
         },
       ],
     },
@@ -167,7 +200,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 'f4235asdf',
         },
       ],
     },
@@ -176,12 +210,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: 'g34sd',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 'ha34tewf',
         },
       ],
     },
@@ -190,7 +226,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 'i3zdbf',
         },
       ],
     },
@@ -199,7 +236,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 'j',
         },
       ],
     },
@@ -208,7 +246,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 'k',
         },
       ],
     },
@@ -220,7 +259,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 'l',
         },
       ],
     },
@@ -229,12 +269,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: 'msrt',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 'nq34t6a',
         },
       ],
     },
@@ -243,7 +285,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 'oadcv',
         },
       ],
     },
@@ -252,7 +295,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 'pfbadfrce',
         },
       ],
     },
@@ -261,7 +305,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 'q45bdfgs',
         },
       ],
     },
@@ -273,7 +318,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 'r4rewrewrere',
         },
       ],
     },
@@ -282,12 +328,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: 's',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 't',
         },
       ],
     },
@@ -296,7 +344,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 'u',
         },
       ],
     },
@@ -305,7 +354,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 'v',
         },
       ],
     },
@@ -314,7 +364,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 'w',
         },
       ],
     },
@@ -326,7 +377,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 'x',
         },
       ],
     },
@@ -335,12 +387,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: 'y',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 'z',
         },
       ],
     },
@@ -349,7 +403,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 'zz',
         },
       ],
     },
@@ -358,7 +413,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 'zzz',
         },
       ],
     },
@@ -367,7 +423,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 'aaa',
         },
       ],
     },
@@ -379,7 +436,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 'asfasdasdaas',
         },
       ],
     },
@@ -388,12 +446,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: 'zzzzzz',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 'adf2zzzz35',
         },
       ],
     },
@@ -402,7 +462,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 'potyuiyui',
         },
       ],
     },
@@ -411,7 +472,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: '435623456346436',
         },
       ],
     },
@@ -420,7 +482,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 's3d3d4f',
         },
       ],
     },
@@ -432,7 +495,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 's3d35td4f',
         },
       ],
     },
@@ -441,12 +505,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: 's3d973d4f',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 's3d363465433d4f',
         },
       ],
     },
@@ -455,7 +521,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 's3d34ndfgh3d4f',
         },
       ],
     },
@@ -464,7 +531,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 's3d36798fgsad4f',
         },
       ],
     },
@@ -473,7 +541,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 's39k32sd3d4f',
         },
       ],
     },
@@ -485,7 +554,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 's3d3d4fzzzzz',
         },
       ],
     },
@@ -494,12 +564,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: 'zasxsas3d3d4f',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 's3d3d4fsa22321341',
         },
       ],
     },
@@ -508,7 +580,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 's3d3dzzaaassxx4f',
         },
       ],
     },
@@ -517,7 +590,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 's3d3dggghhy4f',
         },
       ],
     },
@@ -526,7 +600,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 'ajqahqahqhh',
         },
       ],
     },
@@ -538,7 +613,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: 's3d3d4f99o9o9',
         },
       ],
     },
@@ -552,7 +628,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 's3d3d4fzalau',
         },
       ],
     },
@@ -561,7 +638,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 'laura',
         },
       ],
     },
@@ -570,7 +648,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 'njiokm',
         },
       ],
     },
@@ -579,7 +658,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 'hkjl09584585555555',
         },
       ],
     },
@@ -591,7 +671,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 74
+          amount: 74,
+          id: '111111',
         },
       ],
     },
@@ -600,12 +681,14 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'shell',
           date: '2/1/23',
-          amount: 63
+          amount: 63,
+          id: '222222',
         },
         {
           details: 'bp',
           date: '2/22/23',
-          amount: 87
+          amount: 87,
+          id: 's3d3d4333333f',
         },
       ],
     },
@@ -614,7 +697,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 150
+          amount: 150,
+          id: 's3d3d4f44444',
         },
       ],
     },
@@ -623,7 +707,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'progressive',
           date: '2/1/23',
-          amount: 10
+          amount: 10,
+          id: 's3d555553d4f',
         },
       ],
     },
@@ -632,7 +717,8 @@ export const expensesByCategoryAndMonth = [
         {
           details: 'UWM, HOA/Republic',
           date: '2/1/23',
-          amount: 1800
+          amount: 1800,
+          id: 's3d3d4777743f',
         },
       ],
     },
@@ -677,7 +763,7 @@ export const months = [
   'Dec',
 ]
 
-export const totalsByMonthAndCategory = {
+export const totalsByCategoryAndMonth = {
   _yearTotal: 0,
   _yearBudget: 0,
   0: {

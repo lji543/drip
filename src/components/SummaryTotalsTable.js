@@ -13,11 +13,7 @@ import { categories, months } from '../utils/ericConstants';
 import useExpenses from '../useExpenses';
 
 const SummaryTotalsTable = () => {
-  const { totalsByCategory, totalsByMonthAndCategory } = useExpenses();
-  // console.log('Summary Totals Table totalsByCategory ',totalsByCategory)
-  // console.log('Summary Totals Table totalsByMonthAndCategory ',totalsByMonthAndCategory)
-  // console.log('Summary Totals Table months ',months)
-  // const totalVariance = expenses.monthBudget - expenses._monthTotal;
+  const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
 
   return (
     <TableContainer component={Paper}>
@@ -39,7 +35,7 @@ const SummaryTotalsTable = () => {
         <TableBody>
           <>
             {categories.map((cat) => {
-              if (!totalsByCategory[cat]) return;
+              if (!totalsByCategory[cat]) return null;
               const avg = totalsByCategory[cat].monthlyAvg ? Math.round(totalsByCategory[cat].monthlyAvg) : 0;
               const ttl = totalsByCategory[cat].total ? Math.round(totalsByCategory[cat].total) : 0;
 
@@ -51,7 +47,7 @@ const SummaryTotalsTable = () => {
                   <TableCell className='table-row-header' component="th" scope="row">{totalsByCategory[cat].name}</TableCell>
                   <TableCell className='table-cell'>{totalsByCategory[cat].details}</TableCell>
                   {months.map((month, i) => {
-                    return <TableCell className='table-cell' align="right" key={i}>{totalsByMonthAndCategory[i][cat]}</TableCell>;
+                    return <TableCell className='table-cell' align="right" key={i}>{totalsByCategoryAndMonth[i][cat]}</TableCell>;
                   })}
                   <TableCell align="right"></TableCell>
                   <TableCell align="right">{ttl}</TableCell>
@@ -59,7 +55,7 @@ const SummaryTotalsTable = () => {
                   {/* <TableCell align="right">{ttl}</TableCell> */}
                   <TableCell align="right">{avg}</TableCell>
                 </TableRow>
-              )
+              );
             })}
           </>
         </TableBody>

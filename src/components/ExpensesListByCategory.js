@@ -1,18 +1,47 @@
 // TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
+import { IconButton, Snackbar } from '@mui/material';
+import { Box } from '@mui/material';
 
-import Tabs from './utilComponents/Tabs';
 import ListedExpenses from './ListedExpenses';
+import Tabs from './utilComponents/Tabs';
 
-import { categories, months } from '../utils/ericConstants';
+import { categories, months, statusMessages } from '../utils/ericConstants';
 import useExpenses from '../useExpenses';
 
-const ExpenseList = ({category}) => {
+const ExpenseList = ({category}) => { // Month tabs, with categories as parent
   // console.log('ExpenseList ', category)
-  const { expensesByCategoryAndMonth, totalsByCategory, totalsByMonthAndCategory } = useExpenses();
+  const { expensesByCategoryAndMonth, statusState, totalsByCategoryAndMonth } = useExpenses();
   const [tabContent, setTabContent] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const statusMessage = statusState.updateType ? statusMessages[statusState.updateType][statusState.result] : '';
+
+  const handleSnackbarClose = (e, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
+  const snackBarAction = (
+    <React.Fragment>
+      {/* <Button color="secondary" size="small" onClick={}>
+        UNDO
+      </Button> */}
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
 
   const organizeTabContent = () => {
     let tabContent = [];
@@ -34,20 +63,32 @@ const ExpenseList = ({category}) => {
 
   useEffect(() => {
     organizeTabContent();
-  }, [totalsByMonthAndCategory]);
+  // eslint-disable-next-line
+  }, [totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
-  return (
-    <Tabs currentTab={0} tabContent={tabContent} />
+  useEffect(() => {
+    setSnackbarOpen(statusState.updateType ? true : false);
+  // eslint-disable-next-line
+  }, [statusState]); // react-hooks/exhaustive-deps
+
+  return ( 
+    <div>
+      <Tabs currentTab={0} tabContent={tabContent} />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={statusMessage}
+        action={snackBarAction}
+      />
+    </div>
   );
 }
 
-const ExpensesListByCategory = () => {
-  const { expensesByCategoryAndMonth, totalsByCategory, totalsByMonthAndCategory } = useExpenses();
+const ExpensesListByCategory = () => { // Category tabs, with months as child
+  const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
   const [tabContent, setTabContent] = useState([]);
   // console.log('Summary Totals Table totalsByCategory ',totalsByCategory)
-  // console.log('Summary Totals Table totalsByMonthAndCategory ',totalsByMonthAndCategory)
-  // console.log('Summary Totals Table months ',months)
-  // const totalVariance = expenses.monthBudget - expenses._monthTotal;
 
   const organizeTabContent = () => {
     let tabContent = [];
@@ -56,11 +97,6 @@ const ExpensesListByCategory = () => {
         label: `${totalsByCategory[cat].name}`,
         panel: <ExpenseList category={cat} />
       });
-      // let monthExp = expensesByCategoryAndMonth[i];
-      // categories.forEach((cat) => {
-      //   // monthExp[cat]
-      // })
-      // return testTabs[i].panel = <MonthlyTotalsTable expenses={totalsByMonthAndCategory[i]} />;
     });
 
     setTabContent(tabContent);
@@ -68,7 +104,8 @@ const ExpensesListByCategory = () => {
 
   useEffect(() => {
     organizeTabContent();
-  }, [totalsByMonthAndCategory])
+  // eslint-disable-next-line
+  }, [totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
     <Box sx={{ width: '100%' }}>

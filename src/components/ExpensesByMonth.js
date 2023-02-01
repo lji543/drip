@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 
 import { months } from '../utils/ericConstants'
 import Tabs from './utilComponents/Tabs';
@@ -60,17 +59,17 @@ const testTabs = [
 ]
 
 const ExpensesByMonth = () => {
-  const { totalsByMonthAndCategory } = useExpenses();
+  const { totalsByCategoryAndMonth } = useExpenses();
   const [tabContent, setTabContent] = useState();
   const [currentMonth, setCurrentMonth] = useState();
 
   const today = new Date();
   const month = today.getMonth();
-  // console.log('ExpensesByMonth expenses ',totalsByMonthAndCategory)
+  // console.log('ExpensesByMonth expenses ',totalsByCategoryAndMonth)
 
   const organizeTabContent = () => {
     months.map((m, i) => {
-      return testTabs[i].panel = <MonthlyTotalsTable expenses={totalsByMonthAndCategory[i]} />;
+      return testTabs[i].panel = <MonthlyTotalsTable expenses={totalsByCategoryAndMonth[i]} />;
     });
 
     setTabContent(testTabs);
@@ -79,7 +78,8 @@ const ExpensesByMonth = () => {
   useEffect(() => {
     organizeTabContent();
     setCurrentMonth(month);
-  }, [currentMonth, totalsByMonthAndCategory])
+  // eslint-disable-next-line
+  }, [currentMonth, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
 
   return (

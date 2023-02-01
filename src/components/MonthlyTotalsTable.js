@@ -10,12 +10,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import { categories } from '../utils/ericConstants';
-import useExpenses from '../useExpenses';
 
 const MonthlyTotalsTable = ({ expenses }) => {
-  console.log('Monthly Totals Table expenses ',expenses)
-  // onst { getTotalsByMonthAndCategory } = useExpenses();
-  // const totalVariance = expenses.monthBudget - expenses._monthTotal;
+  // console.log('Monthly Totals Table expenses ',expenses);
 
   return (
     <TableContainer component={Paper}>

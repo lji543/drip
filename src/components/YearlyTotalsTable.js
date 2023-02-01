@@ -9,13 +9,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import { categories, getVariance } from '../utils/ericConstants';
+import { categories } from '../utils/ericConstants';
 import useExpenses from '../useExpenses';
 
 const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reuse this component
   const { totalsByCategory } = useExpenses();
-  // console.log('Yearly Totals Table expenses ',totalsByCategory)
-  // const totalVariance = getVariance(totalsByCategory.allBudget, totalsByCategory.allTotal);
 
   return (
     <TableContainer component={Paper}>
@@ -39,7 +37,6 @@ const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reus
             } else {
               categoryTotal = categoryExpenses.total;
             }
-            // const variance = getVariance(categoryExpenses.budget, categoryExpenses.total);
             
             return (
               <TableRow
@@ -51,8 +48,7 @@ const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reus
                 </TableCell>
                 <TableCell align="right">{categoryTotal}</TableCell>
                 {/* <TableCell align="right"></TableCell>
-                <TableCell align="right">{categoryExpenses.budget}</TableCell>
-                <TableCell align="right">{variance}</TableCell> */}
+                <TableCell align="right">{categoryExpenses.budget}</TableCell> */}
               </TableRow>
             )
           })}
@@ -60,8 +56,7 @@ const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reus
             <TableCell component="th" scope="row">Total</TableCell>
             <TableCell align="right">{totalsByCategory._yearTotal}</TableCell>
             {/* <TableCell align="right"></TableCell>
-            <TableCell align="right">{totalsByCategory.allBudget}</TableCell>
-            <TableCell align="right">{totalVariance}</TableCell> */}
+            <TableCell align="right">{totalsByCategory.allBudget}</TableCell> */}
           </TableRow>
         </TableBody>
       </Table>

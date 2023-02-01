@@ -35,21 +35,67 @@
 
 
 .dataGrid-column-header {
+  color: #02035e;
   text-decoration: underline;
+  /* justify-content: flex-start !important; */
 }
 .dataGrid-cell {
-  text-align: center;
+  color: #02035e;
+  justify-content: flex-start !important;
+}
+.dataGrid-cell-amount {
+  /* padding-left: 36px !important; TODO: probably not the way to format this cell */
 }
 .dataGrid-total-row {
+  border-top: solid 1px #02035e;
   display: flex;
   justify-content: space-between;
-  padding: 48px 28px 24px 10px;
+  /* padding: 48px 28px 24px 10px; */
+  margin-bottom: 40px;
+  margin-right: 100px;
+  margin-top: 60px;
+  padding-top: 8px;
 }
 
 .dataGrid-totalTxt {
+  color: #02035e;
   font-weight: bold;
 }
 .dataGrid-totalAmt {
+  color: #02035e;
   font-weight: bold;
-  padding-right: 12px;
+  /* margin-right: 100px; */
+}
+
+.button-container {
+  display: flex;
+  padding-top: 24px;
+}
+/* .add-button { */
+  /* align-self: flex-start; */
+  /* left: 0; */
+/* } */
+
+.form-row {
+  padding-top: 56px;
+}
+.form-row-title {
+  color: #02035e;
+  padding-bottom: 24px;
+  text-align: left;
+}
+/* .form-field-row {
+  display: flex;
+} */
+.form-field {
+  padding-right: 12px !important;
+}
+/* .form-field .MuiInputBase-input {
+  
+}
+.form-field .MuiFormLabel-root {
+  
+} */
+.actions-row {
+  padding-top: 40px; 
 }

@@ -1,141 +1,92 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { Button, TextField } from '@mui/material';
 
-import { BudgetContext } from '../BudgetContext';
-import { categories, expenses } from '../utils/constants';
+import { convertToInt, formatDate } from '../utils/utilFunctions';
 
-const defaultDate = new Date();
+const baseExpenseObj = {
+  amount: 0,
+  date: '',
+  details: '',
+};
 
-const NewExpense = ({hideShowExpenseForm, showExpenseForm, testExpenses}) => {
-  const [state, setState] = useContext(BudgetContext);
-  const [amount, setAmount] = useState();
-  const [date, setDate] = useState(defaultDate.getDate());
-  const [description, setDescription] = useState();
-  const [category, setCategory] = useState();
-  const [catTotals, setCatTotals] = useState(categories);
+const NewExpense = ({ addNewRow, month, setIsAddingExpense }) => {
+  const [minimumDate /*, setMinimumDate*/] = useState();
+  const [newExpense, setNewExpense] = useState(baseExpenseObj);
 
-  // defaultDate.setDate(defaultDate.getDate());
-  // const [newExpense, setNewExpense] = useState({
-  //   amount: 0,
-  //   description: '',
-  //   category: ''
-  // });
-  // console.log('hideShowExpenseForm: ', hideShowExpenseForm)
-  // console.log('New Expense Date ',date)
+  // useEffect(() => {
+  //   let min;
+  //   const today = new Date();
+  //   if (today.getMonth() !== month) {
+  //     const year = today.getFullYear();
+  //     min = `${month+1}/01/${year}`;
+  //   }
+  //   setMinimumDate(min);
+  // }, [minimumDate])
 
-  const handleDateChange = (event) => {
-    setDate(event.target.value);
-  }
-  const handleAmountChange = (event) => {
-    setAmount(event.target.value);
-  }
-  const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
-  }
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-  }
+  const handleFieldChange = (event) => {
+    const { id, value } = event.target;
 
-  const handleExpenseUpdate = () => { ///// TODO
-  //   setNewExpense({
-  //     amount: amount,
-  //     description: description,
-  //     category: category
-  //   });
-    // TODO send this expense somewhere
-    const newExpense = {
-      amount: amount, // TODO change to number
-      date: date,
-      description: description,
-      // category: category,
-      category: 'dining'
+    setTimeout(() => setNewExpense({
+      ...newExpense,
+      [id]: value,
+    }), 400);
+  };
+
+  const handleExpenseUpdate = (close) => {
+    const newExp = {
+      ...newExpense,
+      amount: convertToInt(newExpense.amount),
+      date: formatDate(newExpense.date),
+      id: `${newExpense.amount}${Math.round(Math.random()*1000000)}`,
     }
-    // expenses.push(newExpense);
-    console.log('imported: ', expenses)
-    testExpenses.push(newExpense);
 
-    console.log('New Expense: ', newExpense)
-    console.log('showExpenseForm: ', showExpenseForm)
-    if (showExpenseForm) {
-      setAmount('');
-      setDate('');
-      setDescription('');
-      setCategory('');
-    }
-  }
+    addNewRow(newExp);
+
+    if (close) {
+      setIsAddingExpense(false);
+    };
+    // setNewExpense(baseExpenseObj);
+
+  };
 
   return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      {/* <div>
+    <div className='form-row'>
+      <div className='form-row-title'>Add Expense:</div>
+      <div>
         <TextField
           required
-          id="outlined-required"
-          label="date"
+          id="date"
           type="date"
-          onChange={handleDateChange}
-          value={date}
+          defaultValue={minimumDate}
+          onChange={handleFieldChange}
+          className='form-field'
+          // InputProps={{
+          //   inputProps: { min: minimumDate },
+          // }}
+          // inputProps={{ min: minimumDate }}
         />
-      </div> */}
-      <div>
         <TextField
           required
-          id="outlined-required"
+          id="details"
           label="Description"
-          onChange={handleDescriptionChange}
-          value={description}
+          onChange={handleFieldChange}
+          className='form-field'
         />
-      </div>
-      <div>
         <TextField
           required
-          id="outlined-required"
+          id="amount"
           label="Amount"
           type="number"
-          onChange={handleAmountChange}
-          value={amount}
+          onChange={handleFieldChange}
+          className='form-field'
         />
       </div>
-      {/* <FormControl fullWidth> */}
-      {/* <div>
-        <InputLabel id="demo-simple-select-label">Category</InputLabel>
-        <Select
-          className="select"
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="Category"
-          onChange={handleCategoryChange}
-          value={category}
-        >
-          {Object.keys(categories).map(cat => <MenuItem key={cat} value={cat}>{cat}</MenuItem>)}
-        </Select> */}
-        {/* </FormControl> */}
-      {/* </div> */}
-      <div>
-        <Button onClick={handleExpenseUpdate && hideShowExpenseForm}>Save and Close</Button>
-        <Button onClick={handleExpenseUpdate}>Save and Add Another</Button>
-        <Button onClick={() => setState(state => ({ ...state, name: 'Clicked!' }))}>
-          {state.name}
-        </Button>
+      <div className='actions-row'>
+        <Button onClick={() => handleExpenseUpdate('close')}>Save and Close</Button>
+        <Button onClick={() => handleExpenseUpdate()}>Save and Add Another</Button>
       </div>
-
-      <div>TEST NEW Exp:</div>
-      <div>
-        {testExpenses.map(exp => {
-          return (
-            <div key={exp.amount + exp.desc + exp.date}>{exp.description} {exp.amount}</div>
-          )
-        })}
-      </div>
-    </Box>
+    </div>
   );
 } 
 

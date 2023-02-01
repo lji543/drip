@@ -1,41 +1,19 @@
 // TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import {
+  Add as AddIcon,
+  Cancel as CancelIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Save as SaveIcon,
+} from '@mui/icons-material';
+import { Button } from '@mui/material';
+import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
-import { categories, months } from '../utils/ericConstants';
 import useExpenses from '../useExpenses';
-import { expenses } from '../utils/constants';
-
-const columns = [
-  {
-    field: 'date',
-    headerName: 'Date',
-    headerClassName: 'dataGrid-column-header',
-    editable: true,
-  },
-  {
-    field: 'details',
-    headerName: 'Details',
-    headerClassName: 'dataGrid-column-header',
-    editable: true,
-    width: 224,
-  },
-  {
-    field: 'amount',
-    headerName: 'Amount',
-    headerClassName: 'dataGrid-column-header',
-    editable: true,
-    cellClassName: 'dataGrid-cell',
-    width: 85,
-  },
-]
-
-const tableContainerProps = {
-  display: 'flex',
-  width: '100%',
-};
+import { formatDate } from '../utils/utilFunctions';
+import NewExpense from './NewExpense';
 
 const styleProps = {
   border: 'none',
@@ -43,50 +21,233 @@ const styleProps = {
   '& .MuiDataGrid-cell:hover': {
     color: 'primary.main',
   },
-  width: 410,
+  width: 520, // width of DataGridTable
 };
 
 const ListedExpenses = ({ category, expenses, month}) => {
-  const { totalsByMonthAndCategory } = useExpenses();
-  const [expensesList, setExpensesList] = useState([]);
+  const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, updateExpense  } = useExpenses();
+
+  const [isAddingExpense, setIsAddingExpense] = useState(true);
   const [monthCatTotal, setMonthCatTotal] = useState([]);
+  const [rows, setRows] = useState([]);
+  const [rowModesModel, setRowModesModel] = useState({});
   // console.log('Listed Expenses ', expenses)
 
-  const organizeExpensesList = () => {
+  const handleRowEditStart = (params, event) => { /////
+    console.log('handleRowEditStart ', params)
+    event.defaultMuiPrevented = true;
+  };
+
+  const handleRowEditStop = (params, event) => { /////
+    console.log('handleRowEditStop ', params)
+    event.defaultMuiPrevented = true;
+  };
+
+  const addNewRow = (newRow) => {
+    const updatedRow = {
+      ...newRow,
+      category: category,
+    };
+    const newRows = [...rows];
+    newRows.push(updatedRow);
+
+    addNewExpense(updatedRow, category);
+    setRows(newRows);
+  }
+
+  const processRowUpdate = (newRow) => {
+    const updatedRow = {
+      ...newRow,
+      date: formatDate(newRow.date),
+      isNew: false
+    };
+    // console.log('processRowUpdate ', updatedRow);
+
+    updateExpense(updatedRow, category);
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
+    return updatedRow;
+  };
+
+  const handleProcessRowUpdateError = React.useCallback((error) => {
+    // setSnackbar({ children: error.message, severity: 'error' });
+    console.log('handleProcessRowUpdateError error ', error.message)
+  }, []);
+
+  const handleCancelClick = (id) => () => {
+    setRowModesModel({
+      ...rowModesModel,
+      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+    });
+
+    const editedRow = rows.find((row) => row.id === id);
+    console.log('handleCancelClick ', editedRow)
+    if (editedRow.isNew) {
+      setRows(rows.filter((row) => row.id !== id));
+    }
+  };
+
+  const handleDeleteClick = (row) => () => {
+    // console.log('handleDeleteClick ', row)
+    deleteExpense(row, category);
+    setRows(rows.filter((r) => r.id !== row.id));
+  };
+
+  const handleEditClick = (id) => () => {
+    // console.log('handleEditClick ', id)
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  };
+
+  const handleSaveClick = (id) => () => {
+    // console.log('handleSaveClick ', id)
+    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+  };
+
+  const organizeRowExpensesList = () => {
     let newList = [];
     expenses.forEach((exp, i) => {
       newList.push({
         ...exp,
-        amount: exp.amount?.toLocaleString('en-US'),
-        id: i, // TODO: make this more specific for editing purposes
+        // amount: convertToInt(exp.amount),
       });
     });
 
-    setExpensesList(newList);
-    setMonthCatTotal(totalsByMonthAndCategory[month][category])
-  }
+    setRows(newList);
+    setMonthCatTotal(totalsByCategoryAndMonth[month][category])
+  };
+
+
+  const columns = [
+    {
+      field: 'date',
+      type: 'date',
+      headerName: 'Date',
+      headerClassName: 'dataGrid-column-header',
+      editable: true,
+      cellClassName: 'dataGrid-cell',
+    },
+    {
+      field: 'details',
+      headerName: 'Details',
+      headerClassName: 'dataGrid-column-header',
+      editable: true,
+      cellClassName: 'dataGrid-cell',
+      width: 224,
+    },
+    {
+      field: 'amount',
+      type: 'number',
+      headerName: 'Amount',
+      headerClassName: 'dataGrid-column-header',
+      editable: true,
+      cellClassName: 'dataGrid-cell dataGrid-cell-amount',
+      width: 92,
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 90,
+      headerClassName: 'dataGrid-column-header',
+      getActions: (data) => {
+        const { id, row } = data;
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+        // console.log('getActions ', id, isInEditMode)
+  
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+  
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(row)}
+            color="inherit"
+          />,
+        ];
+      },
+    }
+  ];
 
   useEffect(() => {
-    organizeExpensesList();
-  }, [expenses])
+    organizeRowExpensesList();
+  // }, [category, month, totalsByCategoryAndMonth]);
+  // eslint-disable-next-line
+  }, [expenses]); // react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    setMonthCatTotal(totalsByCategoryAndMonth[month][category]);
+  // }, [organizeRowExpensesList]);
+  // eslint-disable-next-line
+  }, [rows]); // react-hooks/exhaustive-deps
 
   return (
     <div style={{ width: '100%' }}>
-      <div style={{ height: '100%', maxWidth: 'fit-content', padding: '12px 24px' }}>
-        {expensesList.length > 0 && (
+      <div style={{ height: '100%', maxWidth: 'fit-content', padding: '32px 24px 12px 24px', }}>
+        {rows.length > 0 && (
           <DataGrid
-            rows={expensesList}
+            rows={rows}
             columns={columns}
             autoHeight
-            experimentalFeatures={{ newEditingApi: true }}
+            editMode="row"
             sx={styleProps}
             rowHeight={25}
             hideFooter
+            onRowEditStart={handleRowEditStart}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            onProcessRowUpdateError={handleProcessRowUpdateError}
+            rowModesModel={rowModesModel} /////
+            onRowModesModelChange={(newModel) => setRowModesModel(newModel)} /////
+            // componentsProps={{ /////
+            //   toolbar: { setRows, setRowModesModel },
+            // }}
+            experimentalFeatures={{ newEditingApi: true }}
           />
         )}
         <div className='dataGrid-total-row'>
           <div className='dataGrid-totalTxt'>Total:</div>
           <div className='dataGrid-totalAmt'>{`$ ${monthCatTotal}`}</div>
+        </div>
+        <div className='button-container'>
+          {isAddingExpense ? (
+            <NewExpense
+              isAddingExpense={isAddingExpense}
+              setIsAddingExpense={setIsAddingExpense}
+              addNewRow={addNewRow}
+              month={month}
+            />
+          ) : (
+            <Button
+              className='add-button'
+              color="primary"
+              startIcon={<AddIcon />}
+              onClick={() => setIsAddingExpense(!isAddingExpense)}
+            >
+              Add Expense
+            </Button>
+          )}
         </div>
       </div>
     </div>
@@ -94,17 +255,3 @@ const ListedExpenses = ({ category, expenses, month}) => {
 }
 
 export default ListedExpenses;
-
-
-
-{/* <Box sx={{ width: '100%' }}>
-{expenses.map((exp, i) => {
-  return (
-    <div key={i}>
-      <div>{exp.date}</div>
-      <div>{exp.details}</div>
-      <div>{exp.amount}</div>
-    </div>
-  )
-})}
-</Box> */}

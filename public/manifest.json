@@ -9,14 +9,24 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "tealBlackLogo.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "411x309"
     },
     {
-      "src": "logo512.png",
+      "src": "tealBlackTagline.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "424x37"
+    },
+    {
+      "src": "tealBlackName.png",
+      "type": "image/png",
+      "sizes": "452x320"
+    },
+    {
+      "src": "blueGreenWhiteLogo.png",
+      "type": "image/png",
+      "sizes": "133x111"
     }
   ],
   "start_url": ".",

@@ -16,6 +16,9 @@ export const statusMessages = {
   form: {
     requiredError: 'All fields are required.'
   },
+  expenseList: {
+    noExpenses: 'There are no expenses for '
+  },
 }
 
 export const expensesByCategoryAndMonth = [

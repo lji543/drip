@@ -30,26 +30,30 @@ const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
     });
   };
 
-  const handleExpenseUpdate = (close) => {
-    const { amount, date, details} = newExpense;
-    if (!amount || !date || !details) {
-      setNewExpense(baseExpenseObj);
-      setStatusMessage(statusMessages.form.requiredError);
-    } else {
-      const newExp = {
-        ...newExpense,
-        amount: convertToInt(newExpense.amount),
-        date: formatDate(newExpense.date),
-        id: `${newExpense.amount}${Math.round(Math.random()*1000000)}`,
+  const handleExpenseUpdate = (action) => {
+    if (action !== 'cancel') {
+      const { amount, date, details} = newExpense;
+      if (!amount || !date || !details) {
+        setNewExpense(baseExpenseObj);
+        setStatusMessage(statusMessages.form.requiredError);
+      } else {
+        const newExp = {
+          ...newExpense,
+          amount: convertToInt(newExpense.amount),
+          date: formatDate(newExpense.date),
+          id: `${newExpense.amount}${Math.round(Math.random()*1000000)}`,
+        }
+    
+        addNewRow(newExp);
+        setNewExpense(baseExpenseObj);
+    
+        if (action === 'close') {
+          setIsAddingExpense(false);
+        };
       }
-  
-      addNewRow(newExp);
-      setNewExpense(baseExpenseObj);
-  
-      if (close) {
-        setIsAddingExpense(false);
-      };
-    }
+    } else {
+      setIsAddingExpense(false);
+    };
   };
 
   return (
@@ -97,10 +101,16 @@ const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
           Save and Close
         </Button>
         <Button
-          className='button-outlined'
+          className='button-outlined right-spacing-12'
           onClick={() => handleExpenseUpdate()}
         >
           Save and Add Another
+        </Button>
+        <Button
+          className='button-outlined'
+          onClick={() => handleExpenseUpdate('cancel')}
+        >
+          Cancel
         </Button>
       </div>
     </div>

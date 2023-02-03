@@ -92,15 +92,19 @@ const ListedExpenses = ({ category, expenses, month}) => {
 
   const organizeRowExpensesList = () => {
     let newList = [];
-    expenses.forEach((exp, i) => {
-      newList.push({
-        ...exp,
-        // amount: convertToInt(exp.amount),
+    let total = 0;
+    if (expenses.length != 0) {
+      expenses.forEach((exp, i) => {
+        newList.push({
+          ...exp,
+          // amount: convertToInt(exp.amount),
+        });
       });
-    });
+      total = totalsByCategoryAndMonth[month][category];
+    }
 
     setRows(newList);
-    setMonthCatTotal(totalsByCategoryAndMonth[month][category])
+    setMonthCatTotal(total)
   };
 
 
@@ -199,7 +203,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
   return (
     // <div style={{ width: '100%' }}>
       <div className='dataGrid-page-container'>
-        {rows.length > 0 && (
+        {rows.length > 0 ? (
           <DataGrid
             rows={rows}
             columns={columns}
@@ -222,6 +226,10 @@ const ListedExpenses = ({ category, expenses, month}) => {
             }
             experimentalFeatures={{ newEditingApi: true }}
           />
+        ) : (
+          <div className='title-text-color'>
+            {`There are no expenses for ${totalsByCategory[category].name} in ${months[month]}`}
+          </div>
         )}
         <div className='dataGrid-total-row'>
           <div className='dataGrid-totalTxt'>

@@ -55,9 +55,9 @@
   background-color: #e4f9f5;
 }
 
-/* .tabs-vertical {
-
-} */
+.tabs-vertical {
+  display: flex;
+}
 .tabs-vertical .MuiTabs-root {
   overflow: visible; /* Show vertical tabs on large screens */
 }
@@ -134,6 +134,13 @@
 .button-outlined {
   color: #02035e !important;
   border: solid 1px #02035e !important;
+}
+
+/* .text-color {
+
+} */
+.title-text-color {
+  color: #02035e;
 }
 
 .form {
@@ -224,12 +231,12 @@
 
 /*///// TAB SIZING /////*/
 /*///// LARGE /////*/
-@media only screen and (min-width: 625px) and (max-width: 785px) {
+@media only screen and (min-width: 625px) and (max-width: 784px) {
   .tabs-vertical {
     width: 95%;
   }
 }
-@media only screen and (min-width: 533px) and (max-width: 624px) {
+@media only screen and (min-width: 535px) and (max-width: 624px) {
   .tabs-vertical {
     width: 90%;
   }
@@ -239,8 +246,21 @@
   }
 }
 @media only screen and (min-width: 461px) and (max-width: 534px) {
+  .page-wrapper {
+    margin: 8px;
+  }
+
   .tabs-vertical {
-    width: 85%;
+    display: block;
+    width: 100%;
+  }
+  .tabs-vertical .MuiTabs-root {
+    /* overflow: hidden; */
+    display: none;
+  }
+  .tabPanel-vertical {
+    border-radius: 0px;
+    max-width: 100%;
   }
   .dataGrid-page-container {
     height: 100%;

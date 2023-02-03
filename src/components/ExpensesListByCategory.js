@@ -76,8 +76,10 @@ const ExpenseList = ({ category, handleCategoryChange }) => { // Month tabs, wit
   }, [statusState]); // react-hooks/exhaustive-deps
 
   useEffect(() => {
+    // console.log('clientWidth ',expenseListRef.current?.clientWidth)
+    // 534px is the @media cutoff for small screens in css (= 518 for clientWidth)
     const ss = // TODO: make this dynamic in case of resizing the screen (onwindowresize or something)
-      expenseListRef.current?.clientWidth < 460 ? true : false;
+      expenseListRef.current?.clientWidth <= 518 ? true : false;
 
       setSmallScreen(ss);
   // eslint-disable-next-line

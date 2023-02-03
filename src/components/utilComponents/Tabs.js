@@ -4,9 +4,6 @@ import { Tab, Tabs as MUITabs } from '@mui/material';
 
 import TabPanel from './TabPanel';
 
-const tabsBoxContainerStyle = {
-  display: 'flex',
-}
 const tabsContainerStyle = {
   '& .MuiTabs-indicator': {
     display: 'none',
@@ -27,10 +24,7 @@ const Tabs = ({ currentTab, tabContent, orientation }) => {
   if (!tabContent || !tabContent.length) return;
 
   return (
-  <div
-    className={`${orientation === 'vertical' ? 'tabs-vertical' : 'tabs'}`}
-    style={orientation === 'vertical' ? tabsBoxContainerStyle : {}}
-  >
+  <div className={`${orientation === 'vertical' ? 'tabs-vertical' : 'tabs'}`}>
     <MUITabs
       value={value}
       onChange={handleChange}

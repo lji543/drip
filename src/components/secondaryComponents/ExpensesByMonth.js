@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 
 import { months } from '../utils/ericConstants'
-import Tabs from './utilComponents/Tabs';
+import Tabs from '../components/utilComponents/Tabs';
 import MonthlyTotalsTable from './MonthlyTotalsTable';
 import useExpenses from '../state/useExpenses';
 

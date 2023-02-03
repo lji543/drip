@@ -6,17 +6,165 @@
 /* veryDarkLavendar: #3a38bf */
 
 .App {
+  background-color: #e6e6e678;
+  /* background-color: #ffffff; */
   text-align: center;
 }
-
-.select {
-  min-width: 120px;;
-}
-
 .page-wrapper {
   margin: 24px;
+  /* background-color: #e6e6e6; */
 }
 
+
+/* //////////// */
+/*/ NAVIGATION /*/
+/* //////////// */
+.navigation .MuiPaper-root {
+  /* background-color: #11506e; */
+  background-color: #02174c;
+}
+.navigation-links.MuiTab-textColorPrimary {
+  color: #06c96c !important;
+}
+.navigation-tabs .MuiTabs-indicator {
+  background-color: #06c96c !important;
+}
+
+
+/* ////// */
+/*/ TABS /*/
+/* ////// */
+.tabs {
+  /* max-width: 1200px;
+  width: 100%; */
+  width: 100%;
+}
+.tabs .MuiButtonBase-root {
+  color: #02035e !important;
+}
+.tabs .MuiTabs-indicator {
+  background-color: #02035e; 
+}
+.tabs .Mui-disabled.MuiTabScrollButton-root {
+  display: none; /* Hide disabled tab scroll when all the way left or right */
+}
+.tabs-hover:hover {
+  background-color: #baf0e6;
+}
+.tabs-hover.Mui-selected:hover {
+  background-color: #e4f9f5;
+}
+
+/* .tabs-vertical {
+
+} */
+.tabs-vertical .MuiTabs-root {
+  overflow: visible; /* Show vertical tabs on large screens */
+}
+.tabs-vertical .Mui-selected {
+  background-color: #e4f9f5;
+  border-radius: 4px 0px 0px 4px;
+  font-weight: 600;
+}
+
+.tabPanel-vertical {
+  background-color: #e4f9f5;
+  border-radius: 0px 4px 4px 4px;
+  max-width: 85%;
+}
+
+
+/* /////////// */
+/*/ DATA GRID /*/
+/* /////////// */
+.dataGrid-page-container {
+  height: 100%;
+  padding: 32px 24px 12px 24px;
+}
+
+.dataGrid-column-header {
+  color: #02035e;
+  text-decoration: underline;
+}
+.dataGrid-row-even {
+  background-color: #81e4c4;
+}
+.dataGrid-cell {
+  color: #02035e;
+  /* justify-content: flex-start !important; */
+}
+.dataGrid-cell-amount {
+  padding-right: 12px !important;
+}
+.dataGrid-cell-action {
+  padding: 0px 8px !important;
+}
+.dataGrid-total-row {
+  background-color: #81e4c4;
+  border-top: solid 1px #02035e;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  margin-top: 60px;
+  padding: 8px;
+}
+
+.dataGrid-totalTxt {
+  color: #02035e;
+  font-weight: bold;
+}
+.dataGrid-totalAmt {
+  color: #02035e;
+  font-weight: bold;
+}
+
+
+/* //////////// */
+/*/ COMPONENTS /*/
+/* //////////// */
+.button-container {
+  display: flex;
+  padding-top: 24px;
+}
+.button {
+  color: #02035e !important;
+}
+.button-outlined {
+  color: #02035e !important;
+  border: solid 1px #02035e !important;
+}
+
+.form {
+  /* padding-top: 56px; */
+  padding: 56px 8px 0px 8px
+}
+.form-title {
+  color: #02035e;
+  padding-bottom: 24px;
+  text-align: left;
+}
+
+.form-row {
+  display: flex;
+}
+
+.actions-row {
+  padding-top: 40px; 
+}
+
+.large-screen {
+  display: none;
+}
+
+/*/ Spacing /*/
+.right-spacing-12 {
+  margin-right: 12px !important;
+}
+
+
+/* /////// */
+/*/ TABLE /*/
+/* /////// */
 .table-column-header-lg {
   font-weight: bold !important;
   font-size: 16px !important;
@@ -31,60 +179,6 @@
 .table-cell {
   font-size: 0.75rem !important;
 }
-
-
-.dataGrid-column-header {
-  color: #02035e;
-  text-decoration: underline;
-}
-.dataGrid-cell {
-  color: #02035e;
-  justify-content: flex-start !important;
-}
-.dataGrid-cell-amount {
-  padding-left: 36px !important; /* TODO: probably not the way to format this cell */
-}
-.dataGrid-total-row {
-  border-top: solid 1px #02035e;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  margin-right: 100px;
-  margin-top: 60px;
-  padding-top: 8px;
-}
-
-.dataGrid-totalTxt {
-  color: #02035e;
-  font-weight: bold;
-}
-.dataGrid-totalAmt {
-  color: #02035e;
-  font-weight: bold;
-}
-
-.button-container {
-  display: flex;
-  padding-top: 24px;
-}
-
-.form-row {
-  padding-top: 56px;
-}
-.form-row-title {
-  color: #02035e;
-  padding-bottom: 24px;
-  text-align: left;
-}
-
-.form-field {
-  padding-right: 12px !important;
-}
-
-.actions-row {
-  padding-top: 40px; 
-}
-
 
 
 
@@ -119,3 +213,63 @@
 // black: #454045
 // almostBlack: #544f57
 */
+
+
+/*///// TAB SIZING /////*/
+/*///// LARGE /////*/
+@media only screen and (min-width: 625px) and (max-width: 785px) {
+  .tabs-vertical {
+    width: 95%;
+  }
+}
+@media only screen and (min-width: 533px) and (max-width: 624px) {
+  .tabs-vertical {
+    width: 90%;
+  }
+  .dataGrid-page-container {
+    height: 100%;
+    padding: 32px 0px 12px 0px;
+  }
+}
+@media only screen and (min-width: 461px) and (max-width: 534px) {
+  .tabs-vertical {
+    width: 85%;
+  }
+  .dataGrid-page-container {
+    height: 100%;
+    padding: 32px 0px 12px 0px;
+  }
+}
+@media only screen /*and (min-width: 300px)*/ and (max-width: 460px) {
+  .page-wrapper {
+    margin: 0px;
+  }
+
+  .dataGrid-page-container {
+    height: 100%;
+    padding: 32px 0px 12px 0px;
+  }
+
+  .tabs-vertical {
+    width: 100%;
+  }
+  .tabs-vertical .MuiTabs-root {
+    overflow: hidden;
+  }
+  .tabs-vertical .Mui-selected {
+    border-radius: 0px;
+  }
+  
+  .tabPanel-vertical {
+    border-radius: 0px;
+    max-width: 100%;
+  }
+
+  .small-screen {
+    background-color: #112a6eac;
+    display: visible;
+    font-size: 18px;
+    font-weight: 600px;
+    width: 100%;
+  }
+}

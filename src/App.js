@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import ExpensesListByCategory from './components/ExpensesListByCategory';
-import Navigation from './components/Navigation';
-import PageWrapper from './components/Navigation/PageWrapper';
+import Navigation from './components/navigation';
+import PageWrapper from './components/navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
 
 import useExpenses from './state/useExpenses';

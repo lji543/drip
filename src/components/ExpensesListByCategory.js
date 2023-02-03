@@ -1,21 +1,25 @@
 // TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Close as CloseIcon } from '@mui/icons-material';
-import { IconButton, Snackbar } from '@mui/material';
-import { Box } from '@mui/material';
+import { FormControl, IconButton, MenuItem, Select, Snackbar } from '@mui/material';
 
-import ListedExpenses from './ListedExpenses';
+import ListedExpenses from './secondaryComponents/ListedExpenses';
 import Tabs from './utilComponents/Tabs';
 
 import { categories, months, statusMessages } from '../utils/ericConstants';
 import useExpenses from '../state/useExpenses';
 
-const ExpenseList = ({category}) => { // Month tabs, with categories as parent
+const ExpenseList = ({ category, handleCategoryChange }) => { // Month tabs, with categories as parent
   // console.log('ExpenseList ', category)
-  const { expensesByCategoryAndMonth, statusState, totalsByCategoryAndMonth } = useExpenses();
+  const expenseListRef = useRef(null);
+  const { expensesByCategoryAndMonth, statusState, totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+
   const [tabContent, setTabContent] = useState([]);
+  const [smallScreen, setSmallScreen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const screenWidth = expenseListRef.current?.clientWidth;
 
   const statusMessage = statusState.updateType ? statusMessages[statusState.updateType][statusState.result] : '';
 
@@ -71,8 +75,33 @@ const ExpenseList = ({category}) => { // Month tabs, with categories as parent
   // eslint-disable-next-line
   }, [statusState]); // react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    const ss = // TODO: make this dynamic in case of resizing the screen
+      expenseListRef.current?.clientWidth < 460 ? true : false;
+
+      setSmallScreen(ss);
+  // eslint-disable-next-line
+  }, [screenWidth]); // react-hooks/exhaustive-deps
+
   return ( 
-    <div>
+    <div ref={expenseListRef}>
+      {/* <div className={smallScreen ? 'small-screen' : 'large-screen'} > */}
+      <div className={smallScreen ? 'small-screen' : 'large-screen'} >
+        <FormControl
+          sx={{ m: 1, minWidth: 120 }}
+          size="small"
+        >
+          {/* <InputLabel id="demo-select-small">Age</InputLabel> */}
+          <Select  sx={{ m: 1, minWidth: 120 }}
+            id="category-select"
+            value={category}
+            // label="Category"
+            onChange={handleCategoryChange}
+          >
+            {categories.map((cat) => <MenuItem value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
+          </Select>
+        </FormControl>
+      </div>
       <Tabs currentTab={0} tabContent={tabContent} />
       <Snackbar
         open={snackbarOpen}
@@ -85,17 +114,28 @@ const ExpenseList = ({category}) => { // Month tabs, with categories as parent
   );
 }
 
+
+///// Vertical, Category Tabs - with ExpenseList Component as tabPanel /////
+///// The ExpenseList Component contains months as tabs /////
 const ExpensesListByCategory = () => { // Category tabs, with months as child
   const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+
+  const [displayedCategory, setDisplayedCategory] = useState(0);
   const [tabContent, setTabContent] = useState([]);
   // console.log('Summary Totals Table totalsByCategory ',totalsByCategory)
+
+  const handleCategoryChange = (e) => {
+    const cat = categories.indexOf(e.target.value);
+
+    setDisplayedCategory(cat);
+  }
 
   const organizeTabContent = () => {
     let tabContent = [];
     categories.forEach((cat, i) => {
       tabContent.push({
         label: `${totalsByCategory[cat].name}`,
-        panel: <ExpenseList category={cat} />
+        panel: <ExpenseList category={cat} handleCategoryChange={handleCategoryChange} />
       });
     });
 
@@ -105,12 +145,10 @@ const ExpensesListByCategory = () => { // Category tabs, with months as child
   useEffect(() => {
     organizeTabContent();
   // eslint-disable-next-line
-  }, [totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
+  }, [displayedCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Tabs currentTab={0} tabContent={tabContent} orientation='vertical' />
-    </Box>
+    <Tabs currentTab={displayedCategory} tabContent={tabContent} orientation='vertical' />
   );
 }
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Button, TextField } from '@mui/material';
 
-import { convertToInt, formatDate } from '../utils/utilFunctions';
+import { convertToInt, formatDate } from '../../utils/utilFunctions';
 
 const baseExpenseObj = {
   amount: 0,
@@ -51,16 +51,17 @@ const NewExpense = ({ addNewRow, month, setIsAddingExpense }) => {
   };
 
   return (
-    <div className='form-row'>
-      <div className='form-row-title'>Add Expense:</div>
-      <div>
+    <div className='form'>
+      <div className='form-title'>Add Expense:</div>
+      <div className='form-row'>
         <TextField
           required
+          size="small"
           id="date"
           type="date"
           defaultValue={minimumDate}
           onChange={handleFieldChange}
-          className='form-field'
+          className='right-spacing-12'
           // InputProps={{
           //   inputProps: { min: minimumDate },
           // }}
@@ -68,23 +69,34 @@ const NewExpense = ({ addNewRow, month, setIsAddingExpense }) => {
         />
         <TextField
           required
+          size="small"
           id="details"
           label="Description"
           onChange={handleFieldChange}
-          className='form-field'
+          className='right-spacing-12'
         />
         <TextField
           required
+          size="small"
           id="amount"
           label="Amount"
           type="number"
           onChange={handleFieldChange}
-          className='form-field'
         />
       </div>
       <div className='actions-row'>
-        <Button onClick={() => handleExpenseUpdate('close')}>Save and Close</Button>
-        <Button onClick={() => handleExpenseUpdate()}>Save and Add Another</Button>
+        <Button
+          className='button-outlined right-spacing-12'
+          onClick={() => handleExpenseUpdate('close')}
+        >
+          Save and Close
+        </Button>
+        <Button
+          className='button-outlined'
+          onClick={() => handleExpenseUpdate()}
+        >
+          Save and Add Another
+        </Button>
       </div>
     </div>
   );

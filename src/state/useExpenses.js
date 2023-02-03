@@ -181,6 +181,7 @@ const useExpenses = () => {
     expensesByCategoryAndMonth: state.expensesByCategoryAndMonth,
     getTotalsByCategoryAndMonth,
     id: state.id,
+    // setStatus: setStatus,
     statusState: status,
     totalsByCategory: state.totalsByCategory,
     totalsByCategoryAndMonth: state.totalsByCategoryAndMonth,

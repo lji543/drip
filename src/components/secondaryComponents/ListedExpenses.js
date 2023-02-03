@@ -232,7 +232,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
         <div className='button-container'>
           {isAddingExpense ? (
             <NewExpense
-              isAddingExpense={isAddingExpense}
+              category={category}
               setIsAddingExpense={setIsAddingExpense}
               addNewRow={addNewRow}
               month={month}

@@ -2,7 +2,7 @@
 
 export const statusMessages = {
   add: {
-    success: 'Your expense has been added.',
+    success: 'Your expense has been added to ', // TODO: pass variables into these strings
     error: 'Your expense was not added. Please try again and report bug to Laura.'
   },
   delete: {
@@ -12,6 +12,9 @@ export const statusMessages = {
   update: {
     success: 'Your expense has been updated.',
     error: 'Your expense was not updated. Please try again and report bug to Laura.'
+  },
+  form: {
+    requiredError: 'All fields are required.'
   },
 }
 

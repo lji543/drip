@@ -20,8 +20,8 @@ const ExpenseList = ({ category, handleCategoryChange }) => { // Month tabs, wit
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const screenWidth = expenseListRef.current?.clientWidth;
-
-  const statusMessage = statusState.updateType ? statusMessages[statusState.updateType][statusState.result] : '';
+  const statusMessage = statusState.updateType ? 
+    `${statusMessages[statusState.updateType][statusState.result]} ${totalsByCategory[category].name}` : '';
 
   const handleSnackbarClose = (e, reason) => {
     if (reason === 'clickaway') {
@@ -76,7 +76,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => { // Month tabs, wit
   }, [statusState]); // react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const ss = // TODO: make this dynamic in case of resizing the screen
+    const ss = // TODO: make this dynamic in case of resizing the screen (onwindowresize or something)
       expenseListRef.current?.clientWidth < 460 ? true : false;
 
       setSmallScreen(ss);
@@ -86,22 +86,24 @@ const ExpenseList = ({ category, handleCategoryChange }) => { // Month tabs, wit
   return ( 
     <div ref={expenseListRef}>
       {/* <div className={smallScreen ? 'small-screen' : 'large-screen'} > */}
-      <div className={smallScreen ? 'small-screen' : 'large-screen'} >
-        <FormControl
-          sx={{ m: 1, minWidth: 120 }}
-          size="small"
-        >
-          {/* <InputLabel id="demo-select-small">Age</InputLabel> */}
-          <Select  sx={{ m: 1, minWidth: 120 }}
-            id="category-select"
-            value={category}
-            // label="Category"
-            onChange={handleCategoryChange}
+      {smallScreen &&
+        <div className='small-screen'>
+          <FormControl
+            sx={{ m: 1, minWidth: 120 }}
+            size="small"
           >
-            {categories.map((cat) => <MenuItem value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
-          </Select>
-        </FormControl>
-      </div>
+            {/* <InputLabel id="demo-select-small">Age</InputLabel> */}
+            <Select  sx={{ m: 1, minWidth: 120 }}
+              id="category-select"
+              value={category}
+              // label="Category"
+              onChange={handleCategoryChange}
+            >
+              {categories.map((cat) => <MenuItem value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
+            </Select>
+          </FormControl>
+        </div>
+      }
       <Tabs currentTab={0} tabContent={tabContent} />
       <Snackbar
         open={snackbarOpen}

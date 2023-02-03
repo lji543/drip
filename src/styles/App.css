@@ -84,13 +84,15 @@
 
 .dataGrid-column-header {
   color: #02035e;
+  /* color: #2a2c76; */
   text-decoration: underline;
 }
 .dataGrid-row-even {
   background-color: #81e4c4;
 }
 .dataGrid-cell {
-  color: #02035e;
+  /* color: #02035e; */
+  color: #2a2c76;
   /* justify-content: flex-start !important; */
 }
 .dataGrid-cell-amount {
@@ -140,6 +142,10 @@
 }
 .form-title {
   color: #02035e;
+  /* color: #02174c; */
+  /* color: #090141; */
+  font-size: 18px;
+  font-weight: 600;
   padding-bottom: 24px;
   text-align: left;
 }
@@ -148,12 +154,13 @@
   display: flex;
 }
 
-.actions-row {
-  padding-top: 40px; 
+.form-error {
+  color: rgba(255, 0, 0, 0.693);
+  padding-top: 12px;
 }
 
-.large-screen {
-  display: none;
+.actions-row {
+  padding-top: 40px; 
 }
 
 /*/ Spacing /*/
@@ -265,11 +272,12 @@
     max-width: 100%;
   }
 
+  /* .small-screen .MuiInputBase-root { */
   .small-screen {
     background-color: #112a6eac;
-    display: visible;
+    /* display: visible; */
     font-size: 18px;
-    font-weight: 600px;
+    font-weight: 600;
     width: 100%;
   }
 }

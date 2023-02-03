@@ -132,8 +132,8 @@
   color: #02035e !important;
 }
 .button-outlined {
-  color: #02035e !important;
   border: solid 1px #02035e !important;
+  color: #02035e !important;
 }
 
 /* .text-color {
@@ -167,6 +167,8 @@
 }
 
 .actions-row {
+  display: flex;
+  justify-content: space-around;
   padding-top: 40px; 
 }
 
@@ -301,3 +303,28 @@
     width: 100%;
   }
 }
+
+
+
+
+/* OTHER IMAGES */
+/* {
+  "src": "tealBlackLogo.png",
+  "type": "image/png",
+  "sizes": "411x309"
+},
+{
+  "src": "tealBlackTagline.png",
+  "type": "image/png",
+  "sizes": "424x37"
+},
+{
+  "src": "tealBlackName.png",
+  "type": "image/png",
+  "sizes": "452x320"
+},
+{
+  "src": "blueGreenWhiteLogo.png",
+  "type": "image/png",
+  "sizes": "133x111"
+} */

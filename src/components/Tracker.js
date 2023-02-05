@@ -1,5 +1,5 @@
 // TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   Add as AddIcon,
@@ -11,27 +11,31 @@ import {
 import { Button } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
-import AddNewExpense from '../utilComponents/AddNewExpense';
-import { months } from '../../utils/ericConstants';
-import useExpenses from '../../state/useExpenses';
-import { formatDate } from '../../utils/utilFunctions';
+import AddNewExpense from './secondaryComponents/AddNewExpense';
+import ListedExpenses from './secondaryComponents/ListedExpenses';
+import Tabs from './utilComponents/Tabs';
+
+import { months, trackedExpenses } from '../utils/ericConstants';
+import useExpenses from '../state/useExpenses';
+import { formatDate } from '../utils/utilFunctions';
 
 const styleProps = {
   border: 'none',
   width: '100%',
 };
 
-const ListedExpenses = ({ category, expenses, month}) => {
-  const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, totalsByCategory, updateExpense  } = useExpenses();
+const Tracker = ({ category, expenses, month}) => { // Category tabs, with months as child
+  const { addNewExpense, deleteExpense, owedItems, totalsByCategoryAndMonth, totalsByCategory, updateExpense } = useExpenses();
+  // const { owedByEric, owedToEric } = owedItems;
 
+  const [owedByEric, setOwedByEric] = useState(owedItems.owedByEric);
+  const [owedToEric, setOwedToEric] = useState(owedItems.owedToEric);
+  // console.log('Summary Totals Table totalsByCategory ',totalsByCategory)
   const [isAddingExpense, setIsAddingExpense] = useState(false);
   const [monthCatTotal, setMonthCatTotal] = useState([]);
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
-  // console.log('Listed Expenses ', expenses)
-  
-  const categoryName = totalsByCategory[category].name;
-  
+
   const addNewRow = (newRow) => {
     const updatedRow = {
       ...newRow,
@@ -108,7 +112,6 @@ const ListedExpenses = ({ category, expenses, month}) => {
     setRows(newList);
     setMonthCatTotal(total)
   };
-
 
   const columns = [
     {
@@ -191,85 +194,51 @@ const ListedExpenses = ({ category, expenses, month}) => {
   ];
 
   useEffect(() => {
-    organizeRowExpensesList();
-  // }, [category, month, totalsByCategoryAndMonth]);
+    // organizeTabContent();
   // eslint-disable-next-line
-  }, [expenses]); // react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    setMonthCatTotal(totalsByCategoryAndMonth[month][category]);
-  // }, [organizeRowExpensesList]);
-  // eslint-disable-next-line
-  }, [rows]); // react-hooks/exhaustive-deps
+  }, []); // react-hooks/exhaustive-deps
 
   return (
-    // <div style={{ width: '100%' }}>
-      <div className='dataGrid-page-container'>
-        {rows.length > 0 ? (
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            autoHeight
-            editMode="row"
-            sx={styleProps}
-            rowHeight={25}
-            hideFooter
-            // onRowEditStart={handleRowEditStart}
-            // onRowEditStop={handleRowEditStop}
-            processRowUpdate={processRowUpdate}
-            onProcessRowUpdateError={handleProcessRowUpdateError}
-            rowModesModel={rowModesModel} /////
-            onRowModesModelChange={(newModel) => setRowModesModel(newModel)} /////
-            // componentsProps={{ /////
-            //   toolbar: { setRows, setRowModesModel },
-            // }}
-            getRowClassName={(params) =>
-              params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
-            }
-            experimentalFeatures={{ newEditingApi: true }}
-          />
+    <div>
+      <div>
+        {owedByEric.length > 0 ? (
+          <div>
+            <div></div>
+            <DataGrid
+              rows={owedByEric}
+              columns={columns}
+              autoHeight
+              editMode="row"
+              sx={styleProps}
+              rowHeight={25}
+              hideFooter
+              processRowUpdate={processRowUpdate}
+              onProcessRowUpdateError={handleProcessRowUpdateError}
+              rowModesModel={rowModesModel}
+              onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+              getRowClassName={(params) =>
+                params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
+              }
+              experimentalFeatures={{ newEditingApi: true }}
+            />
+          </div>
         ) : (
-          <div className='title-text-color'>
-            {`There are no expenses for ${categoryName} in ${months[month]}`}
-          </div>
+          <div>don't owe nothin</div>
         )}
-        <div className='dataGrid-total-row'>
-          <div className='dataGrid-totalTxt'>
-            {`${months[month]} ${categoryName} Total:`}
-          </div>
-          <div className='dataGrid-totalAmt'>{`$ ${monthCatTotal}`}</div>
-        </div>
-        <AddNewExpense
-          category={category}
-          itemCategoryName={categoryName}
-          isAddingExpense={isAddingExpense}
-          setIsAddingExpense={setIsAddingExpense}
-          addNewRow={addNewRow}
-          month={month}
-        />
       </div>
-    // </div>
+      <div>
+      {owedByEric.length > 0 ? (
+          <div>
+            {owedByEric.map((item) => (
+              <div key={item.id} >stuff somebody owes</div>
+            ))}
+          </div>
+        ) : (
+          <div>don't owe nothin</div>
+        )}
+      </div>
+    </div>
   );
 }
 
-export default ListedExpenses;
-
-{/* <div className='button-container'>
-{isAddingExpense ? (
-  <NewExpense
-    category={category}
-    setIsAddingExpense={setIsAddingExpense}
-    addNewRow={addNewRow}
-    month={month}
-  />
-) : (
-  <Button
-    className='button'
-    // color="primary"
-    startIcon={<AddIcon />}
-    onClick={() => setIsAddingExpense(!isAddingExpense)}
-  >
-    Add Expense
-  </Button>
-)}
-</div> */}
+export default Tracker;

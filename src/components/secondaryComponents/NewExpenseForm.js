@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button, TextField } from '@mui/material';
 
@@ -6,46 +6,44 @@ import { statusMessages } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
 import { convertToInt, formatDate } from '../../utils/utilFunctions';
 
-const baseExpenseObj = {
+const baseItemObj = {
   amount: '',
   date: '',
   details: '',
 };
 
-const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
-  const { statusState, totalsByCategory } = useExpenses();
-  const [newExpense, setNewExpense] = useState(baseExpenseObj);
+const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the tracking page at least
+  const { addNewRow, category, className, itemCategoryName, itemObj = baseItemObj, setIsAddingExpense } = props;
+  const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 
-  const amountRef = useRef();
-  const dateRef = useRef();
-  const detailsRef = useRef();
+  // console.log('NewItemForm ',props)
 
   const handleFieldChange = (event) => {
     const { id, value } = event.target;
 
-    setNewExpense({
-      ...newExpense,
+    setNewItem({
+      ...newItem,
       [id]: value,
     });
   };
 
   const handleExpenseUpdate = (action) => {
     if (action !== 'cancel') {
-      const { amount, date, details} = newExpense;
+      const { amount, date, details} = newItem;
       if (!amount || !date || !details) {
-        setNewExpense(baseExpenseObj);
+        setNewItem(itemObj);
         setStatusMessage(statusMessages.form.requiredError);
       } else {
         const newExp = {
-          ...newExpense,
-          amount: convertToInt(newExpense.amount),
-          date: formatDate(newExpense.date),
-          id: `${newExpense.amount}${Math.round(Math.random()*1000000)}`,
+          ...newItem,
+          amount: convertToInt(newItem.amount),
+          date: formatDate(newItem.date),
+          id: `${newItem.amount}${Math.round(Math.random()*1000000)}`,
         }
     
-        addNewRow(newExp);
-        setNewExpense(baseExpenseObj);
+        addNewRow(newExp, category);
+        setNewItem(itemObj);
     
         if (action === 'close') {
           setIsAddingExpense(false);
@@ -57,9 +55,9 @@ const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
   };
 
   return (
-    <div className='form'>
+    <div  className={`form${className ? ` ${className}` : ''}`}>
       <div className='form-title'>
-        {`Add expense to ${totalsByCategory[category].name}:`}
+        {`Add expense to ${itemCategoryName}:`}
       </div>
       <div className='form-row'>
         <TextField
@@ -68,7 +66,7 @@ const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
           id="date"
           type="date"
           onChange={handleFieldChange}
-          value={newExpense.date}
+          value={newItem.date}
           className='right-spacing-12'
         />
         <TextField
@@ -78,7 +76,7 @@ const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
           label="Description"
           onChange={handleFieldChange}
           className='right-spacing-12'
-          value={newExpense.details}
+          value={newItem.details}
         />
         <TextField
           required
@@ -87,7 +85,7 @@ const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
           label="Amount"
           type="number"
           onChange={handleFieldChange}
-          value={newExpense.amount}
+          value={newItem.amount}
         />
       </div>
       {<div className='form-error'>
@@ -117,4 +115,4 @@ const NewExpense = ({ addNewRow, category, month, setIsAddingExpense }) => {
   );
 } 
 
-export default NewExpense;
+export default NewExpenseForm;

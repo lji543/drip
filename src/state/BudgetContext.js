@@ -1,12 +1,19 @@
+// TODO: separate different context's based on value types? - status, budget, tracking, etc
+// or maybe split up useExpenses instead
 import React, { useState } from 'react';
 
-// import { totalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth } from './utils/constants';
-import { totalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth } from '../utils/ericConstants';
+import { totalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth, trackedExpenses } from '../utils/ericConstants';
 
 const BudgetContext = React.createContext([{}, () => {}]);
 
 const BudgetProvider = (props) => {
-  const [state, setState] = useState({
+  const [owedItems, setOwedItems] = useState({
+    owedByEric: trackedExpenses.owedByEric,
+    owedToEric: trackedExpenses.owedToEric,
+    totalOwedByEric: trackedExpenses.totalOwedByEric,
+    totalOwedToEric: trackedExpenses.totalOwedToEric,
+  });
+  const [spending, setSpending] = useState({
     totalsByCategory: totalsByCategory,
     expensesByCategoryAndMonth: expensesByCategoryAndMonth,
     totalsByCategoryAndMonth: totalsByCategoryAndMonth,
@@ -20,7 +27,9 @@ const BudgetProvider = (props) => {
   return (
     <BudgetContext.Provider
       value={{
-        stateBudgetContext: [state, setState],
+        // stateBudgetContext: [state, setState],
+        owedItemsBudgetContext: [owedItems, setOwedItems],
+        spendingBudgetContext: [spending, setSpending],
         statusBudgetContext: [status, setStatus]
       }}
     >

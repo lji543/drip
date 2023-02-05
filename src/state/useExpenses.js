@@ -7,13 +7,15 @@ import { categories } from '../utils/ericConstants';
 import { roundNumberToTwo } from '../utils/utilFunctions';
 
 const useExpenses = () => {
-  const { stateBudgetContext, statusBudgetContext } = useContext(BudgetContext);
-  const collectionRef = collection(db, 'expenses');
-  const [state, setState] = stateBudgetContext;
+  const { owedItemsBudgetContext, spendingBudgetContext, statusBudgetContext } = useContext(BudgetContext);
+  const expensesCollectionRef = collection(db, 'expenses');
+  const owedItemsCollectionRef = collection(db, 'owedItems');
+  const [owedItems, setOwedItems] = owedItemsBudgetContext;
+  const [spending, setSpending] = spendingBudgetContext;
   const [status, setStatus] = statusBudgetContext;
 
   function addNewExpense(newExpense, category) { // TODO: combine with update fn
-    const { expensesByCategoryAndMonth } = state;
+    const { expensesByCategoryAndMonth } = spending;
     const date = new Date(newExpense.date);
     const month = date.getMonth();
 
@@ -27,8 +29,33 @@ const useExpenses = () => {
     totalByCategoryAndMonth(expensesByCategoryAndMonth, 'add');
   }
 
-  function deleteExpense(deletedExpense, category) {
-    const { expensesByCategoryAndMonth } = state;
+  function addNewOwedItem(newItem, category) { // TODO: combine with update fn
+    let itemList = [...owedItems[category]];
+    console.log('addNewOwedItem ', newItem, category);
+
+    itemList.push(newItem);
+
+    owedItems[category] = itemList;
+    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
+    totalByCategoryForOwed(itemList, category, 'add');
+  }
+
+  function deleteOwedItem(deletedItem, category) {
+    let itemList = [];
+
+    owedItems[category].forEach((currItem) => {
+      if (currItem.id !== deletedItem.id) {
+        itemList.push(currItem);
+      }
+    });
+
+    owedItems[category] = itemList;
+    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth)
+    totalByCategoryForOwed(itemList, category, 'delete');
+  }
+
+  function deleteExpense(deletedExpense, category) { // combine these owed and expense functions
+    const { expensesByCategoryAndMonth } = spending;
     const date = new Date(deletedExpense.date);
     const month = date.getMonth();
     let expenseList = [];
@@ -45,7 +72,7 @@ const useExpenses = () => {
   }
 
   function updateExpense(updatedExpense, category) {
-    const { expensesByCategoryAndMonth } = state;
+    const { expensesByCategoryAndMonth } = spending;
     const date = new Date(updatedExpense.date);
     const month = date.getMonth();
     // let isAmountSame = false;
@@ -67,8 +94,49 @@ const useExpenses = () => {
     totalByCategoryAndMonth(expensesByCategoryAndMonth, 'update');
   }
 
+  function totalByCategoryForOwed(newCategoryArray, category, updateType) {
+    const newItemsByCategory = newCategoryArray || owedItems[category];
+    // console.log('totalByCategory ',newItemsByCategory)
+    // console.log('totalByCategory ',category)
+    // console.log('totalByCategory ',updateType)
+    // console.log('owedItems ',owedItems)
+
+    const totalKeyName = `total${category.charAt(0).toUpperCase() + category.slice(1)}`;
+  
+    // const totalKeyName = `total${category}`;
+
+    let catTotal = 0;
+
+    newItemsByCategory.map((item) => {
+      return catTotal += item.amount;
+    });
+    // console.log('totalByCategory catTotal ',catTotal)
+    // console.log('totalByCategory totalKeyName ',totalKeyName)
+
+    const newOwedItemsState = {
+      ...owedItems,
+      // [category]: {
+      // // owedByEric: {
+      //   ...newItemsByCategory,
+      // },
+      [totalKeyName]: catTotal,
+    }
+
+    setOwedItems(newOwedItemsState);
+    // setOwedItems(test);
+    // console.log('totalByCategory ',owedItems)
+    // console.log('totalByCategory test ',test)
+    updateOwedItemsInDatabase(newOwedItemsState, updateType)
+    .then(() => {
+      setTimeout(() => setStatus({
+        updateType: null,
+        result: null,
+      }), 6000);
+    });
+  }
+
   function totalByCategoryAndMonth(newMonthCategoryArray, updateType) {
-    const { expensesByCategoryAndMonth, totalsByCategory, totalsByCategoryAndMonth } = state;
+    const { expensesByCategoryAndMonth, totalsByCategory, totalsByCategoryAndMonth } = spending;
     const expenseList = totalsByCategoryAndMonth;
     const newExpensesByCategoryAndMonth = newMonthCategoryArray || expensesByCategoryAndMonth;
     // console.log('newExpensesByCategoryAndMonth ',newExpensesByCategoryAndMonth)
@@ -113,16 +181,17 @@ const useExpenses = () => {
        );
     });
 
-    const newState = {
-      ...state,
+    const newSpendingState = {
+      ...spending,
       expensesByCategoryAndMonth: newExpensesByCategoryAndMonth,
       totalsByCategoryAndMonth: expenseList,
       totalsByCategory: totalsByCategory
     }
     
-    setState(newState);
+    setSpending(newSpendingState);
+    
     if (newMonthCategoryArray && updateType) { // TODO: is this separation necessary? separate functions, state updates and db calls?
-      updateExpensesInDatabase(newState, updateType)
+      updateExpensesInDatabase(newSpendingState, updateType)
         .then(() => {
           setTimeout(() => setStatus({
             updateType: null,
@@ -133,7 +202,7 @@ const useExpenses = () => {
   }
 
   async function getTotalsByCategoryAndMonth() {
-    await getDocs(collectionRef).then((expenses) => {
+    await getDocs(expensesCollectionRef).then((expenses) => {
       const expensesData = expenses.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
       // console.log('Firebase Expenses ', expensesData[0])
 
@@ -144,7 +213,7 @@ const useExpenses = () => {
       //   }
       // } else {
       //   console.log('getTotalsByCategoryAndMonth - not setting ', expensesData[0])
-        setState(state => (
+        setSpending(state => (
           { 
             ...state,
             expensesByCategoryAndMonth: expensesData[0].expensesByCategoryAndMonth,
@@ -160,12 +229,32 @@ const useExpenses = () => {
     })
   }
 
-  const updateExpensesInDatabase = async (newState, updateType) => {
+  async function getOwedItems() {
+    await getDocs(owedItemsCollectionRef).then((owedItems) => {
+      const owedItemsData = owedItems.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+      // console.log('Firebase Expenses ', owedItemsData[0])
+
+        setOwedItems(state => (
+          { 
+            ...state,
+            id: owedItemsData[0].id,
+            owedByEric: owedItemsData[0].owedByEric,
+            owedToEric: owedItemsData[0].owedToEric,
+            totalOwedByEric: owedItemsData[0].totalOwedByEric,
+            totalOwedToEric: owedItemsData[0].totalOwedToEric,
+          }
+        ));
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+  const updateExpensesInDatabase = async (newSpendingState, updateType) => {
     try {
-      // console.log('doc update with: ',newState.expensesByCategoryAndMonth[0].autoIns.expenses);
-      const expenses = doc(db, "expenses", newState.id);
+      // console.log('doc update with: ',newSpending.expensesByCategoryAndMonth[0].autoIns.expenses);
+      const expenses = doc(db, "expenses", newSpendingState.id);
       await updateDoc(expenses, {
-        ...newState,
+        ...newSpendingState,
         timestamp: serverTimestamp(),
       });
       setStatus({ updateType, result: 'success' });
@@ -174,17 +263,37 @@ const useExpenses = () => {
       console.log(err);
     }
   }
+  
+  const updateOwedItemsInDatabase = async (newOwedItemsState, updateType) => {
+    const uType = `${updateType}owed`;
+
+    try {
+      console.log('doc update with: ',newOwedItemsState);
+      const owedItems = doc(db, "owedItems", newOwedItemsState.id);
+      await updateDoc(owedItems, {
+        ...newOwedItemsState,
+        timestamp: serverTimestamp(),
+      });
+      setStatus({ uType, result: 'success' });
+    } catch (err) {
+      setStatus({ uType, result: 'error'});
+      console.log(err);
+    }
+  }
 
   return {
     addNewExpense,
+    addNewOwedItem,
     deleteExpense,
-    expensesByCategoryAndMonth: state.expensesByCategoryAndMonth,
+    deleteOwedItem,
+    expensesByCategoryAndMonth: spending.expensesByCategoryAndMonth,
+    getOwedItems,
     getTotalsByCategoryAndMonth,
-    id: state.id,
-    // setStatus: setStatus,
+    id: spending.id,
+    owedItems: owedItems,
     statusState: status,
-    totalsByCategory: state.totalsByCategory,
-    totalsByCategoryAndMonth: state.totalsByCategoryAndMonth,
+    totalsByCategory: spending.totalsByCategory,
+    totalsByCategoryAndMonth: spending.totalsByCategoryAndMonth,
     totalByCategoryAndMonth,
     updateExpense,
   }

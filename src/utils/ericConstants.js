@@ -16,9 +16,40 @@ export const statusMessages = {
   form: {
     requiredError: 'All fields are required.'
   },
-  expenseList: {
-    noExpenses: 'There are no expenses for '
+  addowed: {
+    success: 'Your item has been added to ',
+    error: 'Your item was not added. Please try again and report bug to Laura.'
   },
+  // expenseList: {
+  //   noExpenses: 'There are no expenses for '
+  // },
+}
+
+export const trackedExpenses = {
+  totalOwedByEric: 55,
+  totalOwedToEric: 30,
+  owedByEric: [
+    {
+      amount: 55,
+      category: '',
+      date: '1/15/23',
+      details: '',
+      id: '3399edhjdakjbf',
+      details: 'Mom Bday Gift',
+      name: 'Laura always',
+    }
+  ],
+  owedToEric: [
+    {
+      amount: 30,
+      category: '',
+      date: '1/5/23',
+      details: '',
+      id: '37g43fsjdakjbf',
+      details: 'Dad Bday Gift',
+      name: 'Laura always',
+    }
+  ]
 }
 
 export const expensesByCategoryAndMonth = [

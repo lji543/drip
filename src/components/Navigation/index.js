@@ -9,6 +9,7 @@ function Navigation({ handlePageChange, page }) {
 				<Tabs className='navigation-tabs' value={page} onChange={handlePageChange}>
 					<Tab className='navigation-links' label='Summary' />
 					<Tab className='navigation-links' label='Expenses' />
+					<Tab className='navigation-links' label='Tracker' />
 				</Tabs>
 			</AppBar>
 		</div>

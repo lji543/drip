@@ -20,6 +20,14 @@ export const statusMessages = {
     success: 'Your item has been added to ',
     error: 'Your item was not added. Please try again and report bug to Laura.'
   },
+  deleteowed: {
+    success: 'Your item has been deleted.',
+    error: 'Your item was not deleted. Please try again and report bug to Laura.'
+  },
+  updateowed: {
+    success: 'Your item has been updated.',
+    error: 'Your item was not updated. Please try again and report bug to Laura.'
+  },
   // expenseList: {
   //   noExpenses: 'There are no expenses for '
   // },
@@ -48,6 +56,28 @@ export const trackedExpenses = {
       id: '37g43fsjdakjbf',
       details: 'Dad Bday Gift',
       name: 'Laura always',
+    }
+  ],
+  owedByEricDisabled: [
+    {
+      amount: 55,
+      category: '',
+      date: '1/15/23',
+      details: '',
+      id: '339dhjdakaexcjbf',
+      details: 'Mom Bday Gift',
+      name: 'Andrew',
+    }
+  ],
+  owedToEricDisabled: [
+    {
+      amount: 30,
+      category: '',
+      date: '1/5/23',
+      details: '',
+      id: '37gfsjdaaskjbf',
+      details: 'Dad Bday Gift',
+      name: 'Beth',
     }
   ]
 }

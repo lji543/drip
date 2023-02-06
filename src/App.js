@@ -8,11 +8,13 @@ import SummaryTotalsTable from './components/SummaryTotalsTable';
 import TrackerWithNewGridComponent from './components/TrackerWithNewGridComponent';
 
 import useExpenses from './state/useExpenses';
+import useItems from './state/useItems';
 
 import './styles/App.css';
 
 function App() {
-  const { getOwedItems, getTotalsByCategoryAndMonth } = useExpenses();
+  const { getTotalsByCategoryAndMonth } = useExpenses();
+  const { getOwedItems } = useItems();
   const [page, setPage] = useState(2);
 
 	const handlePageChange = (e, newPage) => {

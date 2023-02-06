@@ -7,6 +7,8 @@ import {
   Cancel as CancelIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
+  DoneAll as DoneAllIcon,
+  LibraryAdd as LibraryAddIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -14,6 +16,7 @@ import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
 import { months } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
+import useItems from '../../state/useItems';
 import { formatDate } from '../../utils/utilFunctions';
 
 const baseStyleProps = {
@@ -54,34 +57,37 @@ const baseColumns = [
   },
 ];
 
-const ExpensesGrid = ({
+const ItemGrid = ({
   category,
   emptyTableMessage,
   gridColumns = baseColumns,
   gridRows,
-  isOwedExpenses,
+  isShowingDisabled,
   styleProps = baseStyleProps,
   tableTotals,
 }) => {
-  const { deleteExpense, deleteOwedItem, updateExpense  } = useExpenses();
 
+  const { deleteOwedItem, updateOwedItem, updateOwedItemCategory, owedItems } = useItems();
+  const { addNewExpense } = useExpenses();
+
+  const [checkboxSelection, setCheckboxSelection] = React.useState(true);
   // const [columns, setColumns] = useState([]);
   const [monthCatTotal, setMonthCatTotal] = useState([]);
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState([]); // not using rows to feed actual table??
   const [rowModesModel, setRowModesModel] = useState({});
   // console.log('Listed Expenses ', expenses)
   // console.log('owed Items ', gridRows)
 
 
   const processRowUpdate = (newRow) => {
+    // console.log('processRowUpdate newRow ',newRow)
     const updatedRow = {
       ...newRow,
       date: formatDate(newRow.date),
       isNew: false
     };
-    // console.log('processRowUpdate ', updatedRow);
 
-    updateExpense(updatedRow, category);
+    updateOwedItem(updatedRow, category);
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
     return updatedRow;
@@ -93,14 +99,14 @@ const ExpensesGrid = ({
   }, []);
 
   const handleActionClick = (action, row) => () => { // TODO: turn this into a switch for better readability
-    console.log('handleActionClick ', action, row) //////////////// LEFT OFF HERE */*/*/*/*/*/
+    console.log('handleActionClick ', action, row, row.id)
     let callSetRows = true;
     if ( action === 'delete' || action === 'cancel') {
       if (action === 'delete') {
         if (row.category.includes('owed', 0)) {
           deleteOwedItem(row, category);
         } else {
-          deleteExpense(row, category);
+          // deleteExpense(row, category);
         }
       }
       if (action === 'cancel') {
@@ -121,9 +127,39 @@ const ExpensesGrid = ({
       if (callSetRows) {
         setRows(rows.filter((r) => r.id !== row.id));
       }
+    } else if ( action === 'edit' ) {
+      setRowModesModel({ ...rowModesModel, [row.id]: { mode: GridRowModes.Edit } });
+    } else if ( action === 'addAsExpense' ) {
+      // add to expense grid
+      // console.log('row ',row.category)
+      const updatedItem = {
+        ...row,
+        includedInExpenses: true,
+      };
+
+      updateOwedItem(updatedItem, category)
+      addNewExpense(row, row.category, true);
+    } else if ( action === 'itemIsPaid' ) {
+      // mark as paid
+      updateOwedItemCategory(row, category);
+    } else {
+      // console.log('handleActionClick saving ',)
+      setRowModesModel({ ...rowModesModel, [row.id]: { mode: GridRowModes.View } });
     }
-    setRowModesModel({ ...rowModesModel, [row.id]: { mode: GridRowModes.View } });
   };
+
+  const getRowClassNames = (params) => {
+    // console.log('params ',params.row)
+    let classNames;
+    
+    if (params.row.isDisabled) {
+      classNames = 'dataGrid-row-disabled';
+    } else {
+      classNames = params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd';
+    }
+    // console.log('classNames ',classNames)
+    return classNames
+  }
 
   const actionColumn = {
     field: 'actions',
@@ -134,28 +170,14 @@ const ExpensesGrid = ({
     cellClassName: 'dataGrid-cell-action',
     flex: 2,
     getActions: (data) => {
+      // console.log('getActions data ',data)
       const { id, row } = data;
+      // console.log('row ',row.includedInExpenses)
       const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
       // console.log('getActions ', id, isInEditMode)
+      // console.log('getActions ', rowModesModel[id])
 
       if (isInEditMode) {
-        return [
-          <GridActionsCellItem
-            icon={<SaveIcon />}
-            label="Save"
-            onClick={handleActionClick('save', row)}
-          />,
-          <GridActionsCellItem
-            icon={<CancelIcon />}
-            label="Cancel"
-            className="textPrimary"
-            onClick={handleActionClick('cancel', row)}
-            color="inherit"
-          />,
-        ];
-      }
-
-      if (isOwedExpenses) {
         return [
           <GridActionsCellItem
             icon={<SaveIcon />}
@@ -186,6 +208,18 @@ const ExpensesGrid = ({
           onClick={handleActionClick('delete',row)}
           color="inherit"
         />,
+        <GridActionsCellItem
+          icon={<LibraryAddIcon color={row.includedInExpenses ? 'disabled' : ''} />}
+          label="Delete"
+          onClick={row.includedInExpenses ? '' : handleActionClick('addAsExpense',row)}
+          color="inherit"
+        />,
+        <GridActionsCellItem
+          icon={<DoneAllIcon />}
+          label="Delete"
+          onClick={handleActionClick('itemIsPaid',row)}
+          color="inherit"
+        />,
       ];
     },
   };
@@ -193,50 +227,51 @@ const ExpensesGrid = ({
   const columns = [...gridColumns, actionColumn];
 
   useEffect(() => {
-    // organizeGridRows();
-  // }, [category, month, totalsByCategoryAndMonth]);
+    // console.log('category ',category)
+    if (isShowingDisabled) {
+      setRows([...gridRows, ...owedItems[`${category}Disabled`]])
+    } else {
+      setRows(gridRows);
+    }
   // eslint-disable-next-line
-  }, []); // react-hooks/exhaustive-deps
+  }, [isShowingDisabled]); // react-hooks/exhaustive-deps
 
   useEffect(() => {
-    // setMonthCatTotal(totalsByCategoryAndMonth[month][category]);
-  // }, [organizeRowExpensesList]);
+    setRows(gridRows);
   // eslint-disable-next-line
-  }, [rows]); // react-hooks/exhaustive-deps
+  }, [gridRows]); // react-hooks/exhaustive-deps
 
   return (
     <div className='dataGrid-container'>
       {gridRows.length > 0 ? (
         <DataGrid
-          rows={gridRows}
-          columns={columns}
           autoHeight
+          columns={columns}
           editMode="row"
-          sx={styleProps}
-          rowHeight={25}
+          getRowClassName={(params) => getRowClassNames(params)}
           hideFooter
-          processRowUpdate={processRowUpdate}
           onProcessRowUpdateError={handleProcessRowUpdateError}
-          rowModesModel={rowModesModel}
           onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-          getRowClassName={(params) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
-          }
+          processRowUpdate={processRowUpdate}
+          rowHeight={25}
+          rowModesModel={rowModesModel}
+          rows={rows}
+          sx={styleProps}
           experimentalFeatures={{ newEditingApi: true }}
         />
       ) : (
         <div className='title-text-color'>{emptyTableMessage}</div>
       )}
       <div className='dataGrid-total-row'>
-        <div className='dataGrid-totalTxt'>{tableTotals.title}</div>
+        <div className='dataGrid-totalTxt'>{tableTotals.title}{category}</div>
         <div className='dataGrid-totalAmt'>{tableTotals.amount}</div>
       </div>
     </div>
   );
 };
 
-ExpensesGrid.propTypes = {
+ItemGrid.propTypes = {
   // children: PropTypes.element.isRequired
 };
 
-export default ExpensesGrid;
+export default ItemGrid;

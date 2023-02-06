@@ -101,7 +101,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => { // Month tabs, wit
               // label="Category"
               onChange={handleCategoryChange}
             >
-              {categories.map((cat) => <MenuItem value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
+              {categories.map((cat) => <MenuItem key={cat} value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
             </Select>
           </FormControl>
         </div>

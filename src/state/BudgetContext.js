@@ -10,6 +10,8 @@ const BudgetProvider = (props) => {
   const [owedItems, setOwedItems] = useState({
     owedByEric: trackedExpenses.owedByEric,
     owedToEric: trackedExpenses.owedToEric,
+    owedByEricDisabled: trackedExpenses.owedByEricDisabled,
+    owedToEricDisabled: trackedExpenses.owedToEricDisabled,
     totalOwedByEric: trackedExpenses.totalOwedByEric,
     totalOwedToEric: trackedExpenses.totalOwedToEric,
   });

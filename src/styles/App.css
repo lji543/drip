@@ -101,6 +101,16 @@
 .dataGrid-row-even {
   background-color: #81e4c4;
 }
+.dataGrid-row-disabled {
+  background-color: #8bafc1;
+  color: gray !important;
+}
+/* .dataGrid-row-disabled:hover {
+  background-color: gray !important;
+} */
+.dataGrid-row-disabled .dataGrid-cell {
+  color: gray !important;
+}
 .dataGrid-cell {
   /* color: #02035e; */
   color: #2a2c76;
@@ -192,6 +202,9 @@
 }
 .top-spacing-12 {
   margin-top: 12px !important;
+}
+.top-spacing-24 {
+  margin-top: 24px !important;
 }
 
 

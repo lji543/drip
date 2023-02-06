@@ -1,7 +1,11 @@
 // TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
 import React, { useEffect, useRef, useState } from 'react';
 
-import ExpensesGrid from './utilComponents/ExpensesGrid';
+import {
+  MoneyOff as MoneyOffIcon,
+} from '@mui/icons-material';
+import { Button, Divider } from '@mui/material';
+import ItemsGrid from './utilComponents/ItemsGrid';
 import AddNewItem from './utilComponents/AddNewItem';
 
 import useExpenses from '../state/useExpenses';
@@ -64,6 +68,8 @@ const TrackerWithNewGridComponent = ({ category}) => { // Category tabs, with mo
   // console.log('owed Items ', owedItems)
   const [isAddingOwedToEricItem, setIsAddingOwedToEricItem] = useState(false);
   const [isAddingOwedByEricItem, setIsAddingOwedByEricItem] = useState(false);
+  const [isShowingOwedByDisabled, setIsShowingOwedByDisabled] = useState(false);
+  const [isShowingOwedToDisabled, setIsShowingOwedToDisabled] = useState(false);
   const [owedTotal, setOwedTotal] = useState({
     owedByEric: 0,
     owedToEric: 0,
@@ -112,22 +118,33 @@ const TrackerWithNewGridComponent = ({ category}) => { // Category tabs, with mo
         {gridRows.owedByEric.length > 0 ? (
           <div className='dataGrid-container'>
             <div className='dataGrid-title'>Debts to Pay:</div>
-            <ExpensesGrid
+            <ItemsGrid
               category={'owedByEric'}
               emptyTableMessage={'You don\'t owe nothin'}
               gridRows={gridRows.owedByEric}
               gridColumns={owedByColumns}
+              isShowingDisabled={isShowingOwedByDisabled}
               tableTotals={{
                 amount: `$ ${owedTotal.owedByEric}`,
                 title: 'You owe: ',
               }}
             />
+            <div className='button-container'>
+              <Button
+                className='button top-spacing-24'
+                // color="primary"
+                startIcon={<MoneyOffIcon />}
+                onClick={() => setIsShowingOwedByDisabled(!isShowingOwedByDisabled)}
+              >
+                Show Paid Items
+              </Button>
+            </div>
             <AddNewItem
               className='bottom-spacing-12'
               category={'owedByEric'}
-              isAddingExpense={isAddingOwedByEricItem}
+              isAddingItem={isAddingOwedByEricItem}
               itemCategoryName={'Items I Owe'}
-              setIsAddingExpense={setIsAddingOwedByEricItem}
+              setIsAddingItem={setIsAddingOwedByEricItem}
               addNewRow={addNewRow}
             />
           </div>
@@ -135,25 +152,37 @@ const TrackerWithNewGridComponent = ({ category}) => { // Category tabs, with mo
           <div>{'You don\'t owe nothin'}</div> // TODO: a bit redundant
         )}
       </div>
+      <Divider />
       <div> {/* Items owed TO Eric */}
         {gridRows.owedByEric.length > 0 ? (
           <div className='dataGrid-container'>
             <div className='dataGrid-title'>Debts to Collect:</div>
-            <ExpensesGrid
+            <ItemsGrid
               category={'owedToEric'}
               emptyTableMessage={'Nobody to hound today'}
               gridRows={gridRows.owedToEric}
               gridColumns={owedToColumns}
+              isShowingDisabled={isShowingOwedToDisabled}
               tableTotals={{
                 amount: `$ ${owedTotal.owedToEric}`,
                 title: 'Owed To You: ',
               }}
             />
+            <div className='button-container'>
+              <Button
+                className='button top-spacing-24'
+                // color="primary"
+                startIcon={<MoneyOffIcon />}
+                onClick={() => setIsShowingOwedToDisabled(!isShowingOwedToDisabled)}
+              >
+                Show Paid Items
+              </Button>
+            </div>
             <AddNewItem
               category={'owedToEric'}
-              isAddingExpense={isAddingOwedToEricItem}
+              isAddingItem={isAddingOwedToEricItem}
               itemCategoryName={'Items Owed to Me'}
-              setIsAddingExpense={setIsAddingOwedToEricItem}
+              setIsAddingItem={setIsAddingOwedToEricItem}
               addNewRow={addNewRow}
             />
           </div>

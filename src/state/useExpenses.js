@@ -14,24 +14,32 @@ const useExpenses = () => {
   const [spending, setSpending] = spendingBudgetContext;
   const [status, setStatus] = statusBudgetContext;
 
-  function addNewExpense(newExpense, category) { // TODO: combine with update fn
+  function addNewExpense(newExpense, category, owedItem) { // TODO: combine with update fn
     const { expensesByCategoryAndMonth } = spending;
+    let expenseList = [];
     const date = new Date(newExpense.date);
     const month = date.getMonth();
 
-    let expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
     // console.log('addNewExpense ', newExpense, category);
+    // console.log('expensesByCategoryAndMonth ', expensesByCategoryAndMonth);
+    // console.log('month ', month);
+    if (!expensesByCategoryAndMonth[month][category]) {
+      expensesByCategoryAndMonth[month][category] = { expenses: [] };
+      // expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
+    }
+   
+    expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
 
     expenseList.push(newExpense);
 
     expensesByCategoryAndMonth[month][category].expenses = expenseList;
-    console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
+    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
     totalByCategoryAndMonth(expensesByCategoryAndMonth, 'add');
   }
 
   function addNewOwedItem(newItem, category) { // TODO: combine with update fn
     let itemList = [...owedItems[category]];
-    console.log('addNewOwedItem ', newItem, category);
+    // console.log('addNewOwedItem ', newItem, category);
 
     itemList.push(newItem);
 
@@ -40,7 +48,7 @@ const useExpenses = () => {
     totalByCategoryForOwed(itemList, category, 'add');
   }
 
-  function deleteOwedItem(deletedItem, category) {
+  function deleteOwedItem(deletedItem, category) { // combine these update fn's for items and for expenses
     let itemList = [];
 
     owedItems[category].forEach((currItem) => {
@@ -94,7 +102,21 @@ const useExpenses = () => {
     totalByCategoryAndMonth(expensesByCategoryAndMonth, 'update');
   }
 
+  function updateOwedItem(updatedItem, category) {
+    let itemList = owedItems[category].map((currItem) => {
+      if (currItem.id === updatedItem.id) {
+        currItem = updatedItem;
+      }
+      return currItem;
+    });
+
+    owedItems[category] = itemList;
+    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth)
+    totalByCategoryForOwed(itemList, category, 'update');
+  }
+
   function totalByCategoryForOwed(newCategoryArray, category, updateType) {
+    console.log('totalByCategoryForOwed ',newCategoryArray, category, updateType)
     const newItemsByCategory = newCategoryArray || owedItems[category];
     // console.log('totalByCategory ',newItemsByCategory)
     // console.log('totalByCategory ',category)
@@ -107,7 +129,8 @@ const useExpenses = () => {
 
     let catTotal = 0;
 
-    newItemsByCategory.map((item) => {
+    // newItemsByCategory[category].map((item) => { 
+    newItemsByCategory.map((item) => { 
       return catTotal += item.amount;
     });
     // console.log('totalByCategory catTotal ',catTotal)
@@ -251,7 +274,7 @@ const useExpenses = () => {
 
   const updateExpensesInDatabase = async (newSpendingState, updateType) => {
     try {
-      // console.log('doc update with: ',newSpending.expensesByCategoryAndMonth[0].autoIns.expenses);
+      console.log('doc update with: ',newSpendingState.expensesByCategoryAndMonth[1]);
       const expenses = doc(db, "expenses", newSpendingState.id);
       await updateDoc(expenses, {
         ...newSpendingState,
@@ -268,7 +291,7 @@ const useExpenses = () => {
     const uType = `${updateType}owed`;
 
     try {
-      console.log('doc update with: ',newOwedItemsState);
+      // console.log('doc update with: ',newOwedItemsState);
       const owedItems = doc(db, "owedItems", newOwedItemsState.id);
       await updateDoc(owedItems, {
         ...newOwedItemsState,
@@ -296,6 +319,7 @@ const useExpenses = () => {
     totalsByCategoryAndMonth: spending.totalsByCategoryAndMonth,
     totalByCategoryAndMonth,
     updateExpense,
+    updateOwedItem,
   }
 };
 

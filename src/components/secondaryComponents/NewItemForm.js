@@ -1,40 +1,50 @@
 import React, { useState } from 'react';
 
-import { Button, TextField } from '@mui/material';
+import { Button, MenuItem, Select, TextField } from '@mui/material';
 
-import { statusMessages } from '../../utils/ericConstants';
+import { categories, statusMessages } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
 import { convertToInt, formatDate } from '../../utils/utilFunctions';
 
 const baseItemObj = {
   amount: '',
+  category: '',
   date: '',
   details: '',
   name: '',
 };
 
 const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tracking page at least
-  const { addNewRow, category, className, itemCategoryName, itemObj = baseItemObj, setIsAddingExpense } = props;
+  const { addNewRow, category, className, itemCategoryName, itemObj = baseItemObj, setIsAddingItems } = props;
+  const { totalsByCategory } = useExpenses();
   const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 
-  // console.log('NewItemForm ',props)
+  // console.log('NewItemForm ',totalsByCategory)
 
   const handleFieldChange = (event) => {
-    const { id, value } = event.target;
-
-    setNewItem({
-      ...newItem,
-      [id]: value,
-    });
+    const { id, name, value } = event.target;
+    console.log('handleFieldChange ',id, value)
+    // console.log('handleFieldChange ',event.target)
+    if (name === 'category' || id === 'category') { // TODO: this is a workaround as select doesnt send up the id?
+      setNewItem({
+        ...newItem,
+        [name]: value,
+      });
+    } else {
+      setNewItem({
+        ...newItem,
+        [id]: value,
+      });
+    }
   };
 
   const handleItemUpdate = (action) => {
-    console.log('handleItemUpdate ',newItem)
+    // console.log('handleItemUpdate ',newItem)
     if (action !== 'cancel') {
-      const { amount, date, details, name } = newItem;
+      const { amount, category, date, details, name } = newItem;
 
-      if (!amount || !date || !details || !name) {
+      if (!amount || !date || !details || !name || !category) {
         setNewItem(itemObj);
         setStatusMessage(statusMessages.form.requiredError);
       } else {
@@ -49,18 +59,18 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
         setNewItem(itemObj);
     
         if (action === 'close') {
-          setIsAddingExpense(false);
+          setIsAddingItems(false);
         };
       }
     } else {
-      setIsAddingExpense(false);
+      setIsAddingItems(false);
     };
   };
 
   return (
     <div  className={`form${className ? ` ${className}` : ''}`}>
       <div className='form-title'>
-        {`Add expense to ${itemCategoryName}:`}
+        {`Add item to ${itemCategoryName}:`}
       </div>
       <div className='form-row'>
         <TextField
@@ -97,8 +107,20 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
           label="Amount"
           type="number"
           onChange={handleFieldChange}
+          className='right-spacing-12'
           value={newItem.amount}
         />
+        <Select  sx={{ m: 1, minWidth: 120 }}
+          required
+          size="small"
+          id="category"
+          // label="Category"
+          name="category"
+          onChange={handleFieldChange}
+          value={newItem.category}
+        >
+          {categories.map((cat) => <MenuItem key={cat} value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
+        </Select>
       </div>
       {<div className='form-error'>
         {statusMessage}
@@ -149,10 +171,10 @@ export default NewItemForm;
 //       setNewItem(itemObj);
   
 //       if (action === 'close') {
-//         setIsAddingExpense(false);
+//         setIsAddingItems(false);
 //       };
 //     }
 //   } else {
-//     setIsAddingExpense(false);
+//     setIsAddingItems(false);
 //   };
 // };

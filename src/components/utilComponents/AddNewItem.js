@@ -11,20 +11,20 @@ import useExpenses from '../../state/useExpenses';
 
 const AddNewItem = (props) => { // Category tabs, with months as child
   // console.log('AddNewItem ', props)
-  const { isAddingExpense, setIsAddingExpense } = props;
+  const { isAddingItem, setIsAddingItem } = props;
 
   return (
     <div className='button-container'>
-      {isAddingExpense ? (
+      {isAddingItem ? (
         <NewItemForm props={props} />
       ) : (
         <Button
           className='button top-spacing-12'
           // color="primary"
           startIcon={<AddIcon />}
-          onClick={() => setIsAddingExpense(!isAddingExpense)}
+          onClick={() => setIsAddingItem(!isAddingItem)}
         >
-          Add Expense
+          Add Another Item
         </Button>
       )}
     </div>

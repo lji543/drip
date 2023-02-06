@@ -83,7 +83,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
   };
 
   const handleEditClick = (id) => () => {
-    // console.log('handleEditClick ', id)
+    console.log('handleEditClick ', id)
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 

@@ -37,6 +37,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
     };
     const newRows = [...rows];
     newRows.push(updatedRow);
+    console.log('updateRow ', updatedRow.date)
 
     addNewExpense(updatedRow, category);
     setRows(newRows);

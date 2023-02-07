@@ -17,12 +17,19 @@ const useExpenses = () => {
     // i.e. look for matching id's
     const { expensesByCategoryAndMonth } = spending;
     let expenseList = [];
-    const date = new Date(newExpense.date);
-    const month = date.getMonth();
+    // const date = new Date(`${newExpense.date}T00:00-0800`);
+    // const month = date.getMonth();
+    // T00:00:00
+    // console.log('newExpense ', newExpense.date);
+    const dateArray = newExpense.date.split("/");  // TODO: workaround
+    const month = dateArray[0] - 1;
+    const num = parseInt(dateArray[1]) + 1;
+    const numString = num.toLocaleString('en-US');
+    const newDate = `${dateArray[0]}/${numString}/${dateArray[2]}`
 
     // console.log('addNewExpense ', newExpense, category, owedItem);
     // console.log('expensesByCategoryAndMonth ', expensesByCategoryAndMonth);
-    // console.log('month ', month);
+    console.log('month ', month);
     if (!expensesByCategoryAndMonth[month][category]) {
       expensesByCategoryAndMonth[month][category] = { expenses: [] };
       // expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
@@ -30,10 +37,15 @@ const useExpenses = () => {
    
     expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
 
-    expenseList.push(newExpense);
+    const updatedNewExpense = { // TODO: workaround
+      ...newExpense,
+      date: newDate,
+    }
+    // expenseList.push(newExpense);
+    expenseList.push(updatedNewExpense);
 
     expensesByCategoryAndMonth[month][category].expenses = expenseList;
-    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
+    console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
     totalByCategoryAndMonth(expensesByCategoryAndMonth, 'add');
   }
 
@@ -111,6 +123,7 @@ const useExpenses = () => {
     });
 
     totalsByCategory._yearTotal = roundNumberToTwo(yearTotal);
+    totalsByCategory._yearTotal = roundNumberToTwo(yearTotal / 12);
 
     categories.map(cat => {
       let catYearTotal = 0;

@@ -10,10 +10,13 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
   const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 
-  console.log('NewItemForm ',props)
+  // console.log('NewItemForm ',props)
 
   const handleFieldChange = (event) => {
     const { id, value } = event.target;
+    if (statusMessage) {
+      setStatusMessage();
+    }
 
     setNewItem({
       ...newItem,
@@ -26,7 +29,6 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
       const { amount, date, details, name } = newItem;
       if (!amount || !date || !name) {
       // if (!amount || !date || !details) {
-        setNewItem(itemObj);
         setStatusMessage(statusMessages.form.requiredError);
       } else {
         const newExp = {

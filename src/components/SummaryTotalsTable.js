@@ -23,7 +23,7 @@ const SummaryTotalsTable = () => {
             <TableCell className='table-column-header-lg'>Category</TableCell>
             <TableCell align="right"></TableCell>
             {months.map((month, i) => {
-              return <TableCell className='table-column-header' align="right" key={i}>{month}</TableCell>;
+              return <TableCell className='table-column-header' align="right" key={`${i}${month}`}>{month}</TableCell>;
             })}
             <TableCell align="right"></TableCell>
             <TableCell className='table-column-header-lg' align="right">Total</TableCell>
@@ -34,14 +34,14 @@ const SummaryTotalsTable = () => {
         </TableHead>
         <TableBody>
           <>
-            {categories.map((cat) => {
+            {categories.map((cat , i) => {
               if (!totalsByCategory[cat]) return null;
               const avg = totalsByCategory[cat].monthlyAvg ? Math.round(totalsByCategory[cat].monthlyAvg) : 0;
               const ttl = totalsByCategory[cat].total ? Math.round(totalsByCategory[cat].total) : 0;
 
               return (
                 <TableRow
-                  key={cat}
+                  key={`${cat}${i}`}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell className='table-row-header' component="th" scope="row">{totalsByCategory[cat].name}</TableCell>
@@ -57,6 +57,18 @@ const SummaryTotalsTable = () => {
                 </TableRow>
               );
             })}
+            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCell className='table-row-header' component="th" scope="row"></TableCell>
+              <TableCell className='table-cell'></TableCell>
+              {months.map((month, i) => {
+                return <TableCell key={`${month}${i}`} className='table-cell' align="right">{totalsByCategoryAndMonth[i]._monthTotal}</TableCell>;
+              })}
+              <TableCell align="right"></TableCell>
+              <TableCell align="right">{totalsByCategoryAndMonth._yearTotal}</TableCell>
+              {/* <TableCell align="right">{totalsByCategory[cat].name}</TableCell> */}
+              {/* <TableCell align="right">{ttl}</TableCell> */}
+              <TableCell align="right">{totalsByCategoryAndMonth._yearAverage}</TableCell>
+            </TableRow>
           </>
         </TableBody>
       </Table>

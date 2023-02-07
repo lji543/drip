@@ -16,7 +16,7 @@ const AddNewItem = (props) => { // Category tabs, with months as child
         <NewItemForm props={props} />
       ) : (
         <Button
-          className='button top-spacing-12'
+          className='button top-margin-12'
           // color="primary"
           startIcon={<AddIcon />}
           onClick={() => setIsAddingItem(!isAddingItem)}

@@ -25,7 +25,7 @@
 
 .App {
   background-color: #e6e6e678;
-  /* background-color: #ffffff; */
+  height: 100vh;
   text-align: center;
 }
 .page-wrapper {
@@ -139,6 +139,12 @@
   text-decoration: underline;
 }
 /* Rows */
+.dataGrid-row-total {
+  background-color: var(--lightGrayBlue);
+  border-top: solid 1px var(--veryDarkBlue);
+  font-size: 16px;
+  font-weight: 600;
+}
 .dataGrid-row-even {
   /* background-color: var(--teal); */
   /* background-color: var(--lightGrayBlue); */
@@ -206,6 +212,11 @@
   color: var(--veryDarkBlue);
   font-weight: bold;
 }
+.dataGrid-totalAmt-multiple {
+  color: var(--veryDarkBlue);
+  /* font-size: 16px; */
+  font-weight: bold;
+}
 
 
 /* //////////// */
@@ -228,11 +239,36 @@
   padding-top: 24px;
 }
 
-/* .text-color {
-
+/*/ Spacing /*/
+/* .bottom-margin-12 {
+  margin-bottom: 12px !important;
 } */
+.bottom-margin-48 {
+  margin-bottom: 48px !important;
+}
+.bottom-padding-48 {
+  padding-bottom: 48px !important;
+}
+.right-margin-12 {
+  margin-right: 12px !important;
+}
+.top-margin-12 {
+  margin-top: 12px !important;
+}
+.top-padding-12 {
+  padding-top: 12px !important;
+}
+.top-margin-24 {
+  margin-top: 24px !important;
+}
+
+/*/ Utility /*/
 .title-text-color {
   color: var(--veryDarkBlue);
+}
+
+.right-align {
+  justify-content: end !important;
 }
 
 .form {
@@ -262,24 +298,6 @@
   justify-content: space-around;
   padding-top: 40px; 
 }
-
-/*/ Spacing /*/
-/* .bottom-spacing-12 {
-  margin-bottom: 12px !important;
-} */
-.bottom-spacing-48 {
-  margin-bottom: 48px !important;
-}
-.right-spacing-12 {
-  margin-right: 12px !important;
-}
-.top-spacing-12 {
-  margin-top: 12px !important;
-}
-.top-spacing-24 {
-  margin-top: 24px !important;
-}
-
 
 /* /////// */
 /*/ TABLE /*/

@@ -97,7 +97,7 @@ const useExpenses = () => {
 
     let yearTotal = 0;
 
-    newExpensesByCategoryAndMonth.map((monthExpenses, month) => {
+    newExpensesByCategoryAndMonth.map((monthExpenses, month) => { // stored by month, then category
       let monthTotal = 0;
       
       categories.map((cat) => {
@@ -118,12 +118,12 @@ const useExpenses = () => {
 
       return (
         expenseList[month]._monthTotal = roundNumberToTwo(monthTotal),
-        yearTotal =+ monthTotal
+        yearTotal += monthTotal
       );
     });
 
-    totalsByCategory._yearTotal = roundNumberToTwo(yearTotal);
-    totalsByCategory._yearTotal = roundNumberToTwo(yearTotal / 12);
+    totalsByCategoryAndMonth._yearTotal = roundNumberToTwo(yearTotal);
+    totalsByCategoryAndMonth._yearAverage = roundNumberToTwo(yearTotal / 12);
 
     categories.map(cat => {
       let catYearTotal = 0;

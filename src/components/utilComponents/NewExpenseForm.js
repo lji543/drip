@@ -63,7 +63,7 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
           type="date"
           onChange={handleFieldChange}
           value={newItem.date}
-          className='right-spacing-12'
+          className='right-margin-12'
         />
         <TextField
           required
@@ -71,7 +71,7 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
           id="name"
           label="Description"
           onChange={handleFieldChange}
-          className='right-spacing-12'
+          className='right-margin-12'
           value={newItem.name}
         />
         <TextField
@@ -79,7 +79,7 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
           id="details"
           label="Details"
           onChange={handleFieldChange}
-          className='right-spacing-12'
+          className='right-margin-12'
           value={newItem.details}
         />
         <TextField
@@ -97,13 +97,13 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
       </div>}
       <div className='actions-row'>
         <Button
-          className='button-outlined right-spacing-12'
+          className='button-outlined right-margin-12'
           onClick={() => handleExpenseUpdate('close')}
         >
           Save and Close
         </Button>
         <Button
-          className='button-outlined right-spacing-12'
+          className='button-outlined right-margin-12'
           onClick={() => handleExpenseUpdate()}
         >
           Save and Add Another

@@ -22,3 +22,7 @@ IDEAS:
 Q's:
 -want an 'add expense' button for every category table on monthly page?
 -should we show the category table even if no expenses are there for the month (on monthly page)?
+-what is your preferred 'homepage'?
+-what are the 3-5 things you want to see at 'first glance'? Could make some kind of quick access dashboard
+  -pending owed items count / sum
+  -current Month total

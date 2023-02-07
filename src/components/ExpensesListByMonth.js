@@ -34,7 +34,7 @@ const CategoryTablesList = ({ expenses, month }) => {
 const ExpensesListByMonth = () => {
    // console.log('ExpenseList ', category)
   //  const { expensesByCategoryAndMonth  } = useExpenses();
-   const { currentMonth, today  } = useUtility();
+   const { currentMonth  } = useUtility();
    const expenseListRef = useRef(null);
   //  console.log('ExpensesListByMonth ',month, today)
    const { expensesByCategoryAndMonth, statusState, totalsByCategory, totalsByCategoryAndMonth } = useExpenses();

@@ -1,8 +1,16 @@
 export const getVariance = (budget, total) => budget - total;
 
+// two decimals
 export const roundNumberToTwo = (num) => Math.round(num * 100) / 100;
 
 export const convertToString = (str) => str?.toLocaleString('en-US');
+
+export const convertToFormattedRoundNumber = (num) => {
+  if (!num) {
+    return 0;
+  }
+  return convertToString(Math.round(num));
+};
 
 export const convertToInt = (num) => parseInt(num);
 

@@ -17,7 +17,7 @@ function App() {
   const { getTotalsByCategoryAndMonth } = useExpenses();
   const { getDate } = useUtility();
   const { getOwedItems } = useItems();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
 	const handlePageChange = (e, newPage) => {
 		setPage(newPage);

@@ -142,7 +142,7 @@ const Tracker = () => {
           />
           <div className='button-container'>
             <Button
-              className='button top-spacing-24'
+              className='button top-margin-24'
               // color="primary"
               startIcon={<MoneyOffIcon />}
               onClick={() => setIsShowingOwedByDisabled(!isShowingOwedByDisabled)}
@@ -151,7 +151,7 @@ const Tracker = () => {
             </Button>
           </div>
           <AddNewItem
-            className='bottom-spacing-48'
+            className='bottom-margin-48'
             owedCategory={'owedByEric'}
             isAddingItem={isAddingOwedByEricItem}
             itemCategoryName={'Items I Owe'}
@@ -177,8 +177,7 @@ const Tracker = () => {
           />
           <div className='button-container'>
             <Button
-              className='button top-spacing-24'
-              // color="primary"
+              className='button top-margin-24'
               startIcon={<MoneyOffIcon />}
               onClick={() => setIsShowingOwedToDisabled(!isShowingOwedToDisabled)}
             >

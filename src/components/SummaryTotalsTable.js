@@ -1,79 +1,251 @@
-// TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import {
+  Cancel as CancelIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Save as SaveIcon,
+} from '@mui/icons-material';
+import { Button, Divider } from '@mui/material';
+import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
-import { categories, months } from '../utils/ericConstants';
-import { convertToString } from '../utils/utilFunctions';
+import AddNewExpense from './utilComponents/AddNewExpense';
+import { months } from '../utils/ericConstants';
 import useExpenses from '../state/useExpenses';
+import { formatDate, convertToFormattedRoundNumber, convertToString } from '../utils/utilFunctions';
+import { categories, expensesByCategoryAndMonth } from '../utils/ericConstants';
+
+const styleProps = {
+  border: 'none',
+  width: '100%',
+};
+
+const columns = [
+  {
+    field: 'category',
+    headerName: 'Category',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    flex: 1,
+    // maxWidth: 75,
+  },
+  {
+    field: 'details',
+    headerName: '',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    flex: 1,
+    // maxWidth: 75,
+  },
+  {
+    field: 'Jan',
+    headerName: 'Jan',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Feb',
+    headerName: 'Feb',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Mar',
+    headerName: 'Mar',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Apr',
+    headerName: 'Apr',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'May',
+    headerName: 'May',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Jun',
+    headerName: 'Jun',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Jul',
+    headerName: 'Jul',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Aug',
+    headerName: 'Aug',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Sep',
+    headerName: 'Sep',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Oct',
+    headerName: 'Oct',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Nov',
+    headerName: 'Nov',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'Dec',
+    headerName: 'Dec',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    maxWidth: 68,
+  },
+  {
+    field: 'total',
+    headerName: 'Total',
+    headerAlign: 'right',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell right-align',
+    maxWidth: 80,
+    // type: 'number',
+  },
+  {
+    field: 'average',
+    headerName: 'Average',
+    headerAlign: 'right',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell right-align',
+    maxWidth: 80,
+    // type: 'number',
+  },
+];
 
 const SummaryTotalsTable = () => {
-  const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+  const { expensesByCategoryAndMonth, totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+
+  const [rows, setRows] = useState([]);
+  const [rowModesModel, setRowModesModel] = useState({});
+
+  const getRows = () => {
+    let updatedRows = [];
+    let totalsRow = {
+      id: 'totalsRow',
+      category: 'Totals: ',
+      total: convertToFormattedRoundNumber(totalsByCategoryAndMonth._yearTotal),
+      average: convertToFormattedRoundNumber(totalsByCategoryAndMonth._yearAverage),
+    };
+    
+    categories.forEach((cat) => {
+      let updatedRow = {
+        id: cat,
+        category: totalsByCategory[cat].name,
+        details: totalsByCategory[cat].details,
+        total: convertToFormattedRoundNumber(totalsByCategory[cat].total),
+        average: convertToFormattedRoundNumber(totalsByCategory[cat].monthlyAvg),
+      };
+      months.forEach((mo, i) => {
+        updatedRow = {
+          ...updatedRow,
+          [mo]: convertToFormattedRoundNumber(totalsByCategoryAndMonth[i][cat]),
+        }
+
+        totalsRow = {
+          ...totalsRow,
+          [mo]: convertToFormattedRoundNumber(totalsByCategoryAndMonth[i]._monthTotal),
+        }
+      });
+      updatedRows.push(updatedRow);
+    });
+
+    updatedRows.push({ id: 'blankRow' });
+    updatedRows.push(totalsRow);
+    // console.log('updatedRows ',updatedRows)
+
+    setRows(updatedRows);
+  }
+
+  const processRowUpdate = (newRow) => {
+    const updatedRow = {
+      ...newRow,
+      date: formatDate(newRow.date),
+      isNew: false
+    };
+    // console.log('processRowUpdate ', updatedRow);
+
+    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
+    return updatedRow;
+  };
+
+  const handleProcessRowUpdateError = React.useCallback((error) => {
+    // setSnackbar({ children: error.message, severity: 'error' });
+    console.log('handleProcessRowUpdateError error ', error.message)
+  }, []);
+
+  useEffect(() => {
+    // if (totalsByCategory.length === 0 || totalsByCategoryAndMonth.length === 0) {
+
+    // } else {
+      getRows();
+    // }
+  // eslint-disable-next-line
+  }, [totalsByCategory]); // react-hooks/exhaustive-deps
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell className='table-column-header-lg'>Category</TableCell>
-            <TableCell align="right"></TableCell>
-            {months.map((month, i) => {
-              return <TableCell className='table-column-header' align="right" key={`${i}${month}`}>{month}</TableCell>;
-            })}
-            <TableCell align="right"></TableCell>
-            <TableCell className='table-column-header-lg' align="right">Total</TableCell>
-            {/* <TableCell align="right">Category</TableCell> */}
-            {/* <TableCell className='table-column-header-lg' align="right">Total</TableCell> */}
-            <TableCell className='table-column-header-lg' align="right">Average</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          <>
-            {categories.map((cat , i) => {
-              if (!totalsByCategory[cat]) return null;
-              const avg = totalsByCategory[cat].monthlyAvg ? Math.round(totalsByCategory[cat].monthlyAvg) : 0;
-              const ttl = totalsByCategory[cat].total ? Math.round(totalsByCategory[cat].total) : 0;
-
-              return (
-                <TableRow
-                  key={`${cat}${i}`}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell className='table-row-header' component="th" scope="row">{totalsByCategory[cat].name}</TableCell>
-                  <TableCell className='table-cell'>{totalsByCategory[cat].details}</TableCell>
-                  {months.map((month, i) => {
-                    return <TableCell className='table-cell' align="right" key={i}>{convertToString(totalsByCategoryAndMonth[i][cat])}</TableCell>;
-                  })}
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right">{convertToString(ttl)}</TableCell>
-                  {/* <TableCell align="right">{totalsByCategory[cat].name}</TableCell> */}
-                  {/* <TableCell align="right">{ttl}</TableCell> */}
-                  <TableCell align="right">{convertToString(avg)}</TableCell>
-                </TableRow>
-              );
-            })}
-            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell className='table-row-header' component="th" scope="row"></TableCell>
-              <TableCell className='table-cell'></TableCell>
-              {months.map((month, i) => {
-                return <TableCell key={`${month}${i}`} className='table-cell' align="right">{convertToString(totalsByCategoryAndMonth[i]._monthTotal)}</TableCell>;
-              })}
-              <TableCell align="right"></TableCell>
-              <TableCell align="right">{convertToString(totalsByCategoryAndMonth._yearTotal)}</TableCell>
-              {/* <TableCell align="right">{totalsByCategory[cat].name}</TableCell> */}
-              {/* <TableCell align="right">{ttl}</TableCell> */}
-              <TableCell align="right">{convertToString(totalsByCategoryAndMonth._yearAverage)}</TableCell>
-            </TableRow>
-          </>
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div className='dataGrid-table-container'>
+      {rows.length > 0 ? (
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          autoHeight
+          editMode="row"
+          getRowClassName={(params) => {
+            if (params.isLastVisible) {
+              return 'dataGrid-row-total';
+            }
+            return params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd';
+          }}
+          getRowHeight={(params) => {
+            if (params.id === 'totalsRow') {
+              return 48;
+            }
+          }}
+          hideFooter
+          onProcessRowUpdateError={handleProcessRowUpdateError}
+          onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+          processRowUpdate={processRowUpdate}
+          rowHeight={28}
+          rowModesModel={rowModesModel}
+          sx={styleProps}
+          experimentalFeatures={{ newEditingApi: true }}
+        />
+      ) : (
+        <div className='title-text-color bottom-padding-48 top-padding-12'>
+          {`Oh no! Error loading the data. Laura is sorry. But maybe a refresh will fix it?`}
+        </div>
+      )}
+    </div>
   );
 }
 

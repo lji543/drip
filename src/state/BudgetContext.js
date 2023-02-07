@@ -8,17 +8,26 @@ const BudgetContext = React.createContext([{}, () => {}]);
 
 const BudgetProvider = (props) => {
   const [owedItems, setOwedItems] = useState({
-    owedByEric: trackedExpenses.owedByEric,
-    owedToEric: trackedExpenses.owedToEric,
-    owedByEricDisabled: trackedExpenses.owedByEricDisabled,
-    owedToEricDisabled: trackedExpenses.owedToEricDisabled,
-    totalOwedByEric: trackedExpenses.totalOwedByEric,
-    totalOwedToEric: trackedExpenses.totalOwedToEric,
+    // owedByEric: trackedExpenses.owedByEric,
+    // owedToEric: trackedExpenses.owedToEric,
+    // owedByEricDisabled: trackedExpenses.owedByEricDisabled,
+    // owedToEricDisabled: trackedExpenses.owedToEricDisabled,
+    // totalOwedByEric: trackedExpenses.totalOwedByEric,
+    // totalOwedToEric: trackedExpenses.totalOwedToEric,
+    owedByEric: [],
+    owedToEric: [],
+    owedByEricDisabled: [],
+    owedToEricDisabled: [],
+    totalOwedByEric: 0,
+    totalOwedToEric: 0,
   });
   const [spending, setSpending] = useState({
-    totalsByCategory: totalsByCategory,
-    expensesByCategoryAndMonth: expensesByCategoryAndMonth,
-    totalsByCategoryAndMonth: totalsByCategoryAndMonth,
+    // totalsByCategory: totalsByCategory,
+    // expensesByCategoryAndMonth: expensesByCategoryAndMonth,
+    // totalsByCategoryAndMonth: totalsByCategoryAndMonth,
+    totalsByCategory: {},
+    expensesByCategoryAndMonth: [],
+    totalsByCategoryAndMonth: {},
     id: null,
     timestamp: null,
   });

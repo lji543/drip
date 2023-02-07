@@ -1,241 +1,189 @@
 // TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
-  Add as AddIcon,
-  Cancel as CancelIcon,
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Save as SaveIcon,
+  MoneyOff as MoneyOffIcon,
 } from '@mui/icons-material';
-import { Button } from '@mui/material';
-import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
+import { Button, Divider } from '@mui/material';
+import ItemsGrid from './utilComponents/ItemsGrid';
+import AddNewItem from './utilComponents/AddNewItem';
 
-import AddNewExpense from './secondaryComponents/AddNewExpense';
-import ListedExpenses from './secondaryComponents/ListedExpenses';
-import Tabs from './utilComponents/Tabs';
+import useItems from '../state/useItems';
 
-import { months, trackedExpenses } from '../utils/ericConstants';
-import useExpenses from '../state/useExpenses';
-import { formatDate } from '../utils/utilFunctions';
+const columns = [
+  {
+    field: 'date',
+    type: 'date',
+    headerName: 'Date',
+    headerClassName: 'dataGrid-column-header',
+    editable: true,
+    cellClassName: 'dataGrid-cell',
+    // flex: 1,
+  },
+  {
+    field: 'name',
+    headerName: 'Description',
+    headerClassName: 'dataGrid-column-header',
+    editable: true,
+    cellClassName: 'dataGrid-cell',
+    flex: 2,
+    // width: 224,
+  },
+  {
+    field: 'amount',
+    type: 'number',
+    headerName: 'Amount',
+    // headerAlign: 'left',
+    // align: 'left',
+    headerClassName: 'dataGrid-column-header',
+    editable: true,
+    cellClassName: 'dataGrid-cell dataGrid-cell-amount',
+    // width: 92,
+    flex: 1,
+  },
+];
 
-const styleProps = {
-  border: 'none',
-  width: '100%',
-};
+const owedByColumns = [...columns];
+owedByColumns.splice(2, 0, { // owed By Eric, to someone else
+  field: 'owedToBy',
+  headerName: 'Owed To',
+  headerClassName: 'dataGrid-column-header',
+  editable: true,
+  cellClassName: 'dataGrid-cell',
+  flex: 2,
+});
 
-const Tracker = ({ category, expenses, month}) => { // Category tabs, with months as child
-  const { addNewExpense, deleteExpense, owedItems, totalsByCategoryAndMonth, totalsByCategory, updateExpense } = useExpenses();
-  // const { owedByEric, owedToEric } = owedItems;
+const owedToColumns = [...columns];
+owedToColumns.splice(2, 0, { // owed To Eric, from someone else
+  field: 'owedToBy',
+  headerName: 'Owes Me',
+  headerClassName: 'dataGrid-column-header',
+  editable: true,
+  cellClassName: 'dataGrid-cell',
+  flex: 2,
+});
 
-  const [owedByEric, setOwedByEric] = useState(owedItems.owedByEric);
-  const [owedToEric, setOwedToEric] = useState(owedItems.owedToEric);
-  // console.log('Summary Totals Table totalsByCategory ',totalsByCategory)
-  const [isAddingExpense, setIsAddingExpense] = useState(false);
-  const [monthCatTotal, setMonthCatTotal] = useState([]);
-  const [rows, setRows] = useState([]);
-  const [rowModesModel, setRowModesModel] = useState({});
+const Tracker = () => {
+  const { addNewOwedItem, owedItems } = useItems();
+  // console.log('owed Items ', owedItems)
+  const [isAddingOwedToEricItem, setIsAddingOwedToEricItem] = useState(false);
+  const [isAddingOwedByEricItem, setIsAddingOwedByEricItem] = useState(false);
+  const [isShowingOwedByDisabled, setIsShowingOwedByDisabled] = useState(false);
+  const [isShowingOwedToDisabled, setIsShowingOwedToDisabled] = useState(false);
+  const [owedTotal, setOwedTotal] = useState({
+    owedByEric: 0,
+    owedToEric: 0,
+  });
+  const [gridRows, setGridRows] = useState({
+    owedByEric: [],
+    owedToEric: [],
+  });
 
-  const addNewRow = (newRow) => {
+  const addNewRow = (newRow, owedCategory) => {
     const updatedRow = {
       ...newRow,
-      category: category,
+      // category: owedCategory,
     };
-    const newRows = [...rows];
+    // console.log('addNewRow ',gridRows)
+    // console.log('addNewRow ',owedCategory,newRow)
+    const newRows = [...gridRows[owedCategory]];
     newRows.push(updatedRow);
+    // console.log('adding newRow ',newRow)
+    // console.log('adding newRow ',newRows)
 
-    addNewExpense(updatedRow, category);
-    setRows(newRows);
+    addNewOwedItem(updatedRow, owedCategory);
+    setGridRows({
+      ...gridRows,
+      [owedCategory]: newRows,
+    });
   }
 
-  const processRowUpdate = (newRow) => {
-    const updatedRow = {
-      ...newRow,
-      date: formatDate(newRow.date),
-      isNew: false
-    };
-    // console.log('processRowUpdate ', updatedRow);
-
-    updateExpense(updatedRow, category);
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-
-    return updatedRow;
-  };
-
-  const handleProcessRowUpdateError = React.useCallback((error) => {
-    // setSnackbar({ children: error.message, severity: 'error' });
-    console.log('handleProcessRowUpdateError error ', error.message)
-  }, []);
-
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+  const organizeRowItems = () => {
+    setGridRows({
+      owedByEric: owedItems.owedByEric,
+      owedToEric: owedItems.owedToEric,
     });
-
-    const editedRow = rows.find((row) => row.id === id);
-    console.log('handleCancelClick ', editedRow)
-    if (editedRow.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
+    setOwedTotal({
+      owedByEric: owedItems.totalOwedByEric,
+      owedToEric: owedItems.totalOwedToEric,
+    })
   };
-
-  const handleDeleteClick = (row) => () => {
-    // console.log('handleDeleteClick ', row)
-    deleteExpense(row, category);
-    setRows(rows.filter((r) => r.id !== row.id));
-  };
-
-  const handleEditClick = (id) => () => {
-    // console.log('handleEditClick ', id)
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
-  };
-
-  const handleSaveClick = (id) => () => {
-    // console.log('handleSaveClick ', id)
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const organizeRowExpensesList = () => {
-    let newList = [];
-    let total = 0;
-    if (expenses.length != 0) {
-      expenses.forEach((exp, i) => {
-        newList.push({
-          ...exp,
-          // amount: convertToInt(exp.amount),
-        });
-      });
-      total = totalsByCategoryAndMonth[month][category];
-    }
-
-    setRows(newList);
-    setMonthCatTotal(total)
-  };
-
-  const columns = [
-    {
-      field: 'date',
-      type: 'date',
-      headerName: 'Date',
-      headerClassName: 'dataGrid-column-header',
-      editable: true,
-      cellClassName: 'dataGrid-cell',
-      // flex: 1,
-    },
-    {
-      field: 'details',
-      headerName: 'Details',
-      headerClassName: 'dataGrid-column-header',
-      editable: true,
-      cellClassName: 'dataGrid-cell',
-      flex: 3,
-      // width: 224,
-    },
-    {
-      field: 'amount',
-      type: 'number',
-      headerName: 'Amount',
-      // headerAlign: 'left',
-      // align: 'left',
-      headerClassName: 'dataGrid-column-header',
-      editable: true,
-      cellClassName: 'dataGrid-cell dataGrid-cell-amount',
-      // width: 92,
-      flex: 1,
-    },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      width: 90,
-      headerClassName: 'dataGrid-column-header',
-      cellClassName: 'dataGrid-cell-action',
-      flex: 2,
-      getActions: (data) => {
-        const { id, row } = data;
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-        // console.log('getActions ', id, isInEditMode)
-  
-        if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
-        }
-  
-        return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(row)}
-            color="inherit"
-          />,
-        ];
-      },
-    }
-  ];
 
   useEffect(() => {
-    // organizeTabContent();
+    // console.log('Tracker ', owedItems)
+    organizeRowItems();
   // eslint-disable-next-line
-  }, []); // react-hooks/exhaustive-deps
+  }, [owedItems]); // react-hooks/exhaustive-deps
 
   return (
-    <div>
-      <div>
-        {owedByEric.length > 0 ? (
-          <div>
-            <div></div>
-            <DataGrid
-              rows={owedByEric}
-              columns={columns}
-              autoHeight
-              editMode="row"
-              sx={styleProps}
-              rowHeight={25}
-              hideFooter
-              processRowUpdate={processRowUpdate}
-              onProcessRowUpdateError={handleProcessRowUpdateError}
-              rowModesModel={rowModesModel}
-              onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-              getRowClassName={(params) =>
-                params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
-              }
-              experimentalFeatures={{ newEditingApi: true }}
-            />
+    <div className='dataGrid-page-container'>
+      <div> {/* Items owed BY Eric */}
+        <div className='dataGrid-container'>
+          <div className='dataGrid-title'>Debts to Pay:</div>
+          <ItemsGrid
+            owedCategory={'owedByEric'}
+            emptyTableMessage={'You don\'t owe nothin'}
+            gridRows={gridRows.owedByEric}
+            gridColumns={owedByColumns}
+            isShowingDisabled={isShowingOwedByDisabled}
+            tableTotals={{
+              amount: `$ ${owedTotal.owedByEric}`,
+              title: 'You owe: ',
+            }}
+          />
+          <div className='button-container'>
+            <Button
+              className='button top-spacing-24'
+              // color="primary"
+              startIcon={<MoneyOffIcon />}
+              onClick={() => setIsShowingOwedByDisabled(!isShowingOwedByDisabled)}
+            >
+              Show Paid Items
+            </Button>
           </div>
-        ) : (
-          <div>don't owe nothin</div>
-        )}
+          <AddNewItem
+            className='bottom-spacing-12'
+            owedCategory={'owedByEric'}
+            isAddingItem={isAddingOwedByEricItem}
+            itemCategoryName={'Items I Owe'}
+            setIsAddingItem={setIsAddingOwedByEricItem}
+            addNewRow={addNewRow}
+          />
+        </div>
       </div>
-      <div>
-      {owedByEric.length > 0 ? (
-          <div>
-            {owedByEric.map((item) => (
-              <div key={item.id} >stuff somebody owes</div>
-            ))}
+      <Divider />
+      <div> {/* Items owed TO Eric */}
+        <div className='dataGrid-container'>
+          <div className='dataGrid-title'>Debts to Collect:</div>
+          <ItemsGrid
+            owedCategory={'owedToEric'}
+            emptyTableMessage={'Nobody to hound today'}
+            gridRows={gridRows.owedToEric}
+            gridColumns={owedToColumns}
+            isShowingDisabled={isShowingOwedToDisabled}
+            tableTotals={{
+              amount: `$ ${owedTotal.owedToEric}`,
+              title: 'Owed To You: ',
+            }}
+          />
+          <div className='button-container'>
+            <Button
+              className='button top-spacing-24'
+              // color="primary"
+              startIcon={<MoneyOffIcon />}
+              onClick={() => setIsShowingOwedToDisabled(!isShowingOwedToDisabled)}
+            >
+              Show Paid Items
+            </Button>
           </div>
-        ) : (
-          <div>don't owe nothin</div>
-        )}
+          <AddNewItem
+            owedCategory={'owedToEric'}
+            isAddingItem={isAddingOwedToEricItem}
+            itemCategoryName={'Items Owed to Me'}
+            setIsAddingItem={setIsAddingOwedToEricItem}
+            addNewRow={addNewRow}
+          />
+        </div>
       </div>
     </div>
   );

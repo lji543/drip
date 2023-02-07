@@ -3,59 +3,56 @@ import { collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/f
 
 import { db } from '../utils/firebase.config';
 import { BudgetContext } from "./BudgetContext";
-import { categories } from '../utils/ericConstants';
-import { roundNumberToTwo } from '../utils/utilFunctions';
 
 const useItems = () => {
-  const { owedItemsBudgetContext, spendingBudgetContext, statusBudgetContext } = useContext(BudgetContext);
-  const expensesCollectionRef = collection(db, 'expenses');
+  const { owedItemsBudgetContext, statusBudgetContext } = useContext(BudgetContext);
   const owedItemsCollectionRef = collection(db, 'owedItems');
   const [owedItems, setOwedItems] = owedItemsBudgetContext;
-  const [spending, setSpending] = spendingBudgetContext;
   const [status, setStatus] = statusBudgetContext;
 
-  function addNewOwedItem(newItem, category) { // TODO: combine with update fn
-    let itemList = [...owedItems[category]];
-    // console.log('addNewOwedItem ', newItem, category);
+  function addNewOwedItem(newItem, owedCategory) { // TODO: combine with update fn
+    let itemList = [...owedItems[owedCategory]];
+    // console.log('addNewOwedItem ', newItem, owedCategory);
 
     itemList.push(newItem);
 
-    owedItems[category] = itemList;
-    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
-    totalByCategoryForOwed(itemList, category, 'add');
+    owedItems[owedCategory] = itemList;
+    totalByCategoryForOwed(itemList, owedCategory, 'add');
   }
 
-  function deleteOwedItem(deletedItem, category) { // combine these update fn's for items and for expenses
+  function deleteOwedItem(deletedItem, owedCategory) { // combine these update fn's for items and for expenses
     let itemList = [];
-
-    owedItems[category].forEach((currItem) => {
+    // console.log('deleteOwedItem ',deletedItem, owedCategory)
+    // console.log('deleteOwedItem ',owedItems[owedCategory])
+    owedItems[owedCategory].forEach((currItem) => {
       if (currItem.id !== deletedItem.id) {
         itemList.push(currItem);
       }
     });
-
-    owedItems[category] = itemList;
-    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth)
-    totalByCategoryForOwed(itemList, category, 'delete');
+    // console.log('deleteOwedItem ',itemList)
+    owedItems[owedCategory] = itemList;
+    totalByCategoryForOwed(itemList, owedCategory, 'delete');
   }
 
-  function updateOwedItem(updatedItem, category) {
-    let itemList = owedItems[category].map((currItem) => {
+  function updateOwedItem(updatedItem, owedCategory) {
+    let itemList = owedItems[owedCategory].map((currItem) => {
       if (currItem.id === updatedItem.id) {
         currItem = updatedItem;
       }
       return currItem;
     });
 
-    owedItems[category] = itemList;
-    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth)
-    totalByCategoryForOwed(itemList, category, 'update');
+    owedItems[owedCategory] = itemList;
+    // console.log('updateOwedItem ',owedCategory)
+    // console.log('updateOwedItem ',itemList)
+    // console.log('updateOwedItem ',owedItems[owedCategory])
+    totalByCategoryForOwed(itemList, owedCategory, 'update');
   }
 
-  function updateOwedItemCategory(updatedItem, category) {
+  function updateOwedItemCategory(updatedItem, owedCategory) {
     let itemList = [];
     // console.log('updateOwedItemCategory ', updatedItem, category, `${category}Disabled`, owedItems[`${category}Disabled`]);
-    let disabledItemsList = [...owedItems[`${category}Disabled`]];
+    let disabledItemsList = [...owedItems[`${owedCategory}Disabled`]];
 
     // add item to disabled list
     disabledItemsList.push({
@@ -64,33 +61,27 @@ const useItems = () => {
     });
 
     // remove item from active list
-    owedItems[category].forEach((currItem) => {
+    owedItems[owedCategory].forEach((currItem) => {
       if (currItem.id !== updatedItem.id) {
         itemList.push(currItem);
       }
     });
 
-    owedItems[category] = itemList;
-    owedItems[`${category}Disabled`] = disabledItemsList;
+    owedItems[owedCategory] = itemList;
+    owedItems[`${owedCategory}Disabled`] = disabledItemsList;
     // console.log('updateOwedItemCategory ', itemList);
-    totalByCategoryForOwed(itemList, category, 'add');
+    totalByCategoryForOwed(itemList, owedCategory, 'add');
   }
 
-  function totalByCategoryForOwed(newCategoryArray, category, updateType) {
-    console.log('totalByCategoryForOwed ',newCategoryArray, category, updateType)
-    const newItemsByCategory = newCategoryArray || owedItems[category];
-    // console.log('totalByCategory ',newItemsByCategory)
-    // console.log('totalByCategory ',category)
-    // console.log('totalByCategory ',updateType)
-    // console.log('owedItems ',owedItems)
+  function totalByCategoryForOwed(newCategoryArray, owedCategory, updateType) {
+    // console.log('totalByCategoryForOwed ',newCategoryArray,' | ', owedCategory,' | ', updateType)
+    const newItemsByCategory = newCategoryArray || owedItems[owedCategory];
 
-    const totalKeyName = `total${category.charAt(0).toUpperCase() + category.slice(1)}`;
-  
-    // const totalKeyName = `total${category}`;
+    const totalKeyName = `total${owedCategory.charAt(0).toUpperCase() + owedCategory.slice(1)}`;
 
     let catTotal = 0;
 
-    // newItemsByCategory[category].map((item) => { 
+    // newItemsByCategory[owedCategory].map((item) => { 
     newItemsByCategory.map((item) => { 
       return catTotal += item.amount;
     });
@@ -99,16 +90,16 @@ const useItems = () => {
 
     const newOwedItemsState = {
       ...owedItems,
-      // [category]: {
+      // [owedCategory]: {
       // // owedByEric: {
       //   ...newItemsByCategory,
       // },
       [totalKeyName]: catTotal,
     }
 
+    // console.log('totalByCategory ',newOwedItemsState)
     setOwedItems(newOwedItemsState);
     // setOwedItems(test);
-    // console.log('totalByCategory ',owedItems)
     // console.log('totalByCategory test ',test)
     updateOwedItemsInDatabase(newOwedItemsState, updateType)
     .then(() => {
@@ -122,7 +113,7 @@ const useItems = () => {
   async function getOwedItems() {
     await getDocs(owedItemsCollectionRef).then((owedItems) => {
       const owedItemsData = owedItems.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      console.log('Firebase owedItems ', owedItemsData[0])
+      // console.log('Firebase owedItems ', owedItemsData[0])
 
         setOwedItems(state => (
           { 
@@ -145,7 +136,7 @@ const useItems = () => {
     const uType = `${updateType}owed`;
 
     try {
-      console.log('doc update with: ',newOwedItemsState);
+      // console.log('doc update with: ',newOwedItemsState);
       const owedItems = doc(db, "owedItems", newOwedItemsState.id);
       await updateDoc(owedItems, {
         ...newOwedItemsState,

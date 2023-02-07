@@ -41,7 +41,6 @@ export const trackedExpenses = {
       amount: 55,
       category: '',
       date: '1/15/23',
-      details: '',
       id: '3399edhjdakjbf',
       details: 'Mom Bday Gift',
       name: 'Laura always',
@@ -52,7 +51,6 @@ export const trackedExpenses = {
       amount: 30,
       category: '',
       date: '1/5/23',
-      details: '',
       id: '37g43fsjdakjbf',
       details: 'Dad Bday Gift',
       name: 'Laura always',
@@ -63,7 +61,7 @@ export const trackedExpenses = {
       amount: 55,
       category: '',
       date: '1/15/23',
-      details: '',
+      deails: '',
       id: '339dhjdakaexcjbf',
       details: 'Mom Bday Gift',
       name: 'Andrew',
@@ -74,7 +72,6 @@ export const trackedExpenses = {
       amount: 30,
       category: '',
       date: '1/5/23',
-      details: '',
       id: '37gfsjdaaskjbf',
       details: 'Dad Bday Gift',
       name: 'Beth',
@@ -792,7 +789,7 @@ export const expensesByCategoryAndMonth = [
   },
 ]
 
-export const categories = [ 
+export const categories = [ // In order matching original excel spreadsheet
   'autoIns',
   'homeIns',
   'lifeIns',
@@ -840,7 +837,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -865,7 +862,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -890,7 +887,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -915,7 +912,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -940,7 +937,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -965,7 +962,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -990,7 +987,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -1015,7 +1012,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -1040,7 +1037,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -1065,7 +1062,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -1090,7 +1087,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -1114,7 +1111,7 @@ export const totalsByCategoryAndMonth = {
     autoIns: 0,
     cell: 0,
     city: 0,
-    eatOut: 0,
+    dining: 0,
     electric: 0,
     gas: 0,
     gasUtil: 0,
@@ -1162,7 +1159,7 @@ export const totalsByCategory = {
     budget: 0,
     details: '',
     monthlyAvg: 0,
-    name: 'Eat Out',
+    name: 'Eating Out',
     total: 0,
   },
   electric: {
@@ -1281,7 +1278,28 @@ export const totalsByCategory = {
 
 
 
+///***/// EXPENSE/ITEM SCHEMAS ///***///
+export const baseItemSchema = {
+  amount: '',
+  category: '',
+  date: '',
+  details: '',
+  id: '',
+  includedInExpenses: false,
+  isPaid: false,
+  name: '',
+  owedToBy: '',
+};
 
+export const baseExpenseSchema = {
+  amount: 74,
+  category: '',
+  date: '1/1/23',
+  details: 'shell',
+  id: 'adf235',
+  isNew: false, // from DataGrid
+  name: '',
+}
 
 
 

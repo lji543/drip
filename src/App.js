@@ -4,8 +4,7 @@ import ExpensesListByCategory from './components/ExpensesListByCategory';
 import Navigation from './components/navigation';
 import PageWrapper from './components/navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
-// import Tracker from './components/Tracker';
-import TrackerWithNewGridComponent from './components/TrackerWithNewGridComponent';
+import Tracker from './components/Tracker';
 
 import useExpenses from './state/useExpenses';
 import useItems from './state/useItems';
@@ -38,7 +37,7 @@ function App() {
         <ExpensesListByCategory />
       </PageWrapper>
       <PageWrapper value={page} index={2}>
-        <TrackerWithNewGridComponent />
+        <Tracker />
       </PageWrapper>
     </div>
   );

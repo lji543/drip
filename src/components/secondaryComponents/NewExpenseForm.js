@@ -2,18 +2,11 @@ import React, { useState } from 'react';
 
 import { Button, TextField } from '@mui/material';
 
-import { statusMessages } from '../../utils/ericConstants';
-import useExpenses from '../../state/useExpenses';
+import { baseExpenseSchema, statusMessages } from '../../utils/ericConstants';
 import { convertToInt, formatDate } from '../../utils/utilFunctions';
 
-const baseItemObj = {
-  amount: '',
-  date: '',
-  details: '',
-};
-
 const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the tracking page at least
-  const { addNewRow, category, className, itemCategoryName, itemObj = baseItemObj, setIsAddingExpense } = props;
+  const { addNewRow, category, className, itemCategoryName, itemObj = baseExpenseSchema, setIsAddingExpense } = props;
   const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 

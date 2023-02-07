@@ -3,16 +3,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Add as AddIcon,
   Cancel as CancelIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { Button } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
-import { months } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
 import { formatDate } from '../../utils/utilFunctions';
 
@@ -32,8 +29,8 @@ const baseColumns = [
     // flex: 1,
   },
   {
-    field: 'details',
-    headerName: 'Details',
+    field: 'name',
+    headerName: 'Description',
     headerClassName: 'dataGrid-column-header',
     editable: true,
     cellClassName: 'dataGrid-cell',
@@ -65,13 +62,10 @@ const ExpensesGrid = ({
 }) => {
   const { deleteExpense, deleteOwedItem, updateExpense  } = useExpenses();
 
-  // const [columns, setColumns] = useState([]);
-  const [monthCatTotal, setMonthCatTotal] = useState([]);
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   // console.log('Listed Expenses ', expenses)
   // console.log('owed Items ', gridRows)
-
 
   const processRowUpdate = (newRow) => {
     const updatedRow = {

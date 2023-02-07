@@ -98,19 +98,28 @@
   /* color: #2a2c76; */
   text-decoration: underline;
 }
+
 .dataGrid-row-even {
   background-color: #81e4c4;
 }
+.dataGrid-row-even:hover {
+  background-color: #607d8b !important;
+}
+.dataGrid-row-odd:hover {
+  background-color: #607d8b !important;
+}
 .dataGrid-row-disabled {
-  background-color: #8bafc1;
-  color: gray !important;
+  background-color: #90a4ae;
+  /* color: gray !important; */
 }
-/* .dataGrid-row-disabled:hover {
-  background-color: gray !important;
-} */
+.dataGrid-row-disabled:hover {
+  background-color: #90a4ae !important;
+  /* color: gray !important; */
+}
 .dataGrid-row-disabled .dataGrid-cell {
-  color: gray !important;
+  color: rgba(0, 0, 0, 0.54) !important;
 }
+
 .dataGrid-cell {
   /* color: #02035e; */
   color: #2a2c76;
@@ -122,6 +131,13 @@
 .dataGrid-cell-action {
   padding: 0px 8px !important;
 }
+.dataGrid-cell-action .icon-button-disabled {
+  color: #cfd8dc;
+}
+.dataGrid-cell-action .icon-button-disabled:hover {
+  background-color: transparent;
+}
+
 .dataGrid-total-row {
   background-color: #81e4c4;
   border-top: solid 1px #02035e;

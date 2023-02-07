@@ -2,13 +2,11 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  Add as AddIcon,
   Cancel as CancelIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
-import { Button } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
 import AddNewExpense from '../utilComponents/AddNewExpense';
@@ -95,7 +93,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
   const organizeRowExpensesList = () => {
     let newList = [];
     let total = 0;
-    if (expenses.length != 0) {
+    if (expenses.length !== 0) {
       expenses.forEach((exp, i) => {
         newList.push({
           ...exp,
@@ -121,8 +119,8 @@ const ListedExpenses = ({ category, expenses, month}) => {
       // flex: 1,
     },
     {
-      field: 'details',
-      headerName: 'Details',
+      field: 'name',
+      headerName: 'Description',
       headerClassName: 'dataGrid-column-header',
       editable: true,
       cellClassName: 'dataGrid-cell',
@@ -253,23 +251,3 @@ const ListedExpenses = ({ category, expenses, month}) => {
 }
 
 export default ListedExpenses;
-
-{/* <div className='button-container'>
-{isAddingExpense ? (
-  <NewExpense
-    category={category}
-    setIsAddingExpense={setIsAddingExpense}
-    addNewRow={addNewRow}
-    month={month}
-  />
-) : (
-  <Button
-    className='button'
-    // color="primary"
-    startIcon={<AddIcon />}
-    onClick={() => setIsAddingExpense(!isAddingExpense)}
-  >
-    Add Expense
-  </Button>
-)}
-</div> */}

@@ -11,8 +11,8 @@ IDEAS:
 -when switching categories, month should remain the same
 -edit category of expense
 -organize what is details, name, etc etc for each type of item/expense
--
-
+-when deleting item from tracked or expenses, make sure it deletes from both spots?? Or ask
+-should 'things that people owe' also be tied to expenses or have the ability to add to/from expenses?
 
 
 

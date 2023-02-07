@@ -2,30 +2,22 @@ import React, { useState } from 'react';
 
 import { Button, MenuItem, Select, TextField } from '@mui/material';
 
-import { categories, statusMessages } from '../../utils/ericConstants';
+import { baseItemSchema, categories, statusMessages } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
 import { convertToInt, formatDate } from '../../utils/utilFunctions';
 
-const baseItemObj = {
-  amount: '',
-  category: '',
-  date: '',
-  details: '',
-  name: '',
-};
-
 const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tracking page at least
-  const { addNewRow, category, className, itemCategoryName, itemObj = baseItemObj, setIsAddingItems } = props;
+  const { addNewRow, owedCategory, className, itemCategoryName, itemObj = baseItemSchema, setIsAddingItem } = props;
   const { totalsByCategory } = useExpenses();
   const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 
-  // console.log('NewItemForm ',totalsByCategory)
-
   const handleFieldChange = (event) => {
     const { id, name, value } = event.target;
-    console.log('handleFieldChange ',id, value)
-    // console.log('handleFieldChange ',event.target)
+    if (statusMessage) {
+      setStatusMessage();
+    }
+
     if (name === 'category' || id === 'category') { // TODO: this is a workaround as select doesnt send up the id?
       setNewItem({
         ...newItem,
@@ -40,30 +32,28 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
   };
 
   const handleItemUpdate = (action) => {
-    // console.log('handleItemUpdate ',newItem)
     if (action !== 'cancel') {
-      const { amount, category, date, details, name } = newItem;
+      const { amount, category, date, name, owedToBy } = newItem;
 
-      if (!amount || !date || !details || !name || !category) {
-        setNewItem(itemObj);
+      if (!amount || !category || !date || !name || !owedToBy) {
         setStatusMessage(statusMessages.form.requiredError);
       } else {
-        const newExp = {
+        const updatedNewItem = {
           ...newItem,
           amount: convertToInt(newItem.amount),
           date: formatDate(newItem.date),
           id: `${newItem.amount}${Math.round(Math.random()*1000000)}`,
         }
     
-        addNewRow(newExp, category);
+        addNewRow(updatedNewItem, owedCategory);
         setNewItem(itemObj);
     
         if (action === 'close') {
-          setIsAddingItems(false);
+          setIsAddingItem(false);
         };
       }
     } else {
-      setIsAddingItems(false);
+      setIsAddingItem(false);
     };
   };
 
@@ -85,20 +75,20 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
         <TextField
           required
           size="small"
-          id="details"
-          label="Details"
+          id="name"
+          label="Description"
           onChange={handleFieldChange}
           className='right-spacing-12'
-          value={newItem.details}
+          value={newItem.name}
         />
         <TextField
           required
           size="small"
-          id="name"
-          label="Name"
+          id="owedToBy"
+          label={owedCategory === 'owedByEric' ? 'Who I Owe' : 'Who Owes Me'}
           onChange={handleFieldChange}
           className='right-spacing-12'
-          value={newItem.name}
+          value={newItem.owedToBy}
         />
         <TextField
           required
@@ -115,6 +105,7 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
           size="small"
           id="category"
           // label="Category"
+          defaultValue={totalsByCategory.other.name}
           name="category"
           onChange={handleFieldChange}
           value={newItem.category}
@@ -150,31 +141,3 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
 } 
 
 export default NewItemForm;
-
-
-
-// const handleItemUpdate = (action) => {
-//   if (action !== 'cancel') {
-//     const { amount, date, description, name } = newItem;
-//     if (!amount || !date || !description || !name) {
-//       setNewItem(itemObj);
-//       setStatusMessage(statusMessages.form.requiredError);
-//     } else {
-//       const newExp = {
-//         ...newItem,
-//         amount: convertToInt(newItem.amount),
-//         date: formatDate(newItem.date),
-//         id: `${newItem.amount}${Math.round(Math.random()*1000000)}`,
-//       }
-  
-//       addNewRow(newExp, category);
-//       setNewItem(itemObj);
-  
-//       if (action === 'close') {
-//         setIsAddingItems(false);
-//       };
-//     }
-//   } else {
-//     setIsAddingItems(false);
-//   };
-// };

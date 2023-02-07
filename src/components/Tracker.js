@@ -151,7 +151,7 @@ const Tracker = () => {
             </Button>
           </div>
           <AddNewItem
-            className='bottom-spacing-12'
+            className='bottom-spacing-48'
             owedCategory={'owedByEric'}
             isAddingItem={isAddingOwedByEricItem}
             itemCategoryName={'Items I Owe'}

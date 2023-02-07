@@ -336,6 +336,21 @@ export const months = [
   'Dec',
 ]
 
+export const monthsFull = [ // TODO: kind of dumb to have this?
+  'JANUARY',
+  'FEBRUARY',
+  'MARCH',
+  'APRIL',
+  'MAY',
+  'JUNE',
+  'JULY',
+  'AUGUST',
+  'SEPTEMBER',
+  'OCTOBER',
+  'NOVEMBER',
+  'DECEMBER',
+]
+
 export const totalsByCategoryAndMonth = {
   _yearTotal: 0,
   _yearBudget: 0,

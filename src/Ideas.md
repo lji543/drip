@@ -19,7 +19,6 @@ IDEAS:
 
 
 
-
--row hover color
--add divider to tracking page btwn dataGrids
--disabled state for action cell (buttons color and click, hover, text)
+Q's:
+-want an 'add expense' button for every category table on monthly page?
+-should we show the category table even if no expenses are there for the month (on monthly page)?

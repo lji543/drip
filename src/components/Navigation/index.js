@@ -8,7 +8,8 @@ function Navigation({ handlePageChange, page }) {
 			<AppBar position='static'>
 				<Tabs className='navigation-tabs' value={page} onChange={handlePageChange}>
 					<Tab className='navigation-links' label='Summary' />
-					<Tab className='navigation-links' label='Expenses' />
+					<Tab className='navigation-links' label='Monthly' />
+					<Tab className='navigation-links' label='Categorically' />
 					<Tab className='navigation-links' label='Tracker' />
 				</Tabs>
 			</AppBar>

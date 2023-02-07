@@ -9,6 +9,7 @@ import Tabs from './utilComponents/Tabs';
 
 import { categories, months, statusMessages } from '../utils/ericConstants';
 import useExpenses from '../state/useExpenses';
+import useUtility from '../state/useUtility';
 
  ///// Month tabs, with categories as parent /////
  ///// Child of ExpenseListByCategory /////
@@ -17,6 +18,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => {
   // console.log('ExpenseList ', category)
   const expenseListRef = useRef(null);
   const { expensesByCategoryAndMonth, statusState, totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+  const { currentMonth } = useUtility();
 
   const [tabContent, setTabContent] = useState([]);
   const [smallScreen, setSmallScreen] = useState(false);
@@ -109,7 +111,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => {
           </FormControl>
         </div>
       }
-      <Tabs currentTab={0} tabContent={tabContent} />
+      <Tabs currentTab={currentMonth} tabContent={tabContent} />
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
@@ -124,7 +126,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => {
 
 ///// Vertical, Category Tabs - with ExpenseList Component as tabPanel /////
 ///// The ExpenseList Component contains months as tabs /////
-const ExpensesListByCategory = () => { // Category tabs, with months as child
+const ExpensesListByCategoryAndMonth = () => { // Category tabs, with months as child
   const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
 
   const [displayedCategory, setDisplayedCategory] = useState(0);
@@ -138,18 +140,18 @@ const ExpensesListByCategory = () => { // Category tabs, with months as child
   }
 
   const organizeTabContent = () => {
-    let tabContent = [];
-    // console.log('organizeTabContent ',tabContent)
+    let organizedTabContent = [];
+    // console.log('organizeTabContent ',organizedTabContent)
     // console.log('organizeTabContent ',categories)
     // console.log('organizeTabContent ',totalsByCategory)
     categories.forEach((cat, i) => {
-      tabContent.push({
+      organizedTabContent.push({
         label: `${totalsByCategory[cat].name}`,
         panel: <ExpenseList category={cat} handleCategoryChange={handleCategoryChange} />
       });
     });
 
-    setTabContent(tabContent);
+    setTabContent(organizedTabContent);
   }
 
   useEffect(() => {
@@ -162,4 +164,4 @@ const ExpensesListByCategory = () => { // Category tabs, with months as child
   );
 }
 
-export default ExpensesListByCategory;
+export default ExpensesListByCategoryAndMonth;

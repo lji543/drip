@@ -1,4 +1,4 @@
-// TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
+// TODO: combine this with reg listed expenses (dont use forEach in hook)
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -7,19 +7,20 @@ import {
   Delete as DeleteIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
+import { Button, Divider } from '@mui/material';
 import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
 import AddNewExpense from '../utilComponents/AddNewExpense';
 import { months } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
-import { convertToString, formatDate } from '../../utils/utilFunctions';
+import { formatDate, convertToString } from '../../utils/utilFunctions';
 
 const styleProps = {
   border: 'none',
   width: '100%',
 };
 // TODO: do we really need to pass expenses in? Could grab that from state
-const ListedExpenses = ({ category, expenses, month}) => {
+const ListedExpensesByCategory = ({ category, expenses, month}) => {
   const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, totalsByCategory, updateExpense  } = useExpenses();
 
   const [isAddingExpense, setIsAddingExpense] = useState(false);
@@ -92,23 +93,14 @@ const ListedExpenses = ({ category, expenses, month}) => {
   };
 
   const organizeRowExpensesList = () => {
-    let newList = [];
     let total = 0;
-    
+
     if (expenses.length !== 0) {
-      expenses.forEach((exp, i) => {
-        newList.push({
-          ...exp,
-          // amount: convertToInt(exp.amount),
-        });
-      });
+      setRows(expenses);
+      setMonthCatTotal(total)
       total = totalsByCategoryAndMonth[month][category];
     }
-
-    setRows(newList);
-    setMonthCatTotal(total)
   };
-
 
   const columns = [
     {
@@ -212,46 +204,59 @@ const ListedExpenses = ({ category, expenses, month}) => {
   }, [rows]); // react-hooks/exhaustive-deps
 
   return (
-    <div className='dataGrid-page-container'>
-      {rows.length > 0 ? (
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          autoHeight
-          editMode="row"
-          sx={styleProps}
-          rowHeight={25}
-          hideFooter
-          processRowUpdate={processRowUpdate}
-          onProcessRowUpdateError={handleProcessRowUpdateError}
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-          getRowClassName={(params) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
-          }
-          experimentalFeatures={{ newEditingApi: true }}
-        />
-      ) : (
-        <div className='title-text-color'>
-          {`There are no expenses for ${categoryName} in ${convertToString(months[month])}`}
+    <div>
+      <div className='dataGrid-tableHeader'>
+        <div className='dataGrid-tableHeader-title'>
+          {`${categoryName}:`}
         </div>
-      )}
-      <div className='dataGrid-total-row'>
-        <div className='dataGrid-totalTxt'>
-          {`${months[month]} ${categoryName} Total:`}
-        </div>
-        <div className='dataGrid-totalAmt'>{`$ ${convertToString(monthCatTotal)}`}</div>
       </div>
-      <AddNewExpense
-        category={category}
-        itemCategoryName={categoryName}
-        isAddingExpense={isAddingExpense}
-        setIsAddingExpense={setIsAddingExpense}
-        addNewRow={addNewRow}
-        month={month}
-      />
+      <div className='dataGrid-table-container-multiple'>
+        {rows.length > 0 ? (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoHeight
+            editMode="row"
+            sx={styleProps}
+            rowHeight={25}
+            hideFooter
+            // onRowEditStart={handleRowEditStart}
+            // onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            onProcessRowUpdateError={handleProcessRowUpdateError}
+            rowModesModel={rowModesModel} /////
+            onRowModesModelChange={(newModel) => setRowModesModel(newModel)} /////
+            // componentsProps={{ /////
+            //   toolbar: { setRows, setRowModesModel },
+            // }}
+            getRowClassName={(params) =>
+              params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
+            }
+            experimentalFeatures={{ newEditingApi: true }}
+          />
+        ) : (
+          <div className='title-text-color'>
+            {`There are no expenses for ${categoryName} in ${months[month]}`}
+          </div>
+        )}
+        <div className='dataGrid-total-row-multiple'>
+          <div className='dataGrid-totalTxt'>
+            {`${categoryName} Total:`}
+          </div>
+          <div className='dataGrid-totalAmt'>{`$ ${convertToString(monthCatTotal)}`}</div>
+        </div>
+        <AddNewExpense // TODO: maybe don't need this button every single category/table
+          category={category}
+          itemCategoryName={categoryName}
+          isAddingExpense={isAddingExpense}
+          setIsAddingExpense={setIsAddingExpense}
+          addNewRow={addNewRow}
+          month={month}
+        />
+        {/* <Divider className='divider' /> */}
+      </div>
     </div>
   );
 }
 
-export default ListedExpenses;
+export default ListedExpensesByCategory;

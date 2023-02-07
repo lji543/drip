@@ -35,13 +35,17 @@ const BudgetProvider = (props) => {
     updateType: null,
     result: null,
   });
+  const [utility, setUtility] = useState({
+    today: '',
+  });
   return (
     <BudgetContext.Provider
       value={{
         // stateBudgetContext: [state, setState],
         owedItemsBudgetContext: [owedItems, setOwedItems],
         spendingBudgetContext: [spending, setSpending],
-        statusBudgetContext: [status, setStatus]
+        statusBudgetContext: [status, setStatus],
+        utilityBudgetContext: [utility, setUtility],
       }}
     >
       {props.children}

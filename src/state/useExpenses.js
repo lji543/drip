@@ -159,7 +159,7 @@ const useExpenses = () => {
   async function getTotalsByCategoryAndMonth() {
     await getDocs(expensesCollectionRef).then((expenses) => {
       const expensesData = expenses.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      // console.log('Firebase Expenses ', expensesData[0])
+      // console.log('***Firebase Expenses ', expensesData[0])
 
       // if (!expensesData[0]) { // TODO: add some sort of error handling
       //   expensesData = {

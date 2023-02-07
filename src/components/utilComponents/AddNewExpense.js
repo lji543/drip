@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Add as AddIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
 
-import NewExpenseForm from '../secondaryComponents/NewExpenseForm';
+import NewExpenseForm from './NewExpenseForm';
 
 // import { categories, months, statusMessages } from '../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';

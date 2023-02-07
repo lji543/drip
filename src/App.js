@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import ExpensesListByCategory from './components/ExpensesListByCategory';
+import ExpensesListByMonth from './components/ExpensesListByMonth';
+import ExpensesListByCategoryAndMonth from './components/ExpensesListByCategoryAndMonth';
 import Navigation from './components/navigation';
 import PageWrapper from './components/navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
@@ -8,13 +9,15 @@ import Tracker from './components/Tracker';
 
 import useExpenses from './state/useExpenses';
 import useItems from './state/useItems';
+import useUtility from './state/useUtility';
 
 import './styles/App.css';
 
 function App() {
   const { getTotalsByCategoryAndMonth } = useExpenses();
+  const { getDate } = useUtility();
   const { getOwedItems } = useItems();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
 	const handlePageChange = (e, newPage) => {
 		setPage(newPage);
@@ -22,6 +25,7 @@ function App() {
 
   useEffect(() => {
     // console.log('useEffect App')
+    getDate(); // TODO: change this to something that runs all the basic util functions needed?
     getOwedItems();
     getTotalsByCategoryAndMonth();
   // eslint-disable-next-line
@@ -34,9 +38,12 @@ function App() {
         <SummaryTotalsTable />
       </PageWrapper>
       <PageWrapper value={page} index={1}>
-        <ExpensesListByCategory />
+        <ExpensesListByMonth />
       </PageWrapper>
       <PageWrapper value={page} index={2}>
+        <ExpensesListByCategoryAndMonth />
+      </PageWrapper>
+      <PageWrapper value={page} index={3}>
         <Tracker />
       </PageWrapper>
     </div>

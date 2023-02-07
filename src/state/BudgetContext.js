@@ -22,12 +22,12 @@ const BudgetProvider = (props) => {
     totalOwedToEric: 0,
   });
   const [spending, setSpending] = useState({
-    // totalsByCategory: totalsByCategory,
-    // expensesByCategoryAndMonth: expensesByCategoryAndMonth,
-    // totalsByCategoryAndMonth: totalsByCategoryAndMonth,
-    totalsByCategory: {},
-    expensesByCategoryAndMonth: [],
-    totalsByCategoryAndMonth: {},
+    totalsByCategory: totalsByCategory,
+    expensesByCategoryAndMonth: expensesByCategoryAndMonth,
+    totalsByCategoryAndMonth: totalsByCategoryAndMonth,
+    // totalsByCategory: {},
+    // expensesByCategoryAndMonth: [],
+    // totalsByCategoryAndMonth: {},
     id: null,
     timestamp: null,
   });

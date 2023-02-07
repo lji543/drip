@@ -83,217 +83,708 @@ export const expensesByCategoryAndMonth = [
   // JANUARY
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '1/1/23',
+          amount: 74,
+          id: 'andrewdfasdf',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '1/1/23',
+          amount: 74,
+          id: 'adf235',
+        },
+        {
+          details: 'bp',
+          date: '1/15/23',
+          amount: 55,
+          id: 'a235',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '1/1/23',
+          amount: 150,
+          id: 'a6335',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '1/1/23',
+          amount: 10,
+          id: 's3d3ericd4f',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '1/1/23',
+          amount: 1800,
+          id: '262565',
+        },
+      ],
     },
   },
   // FEBRUARY
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: '245fgsh',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: '3568',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: '2345ads',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: '23546sdfgbsfdgsdfg',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 'q345adfvqw4radsvc',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: '3245tadfvaerg',
+        },
+      ],
     },
   },
   // MARCH
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: '34tadsf',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 120,
+          id: '2546sfdfzv',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 120,
+          id: 'q345advaef',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 'cadq4w',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 'd2345sdfb',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 'eq34w5dvc',
+        },
+      ],
     },
   },
   // APRIL
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 'f4235asdf',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: 'g34sd',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 'ha34tewf',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 'i3zdbf',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 'j',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 'k',
+        },
+      ],
     },
   },
   // MAY
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 'l',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: 'msrt',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 'nq34t6a',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 'oadcv',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 'pfbadfrce',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 'q45bdfgs',
+        },
+      ],
     },
   },
   // JUNE
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 'r4rewrewrere',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: 's',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 't',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 'u',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 'v',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 'w',
+        },
+      ],
     },
   },
   // JULY
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 'x',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: 'y',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 'z',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 'zz',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 'zzz',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 'aaa',
+        },
+      ],
     },
   },
   // AUGUST
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 'asfasdasdaas',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: 'zzzzzz',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 'adf2zzzz35',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 'potyuiyui',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: '435623456346436',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 's3d3d4f',
+        },
+      ],
     },
   },
   // SEPTEMBER
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 's3d35td4f',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: 's3d973d4f',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 's3d363465433d4f',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 's3d34ndfgh3d4f',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 's3d36798fgsad4f',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 's39k32sd3d4f',
+        },
+      ],
     },
   },
   // OCTOBER
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 's3d3d4fzzzzz',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: 'zasxsas3d3d4f',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 's3d3d4fsa22321341',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 's3d3dzzaaassxx4f',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 's3d3dggghhy4f',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 'ajqahqahqhh',
+        },
+      ],
     },
   },
   // NOVEMBER
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: 's3d3d4f99o9o9',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 's3d3d4fzalau',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 'laura',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 'njiokm',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 'hkjl09584585555555',
+        },
+      ],
     },
   },
   // DECEMBER
   {
     autoIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 74,
+          id: '111111',
+        },
+      ],
     },
     gas: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'shell',
+          date: '2/1/23',
+          amount: 63,
+          id: '222222',
+        },
+        {
+          details: 'bp',
+          date: '2/22/23',
+          amount: 87,
+          id: 's3d3d4333333f',
+        },
+      ],
     },
     homeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 150,
+          id: 's3d3d4f44444',
+        },
+      ],
     },
     lifeIns: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'progressive',
+          date: '2/1/23',
+          amount: 10,
+          id: 's3d555553d4f',
+        },
+      ],
     },
     mortgage: {
-      expenses: [],
+      expenses: [
+        {
+          details: 'UWM, HOA/Republic',
+          date: '2/1/23',
+          amount: 1800,
+          id: 's3d3d4777743f',
+        },
+      ],
     },
   },
 ]

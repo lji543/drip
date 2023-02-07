@@ -30,6 +30,15 @@ const columns = [
     // width: 224,
   },
   {
+    field: 'details',
+    headerName: 'Details',
+    headerClassName: 'dataGrid-column-header',
+    editable: true,
+    cellClassName: 'dataGrid-cell',
+    flex: 2,
+    // width: 224,
+  },
+  {
     field: 'amount',
     type: 'number',
     headerName: 'Amount',

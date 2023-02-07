@@ -10,7 +10,7 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
   const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 
-  // console.log('NewItemForm ',props)
+  console.log('NewItemForm ',props)
 
   const handleFieldChange = (event) => {
     const { id, value } = event.target;
@@ -23,8 +23,9 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
 
   const handleExpenseUpdate = (action) => {
     if (action !== 'cancel') {
-      const { amount, date, details} = newItem;
-      if (!amount || !date || !details) {
+      const { amount, date, details, name } = newItem;
+      if (!amount || !date || !name) {
+      // if (!amount || !date || !details) {
         setNewItem(itemObj);
         setStatusMessage(statusMessages.form.requiredError);
       } else {
@@ -65,8 +66,16 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
         <TextField
           required
           size="small"
-          id="details"
+          id="name"
           label="Description"
+          onChange={handleFieldChange}
+          className='right-spacing-12'
+          value={newItem.name}
+        />
+        <TextField
+          size="small"
+          id="details"
+          label="Details"
           onChange={handleFieldChange}
           className='right-spacing-12'
           value={newItem.details}

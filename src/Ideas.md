@@ -1,5 +1,8 @@
 IDEAS:
 
+-add/edit categories
+-make default date today for form fields
+
 -connect owed expenses to venmo somehow
 -ability to add owed expenses to expense list
 -ability to check/uncheck owed expenses to mark as completed (but still have record)

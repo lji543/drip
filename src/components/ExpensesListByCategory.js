@@ -10,7 +10,10 @@ import Tabs from './utilComponents/Tabs';
 import { categories, months, statusMessages } from '../utils/ericConstants';
 import useExpenses from '../state/useExpenses';
 
-const ExpenseList = ({ category, handleCategoryChange }) => { // Month tabs, with categories as parent
+ ///// Month tabs, with categories as parent /////
+ ///// Child of ExpenseListByCategory /////
+ ///// TabContent/Children of ExpenseList is ListedExpenses /////
+const ExpenseList = ({ category, handleCategoryChange }) => {
   // console.log('ExpenseList ', category)
   const expenseListRef = useRef(null);
   const { expensesByCategoryAndMonth, statusState, totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
@@ -136,6 +139,9 @@ const ExpensesListByCategory = () => { // Category tabs, with months as child
 
   const organizeTabContent = () => {
     let tabContent = [];
+    // console.log('organizeTabContent ',tabContent)
+    // console.log('organizeTabContent ',categories)
+    // console.log('organizeTabContent ',totalsByCategory)
     categories.forEach((cat, i) => {
       tabContent.push({
         label: `${totalsByCategory[cat].name}`,

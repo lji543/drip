@@ -128,6 +128,15 @@ const ListedExpenses = ({ category, expenses, month}) => {
       // width: 224,
     },
     {
+      field: 'details',
+      headerName: 'Details',
+      headerClassName: 'dataGrid-column-header',
+      editable: true,
+      cellClassName: 'dataGrid-cell',
+      flex: 3,
+      // width: 224,
+    },
+    {
       field: 'amount',
       type: 'number',
       headerName: 'Amount',

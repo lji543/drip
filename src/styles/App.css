@@ -30,6 +30,7 @@
 }
 .page-wrapper {
   margin: 24px;
+  width: 100%;
   /* background-color: #e6e6e6; */
 }
 .page-heading {
@@ -42,6 +43,12 @@
 /* //////////// */
 /*/ NAVIGATION /*/
 /* //////////// */
+/* .navigation { */
+  /* width: 100%; */
+/* } */
+.navigation-appBar {
+  width: 100% !important; /* TODO: figure out how to get the scroll buttons maybe? */
+}
 .navigation .MuiPaper-root {
   background-color: var(--darkBlue);
 }

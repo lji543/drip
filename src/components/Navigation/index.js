@@ -7,10 +7,10 @@ function Navigation({ handlePageChange, page }) {
 		<div className='navigation'>
 			<AppBar position='static'>
 				<Tabs className='navigation-tabs' value={page} onChange={handlePageChange}>
-					<Tab className='navigation-links' label='Summary' />
-					<Tab className='navigation-links' label='Monthly' />
-					<Tab className='navigation-links' label='Categorically' />
-					<Tab className='navigation-links' label='Tracker' />
+					<Tab key={'summary'} className='navigation-links' label='Summary' />
+					<Tab key={'monthly'} className='navigation-links' label='Monthly' />
+					<Tab key={'categorically'} className='navigation-links' label='Categorically' />
+					<Tab key={'tracker'} className='navigation-links' label='Tracker' />
 				</Tabs>
 			</AppBar>
 		</div>

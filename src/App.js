@@ -24,7 +24,6 @@ function App() {
 	};
 
   useEffect(() => {
-    // console.log('useEffect App')
     getDate(); // TODO: change this to something that runs all the basic util functions needed?
     getOwedItems();
     getTotalsByCategoryAndMonth();

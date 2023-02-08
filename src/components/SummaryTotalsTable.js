@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 import { months } from '../utils/ericConstants';
 import useExpenses from '../state/useExpenses';
@@ -22,14 +22,15 @@ const columns = [
     minWidth: 124,
     // maxWidth: 75,
   },
-  // {
-  //   field: 'details',
-  //   headerName: '',
-  //   headerClassName: 'dataGrid-column-header',
-  //   cellClassName: 'dataGrid-cell',
-  //   flex: 1,
-  //   // maxWidth: 75,
-  // },
+  {
+    field: 'details',
+    headerName: '',
+    headerClassName: 'dataGrid-column-header',
+    cellClassName: 'dataGrid-cell',
+    flex: 1,
+    minWidth: 156,
+    // maxWidth: 75,
+  },
   {
     field: 'Jan',
     headerName: 'Jan',
@@ -114,34 +115,6 @@ const columns = [
     cellClassName: 'dataGrid-cell',
     maxWidth: 68,
   },
-  // {
-  //   field: 'total',
-  //   headerName: 'Total',
-  //   headerAlign: 'right',
-  //   headerClassName: 'dataGrid-column-header',
-  //   cellClassName: 'dataGrid-cell right-align',
-  //   maxWidth: 80,
-  //   // type: 'number',
-  // },
-  // {
-  //   field: 'average',
-  //   headerName: 'Average',
-  //   headerAlign: 'right',
-  //   headerClassName: 'dataGrid-column-header',
-  //   cellClassName: 'dataGrid-cell right-align',
-  //   maxWidth: 80,
-  //   // type: 'number',
-  // },
-];
-const detailsColumn = {
-  field: 'details',
-  headerName: '',
-  headerClassName: 'dataGrid-column-header',
-  cellClassName: 'dataGrid-cell',
-  flex: 1,
-  // maxWidth: 75,
-}
-const totalAvgColumns = [
   {
     field: 'total',
     headerName: 'Total',
@@ -158,15 +131,13 @@ const totalAvgColumns = [
     headerClassName: 'dataGrid-column-header',
     cellClassName: 'dataGrid-cell right-align',
     maxWidth: 80,
-      // type: 'number',
-  }
-]
+    // type: 'number',
+  },
+];
 
 const SummaryTotalsTable = () => {
-  const pageRef = useRef();
   const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
 
-  const [pageColumns, setPageColumns] = useState(columns);
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
 
@@ -208,23 +179,6 @@ const SummaryTotalsTable = () => {
     setRows(updatedRows);
   }
 
-  const getDataGridContainerSize = () => {
-    const clientWidth = pageRef.current?.clientWidth;
-
-    if (clientWidth < 800) {
-      setPageColumns(columns);
-    } else if (pageColumns.length === 13) {
-      let newColumns = [...pageColumns];
-
-      if (clientWidth >= 1200) {
-        newColumns.splice(1, 0, detailsColumn);
-      }
-
-      newColumns = newColumns.concat(totalAvgColumns);
-      setPageColumns(newColumns);
-    }
-  };
-
   const processRowUpdate = (newRow) => {
     const updatedRow = {
       ...newRow,
@@ -244,27 +198,19 @@ const SummaryTotalsTable = () => {
   }, []);
 
   useEffect(() => {
-    // if (totalsByCategory.length === 0 || totalsByCategoryAndMonth.length === 0) {
-
-    // } else {
-    if (pageRef.current?.clientWidth >= 800) {
-      getDataGridContainerSize();
-    }  
     getRows();
-    // }
   // eslint-disable-next-line
   }, [totalsByCategory]); // react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    window.addEventListener("resize", getDataGridContainerSize);
-  }, []);
-
   return (
-    <div ref={pageRef} className='dataGrid-table-container'>
+    <div className='dataGrid-table-container'>
       {rows.length > 0 ? (
         <DataGrid
           autoHeight
-          columns={pageColumns}
+          columns={columns}
+          components={{
+            Toolbar: GridToolbar,
+          }}
           disableColumnMenu
           editMode="row"
           getRowClassName={(params) => {
@@ -273,18 +219,22 @@ const SummaryTotalsTable = () => {
             }
             return params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd';
           }}
-          getColumnWidth={(params) => {
-            console.log('params ',params)
-            // if (params.id === 'totalsRow') {
-            //   return 48;
-            // }
-          }}
           getRowHeight={(params) => {
             if (params.id === 'totalsRow') {
               return 48;
             }
           }}
           hideFooter
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+                // Hide columns
+                average: false,
+                details: false,
+                total: false,
+              },
+            },
+          }}
           onProcessRowUpdateError={handleProcessRowUpdateError}
           onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
           processRowUpdate={processRowUpdate}

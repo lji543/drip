@@ -28,3 +28,4 @@ Q's:
 -what are the 3-5 things you want to see at 'first glance'? Could make some kind of quick access dashboard
   -pending owed items count / sum
   -current Month total
+-would you care to export the data for any reason?

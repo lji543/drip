@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton
+} from '@mui/x-data-grid';
 
 import { months } from '../utils/ericConstants';
 import useExpenses from '../state/useExpenses';
@@ -11,6 +19,26 @@ const styleProps = {
   border: 'none',
   width: '100%',
 };
+
+function CustomToolbar(isMobile) {
+  if (isMobile) {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+      </GridToolbarContainer>
+    );
+  }
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
 
 const columns = [
   {
@@ -136,8 +164,10 @@ const columns = [
 ];
 
 const SummaryTotalsTable = () => {
+  const pageRef = useRef();
   const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
 
+  const [isMobile, setIsMobile] = useState(false);
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
 
@@ -179,6 +209,14 @@ const SummaryTotalsTable = () => {
     setRows(updatedRows);
   }
 
+  const getDataGridContainerSize = () => {
+    const clientWidth = pageRef.current?.clientWidth;
+
+    if (clientWidth < 784) {
+      setIsMobile(true);
+    }
+  };
+
   const processRowUpdate = (newRow) => {
     const updatedRow = {
       ...newRow,
@@ -198,18 +236,19 @@ const SummaryTotalsTable = () => {
   }, []);
 
   useEffect(() => {
+    getDataGridContainerSize(); // TODO: should we also set this up to fire when screen sizes change?
     getRows();
   // eslint-disable-next-line
   }, [totalsByCategory]); // react-hooks/exhaustive-deps
 
   return (
-    <div className='dataGrid-table-container'>
+    <div ref={pageRef} className='dataGrid-table-container'>
       {rows.length > 0 ? (
         <DataGrid
           autoHeight
           columns={columns}
           components={{
-            Toolbar: GridToolbar,
+            Toolbar: () => CustomToolbar(isMobile),
           }}
           disableColumnMenu
           editMode="row"

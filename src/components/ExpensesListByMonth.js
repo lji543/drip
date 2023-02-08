@@ -119,7 +119,7 @@ const ExpensesListByMonth = () => {
 
   return ( 
     <div ref={expenseListRef}>
-      {smallScreen &&
+      {/* {smallScreen &&
         <div className='small-screen'>
           <FormControl
             sx={{ m: 1, minWidth: 120 }}
@@ -135,7 +135,7 @@ const ExpensesListByMonth = () => {
             </Select>
           </FormControl>
         </div>
-      }
+      } */}
       <Tabs currentTab={currentMonth} tabContent={tabContent} />
       <Snackbar
         open={snackbarOpen}

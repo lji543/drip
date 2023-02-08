@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Button, MenuItem, Select, TextField } from '@mui/material';
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 
 import { baseItemSchema, categories, statusMessages } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
@@ -70,7 +70,7 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
           type="date"
           onChange={handleFieldChange}
           value={newItem.date}
-          className='right-spacing-12'
+          className='top-margin-8 right-margin-12'
         />
         <TextField
           required
@@ -78,8 +78,16 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
           id="name"
           label="Description"
           onChange={handleFieldChange}
-          className='right-spacing-12'
+          className='top-margin-8 right-margin-12'
           value={newItem.name}
+        />
+        <TextField
+          size="small"
+          id="details"
+          label="Details"
+          onChange={handleFieldChange}
+          value={newItem.details}
+          className='top-margin-8 right-margin-12'
         />
         <TextField
           required
@@ -87,7 +95,7 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
           id="owedToBy"
           label={owedCategory === 'owedByEric' ? 'Who I Owe' : 'Who Owes Me'}
           onChange={handleFieldChange}
-          className='right-spacing-12'
+          className='top-margin-8 right-margin-12'
           value={newItem.owedToBy}
         />
         <TextField
@@ -97,34 +105,38 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
           label="Amount"
           type="number"
           onChange={handleFieldChange}
-          className='right-spacing-12'
+          className='top-margin-8 right-margin-12'
           value={newItem.amount}
         />
+        <FormControl>
+        <InputLabel id="demo-simple-select-label">Category*</InputLabel>
         <Select  sx={{ m: 1, minWidth: 120 }}
           required
           size="small"
           id="category"
-          // label="Category"
+          label="Category"
           defaultValue={totalsByCategory.other.name}
           name="category"
           onChange={handleFieldChange}
           value={newItem.category}
         >
+          <MenuItem key={'none'} value="">None</MenuItem>
           {categories.map((cat) => <MenuItem key={cat} value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
         </Select>
+          </FormControl>
       </div>
       {<div className='form-error'>
         {statusMessage}
       </div>}
       <div className='actions-row'>
         <Button
-          className='button-outlined right-spacing-12'
+          className='button-outlined right-margin-12'
           onClick={() => handleItemUpdate('close')}
         >
           Save and Close
         </Button>
         <Button
-          className='button-outlined right-spacing-12'
+          className='button-outlined right-margin-12'
           onClick={() => handleItemUpdate()}
         >
           Save and Add Another

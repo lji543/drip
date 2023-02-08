@@ -6,6 +6,8 @@ IDEAS:
 -connect owed expenses to venmo somehow
 -ability to add owed expenses to expense list
 -ability to check/uncheck owed expenses to mark as completed (but still have record)
+-add 'scroll to top'/'scroll to bottom' for long pages
+  -https://stackabuse.com/how-to-scroll-to-top-in-react-with-a-button-component/
 -make addexpense for the tracking page a modal
 -show/hide paid items on owed page
 -on addItem form, add option to mark as expense and add it to epense list

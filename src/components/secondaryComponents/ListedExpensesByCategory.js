@@ -235,7 +235,7 @@ const ListedExpensesByCategory = ({ category, expenses, month}) => {
             experimentalFeatures={{ newEditingApi: true }}
           />
         ) : (
-          <div className='title-text-color'>
+          <div className='color-title-text'>
             {`There are no expenses for ${categoryName} in ${months[month]}`}
           </div>
         )}

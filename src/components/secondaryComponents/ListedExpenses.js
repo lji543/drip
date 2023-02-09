@@ -232,7 +232,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
           experimentalFeatures={{ newEditingApi: true }}
         />
       ) : (
-        <div className='title-text-color'>
+        <div className='color-title-text'>
           {`There are no expenses for ${categoryName} in ${convertToString(months[month])}`}
         </div>
       )}

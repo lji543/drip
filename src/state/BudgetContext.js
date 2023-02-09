@@ -9,7 +9,7 @@ const BudgetContext = React.createContext([{}, () => {}]);
 const BudgetProvider = (props) => {
   const [authenticatedUser, setAuthenticatedUser] = useState({
     email: null,
-    name: null,
+    // name: null,
   });
   const [owedItems, setOwedItems] = useState({
     // owedByEric: trackedExpenses.owedByEric,

@@ -284,7 +284,7 @@ const SummaryTotalsTable = () => {
           experimentalFeatures={{ newEditingApi: true }}
         />
       ) : (
-        <div className='title-text-color bottom-padding-48 top-padding-12'>
+        <div className='color-title-text bottom-padding-48 top-padding-12'>
           {`Oh no! Error loading the data. Laura is sorry. But maybe a refresh will fix it?`}
         </div>
       )}

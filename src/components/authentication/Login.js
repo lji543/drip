@@ -6,20 +6,12 @@ import tealBlackName from '../../styles/assets/tealBlackName.png';
 import tealBlackTagline from '../../styles/assets/tealBlackTagline.png';
 import useAuth from '../../state/useAuth';
 
-// const ResetPassword = ({ email , setEmail, sendPasswordReset }) => {
-//   return (
-
-//   );
-// }
-
-function Login({ handlePageChange, page }) {
+const Login = () => {
   const { logInWithEmailAndPassword, sendPasswordReset } = useAuth();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  // const [user, loading, error] = useAuthState(auth);
-  // const navigate = useNavigate();
+  const [password, setPassword] = useState('');
 
 	return (
 		<div className="login">

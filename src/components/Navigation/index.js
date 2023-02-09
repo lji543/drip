@@ -17,6 +17,7 @@ function Navigation({ handlePageChange, page }) {
 					<Tab key={'monthly'} className='navigation-links' label='Monthly' />
 					<Tab key={'categorically'} className='navigation-links' label='Categorically' />
 					<Tab key={'tracker'} className='navigation-links' label='Tracker' />
+					<Tab key={'logout'} className='navigation-links' label='-Logout-' />
 				</Tabs>
 			</AppBar>
 		</div>

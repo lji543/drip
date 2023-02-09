@@ -219,7 +219,7 @@ const ExpensesGrid = ({
           experimentalFeatures={{ newEditingApi: true }}
         />
       ) : (
-        <div className='title-text-color'>{emptyTableMessage}</div>
+        <div className='color-title-text'>{emptyTableMessage}</div>
       )}
       <div className='dataGrid-total-row'>
         <div className='dataGrid-totalTxt'>{tableTotals.title}</div>

@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { onAuthStateChanged } from "firebase/auth";
 import { 
   GoogleAuthProvider,
   getAuth,
@@ -19,10 +20,25 @@ const useAuth = () => {
   const [authenticatedUser, setAuthenticatedUser] = authenticatedUserBudgetContext;
 
   const getAuthenticatedUser = () => {
-    if (!authenticatedUser) {
-      console.log('getAuthenticatedUser auth ',authenticatedUser)
+    if (!authenticatedUser.refreshToken) {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // console.log('getAuthenticatedUser ',user)
+          // console.log('getAuthenticatedUser -logged in')
+          setAuthenticatedUser({
+            email: user.email,
+            checkedLogin: true, // using for loading state (TODO: use router instead?)
+            refreshToken: user.sTsTokenManager?.refreshToken,
+          });
+        } else {
+          // User is signed out, will go to login page
+          // console.log('getAuthenticatedUser - not signed in')
+          setAuthenticatedUser({
+            checkedLogin: true,
+          });
+        }
+      })
     }
-    // setAuthenticatedUser();
   }
 
   const logInWithEmailAndPassword = async (email, password) => {
@@ -31,7 +47,10 @@ const useAuth = () => {
         .then((data) => {
           // console.log('logInWithEmailAndPassword .then ',auth, email, password)
           // console.log('logInWithEmailAndPassword .then ',data)
-          setAuthenticatedUser(data.user);
+          setAuthenticatedUser({
+            email: data.user.email,
+            refreshToken: data._tokenResponse.refreshToken
+          });
         });
     } catch (err) {
       console.error(err);
@@ -41,6 +60,11 @@ const useAuth = () => {
 
   const logout = () => {
     signOut(auth);
+    setAuthenticatedUser({
+      email: '',
+      checkedLogin: false, // using for loading state (TODO: use router instead?)
+      refreshToken: '',
+    });
   };
 
   const registerWithEmailAndPassword = async (name, email, password) => {

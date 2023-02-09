@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
+// import { startFirebaseUI } from './utils/firebase.config.js'
+
 import ExpensesListByMonth from './components/ExpensesListByMonth';
 import ExpensesListByCategoryAndMonth from './components/ExpensesListByCategoryAndMonth';
+import Login from "./components/authentication/Login";
 import Navigation from './components/navigation';
 import PageWrapper from './components/navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
 import Tracker from './components/Tracker';
 
+import useAuth from './state/useAuth';
 import useExpenses from './state/useExpenses';
 import useItems from './state/useItems';
 import useUtility from './state/useUtility';
@@ -14,6 +18,7 @@ import useUtility from './state/useUtility';
 import './styles/App.css';
 
 function App() {
+  const { authenticatedUser, getAuthenticatedUser } = useAuth();
   const { getTotalsByCategoryAndMonth } = useExpenses();
   const { getDate } = useUtility();
   const { getOwedItems } = useItems();
@@ -24,27 +29,38 @@ function App() {
 	};
 
   useEffect(() => {
+    getAuthenticatedUser();
+  // eslint-disable-next-line
+  }, [authenticatedUser]); // react-hooks/exhaustive-deps
+
+  useEffect(() => {
     getDate(); // TODO: change this to something that runs all the basic util functions needed?
     getOwedItems();
     getTotalsByCategoryAndMonth();
   // eslint-disable-next-line
-  }, []); // react-hooks/exhaustive-deps
+  }, [authenticatedUser]); // react-hooks/exhaustive-deps
 
   return (
     <div className="App">
-      <Navigation handlePageChange={handlePageChange} page={page} />
-      <PageWrapper value={page} index={0}>
-        <SummaryTotalsTable />
-      </PageWrapper>
-      <PageWrapper value={page} index={1}>
-        <ExpensesListByMonth />
-      </PageWrapper>
-      <PageWrapper value={page} index={2}>
-        <ExpensesListByCategoryAndMonth />
-      </PageWrapper>
-      <PageWrapper value={page} index={3}>
-        <Tracker />
-      </PageWrapper>
+      {authenticatedUser?.email ? (
+        <div>
+          <Navigation handlePageChange={handlePageChange} page={page} />
+          <PageWrapper value={page} index={0}>
+            <SummaryTotalsTable />
+          </PageWrapper>
+          <PageWrapper value={page} index={1}>
+            <ExpensesListByMonth />
+          </PageWrapper>
+          <PageWrapper value={page} index={2}>
+            <ExpensesListByCategoryAndMonth />
+          </PageWrapper>
+          <PageWrapper value={page} index={3}>
+            <Tracker />
+          </PageWrapper>
+        </div>
+      ) : (
+        <Login />
+      )}
     </div>
   );
 }

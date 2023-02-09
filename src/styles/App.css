@@ -13,12 +13,14 @@
   /* --lightTeal: #baf0e6; */
   --lightTeal: #b2dfdb;
   --teal: #81e4c4;
+  --logoTeal: #8bedd8;
   --lightGray: #cfd8dc;
   --gray: #90a4ae;
   --lightGrayBlue: #b2dfdb;
   --darkGray: #607d8b; /* TODO: too dark (used for hover on tables) */
   --green: #06c96c;
 
+  --black: #111111;
   --red: rgba(255, 0, 0, 0.693);
 }
 
@@ -26,6 +28,7 @@
 .App {
   background-color: #e6e6e678;
   height: 100vh;
+  height: 100vw; /* TODO: */
   text-align: center;
 }
 .page-wrapper {
@@ -57,6 +60,20 @@
 }
 .navigation-tabs .MuiTabs-indicator {
   background-color: var(--green) !important;
+}
+
+
+/* //////////// */
+/*/ COMPONENTS /*/
+/* //////////// */
+.login {
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 
@@ -237,6 +254,19 @@
 .button {
   color: var(--veryDarkBlue) !important;
 }
+.button-main {
+  background-color: var(--logoTeal) !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  padding: 12px 20px !important;
+  width: 100%;
+}
+.button-main-small {
+  background-color: var(--logoTeal) !important;
+  border-radius: 4px !important;
+  /* font-weight: 600 !important; */
+  /* padding: 8px 16px !important; */
+}
 .button-disabled {
   color: var(--gray) !important;
 }
@@ -255,41 +285,6 @@
 .divider {
   margin-bottom: 24px;
   padding-top: 24px;
-}
-
-/*/ Spacing /*/
-/* .bottom-margin-12 {
-  margin-bottom: 12px !important;
-} */
-.bottom-margin-48 {
-  margin-bottom: 48px !important;
-}
-.bottom-padding-48 {
-  padding-bottom: 48px !important;
-}
-.right-margin-12 {
-  margin-right: 12px !important;
-}
-.top-margin-8 {
-  margin-top: 8px !important;
-}
-.top-margin-12 {
-  margin-top: 12px !important;
-}
-.top-padding-12 {
-  padding-top: 12px !important;
-}
-.top-margin-24 {
-  margin-top: 24px !important;
-}
-
-/*/ Utility /*/
-.title-text-color {
-  color: var(--veryDarkBlue);
-}
-
-.right-align {
-  justify-content: end !important;
 }
 
 .form {
@@ -320,6 +315,61 @@
   justify-content: center;
   padding-top: 40px; 
 }
+
+/*/ Spacing /*/
+/* .bottom-margin-12 {
+  margin-bottom: 12px !important;
+} */
+.bottom-margin-48 {
+  margin-bottom: 48px !important;
+}
+.bottom-padding-48 {
+  padding-bottom: 48px !important;
+}
+.right-margin-12 {
+  margin-right: 12px !important;
+}
+.top-margin-8 {
+  margin-top: 8px !important;
+}
+.top-margin-12 {
+  margin-top: 12px !important;
+}
+.top-padding-12 {
+  padding-top: 12px !important;
+}
+.top-margin-24 {
+  margin-top: 24px !important;
+}
+.top-margin-48 {
+  margin-top: 48px !important;
+}
+
+/*/ Utility /*/
+.image-container {
+  /* align-items: center; */
+  display: flex !important;
+  flex-direction: column;
+  /* justify-content: center; */
+}
+.title-text-color {
+  color: var(--veryDarkBlue);
+}
+
+.right-align {
+  justify-content: end !important;
+}
+
+.flex-column {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.textField-background .MuiInputBase-root {
+  background-color: aliceblue;
+}
+
 
 /* /////// */
 /*/ TABLE /*/

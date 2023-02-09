@@ -7,6 +7,10 @@ import { totalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth,
 const BudgetContext = React.createContext([{}, () => {}]);
 
 const BudgetProvider = (props) => {
+  const [authenticatedUser, setAuthenticatedUser] = useState({
+    email: null,
+    name: null,
+  });
   const [owedItems, setOwedItems] = useState({
     // owedByEric: trackedExpenses.owedByEric,
     // owedToEric: trackedExpenses.owedToEric,
@@ -42,6 +46,7 @@ const BudgetProvider = (props) => {
     <BudgetContext.Provider
       value={{
         // stateBudgetContext: [state, setState],
+        authenticatedUserBudgetContext: [authenticatedUser, setAuthenticatedUser],
         owedItemsBudgetContext: [owedItems, setOwedItems],
         spendingBudgetContext: [spending, setSpending],
         statusBudgetContext: [status, setStatus],

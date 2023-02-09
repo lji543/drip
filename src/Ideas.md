@@ -1,7 +1,24 @@
 IDEAS:
 
+Small Features:
 -add/edit categories
 -make default date today for form fields
+
+Large Features:
+-authentication
+-connect owed items to venmo?
+-initialize and use analytics
+-use react router or something
+-income calculator
+  -taxes
+  -401k, HSA, etc
+  -take-home income compared to expenses
+
+Other:
+-Premium: 
+  -mortgage tracking page
+  -retirement chunck to live off of
+
 
 -connect owed expenses to venmo somehow
 -ability to add owed expenses to expense list

@@ -28,6 +28,9 @@ export const statusMessages = {
     success: 'Your item has been updated.',
     error: 'Your item was not updated. Please try again and report bug to Laura.'
   },
+  login: {
+    passwordError: 'Incorrect Password. Please try again or reset it.'
+  }
   // expenseList: {
   //   noExpenses: 'There are no expenses for '
   // },

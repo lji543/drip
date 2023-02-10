@@ -7,6 +7,7 @@ import ExpensesListByMonth from './components/ExpensesListByMonth';
 import ExpensesListByCategoryAndMonth from './components/ExpensesListByCategoryAndMonth';
 import Login from "./components/authentication/Login";
 import Logout from "./components/authentication/Logout";
+import MortgageCalculator from './components/premium/MortgageCalculator';
 import Navigation from './components/navigation';
 import PageWrapper from './components/navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
@@ -27,7 +28,7 @@ function App() {
   const { getOwedItems } = useItems();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(4);
 
 	const handlePageChange = (e, newPage) => {
 		setPage(newPage);
@@ -88,6 +89,9 @@ function App() {
                 <Tracker />
               </PageWrapper>
               <PageWrapper value={page} index={4}>
+                <MortgageCalculator />
+              </PageWrapper>
+              <PageWrapper value={page} index={5}>
                 <Logout />
               </PageWrapper>
             </div>

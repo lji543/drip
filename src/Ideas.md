@@ -8,7 +8,7 @@ Large Features:
 -authentication
 -connect owed items to venmo?
 -initialize and use analytics
--use react router or something
+-use react router or something?
 -income calculator
   -taxes
   -401k, HSA, etc
@@ -23,7 +23,7 @@ Other:
 -connect owed expenses to venmo somehow
 -ability to add owed expenses to expense list
 -ability to check/uncheck owed expenses to mark as completed (but still have record)
--add 'scroll to top'/'scroll to bottom' for long pages
+-add 'scroll to top'/'scroll to bottom' button for long pages
   -https://stackabuse.com/how-to-scroll-to-top-in-react-with-a-button-component/
 -make addexpense for the tracking page a modal
 -show/hide paid items on owed page
@@ -46,3 +46,9 @@ Q's:
   -pending owed items count / sum
   -current Month total
 -would you care to export the data for any reason?
+
+
+
+
+MORTGAGE:
+-let loan principal be editable

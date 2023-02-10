@@ -10,6 +10,7 @@ import ExpensesListTallyByMonth from './components/ExpensesListTallyByMonth';
 import ExpensesListByCategoryAndMonth from './components/ExpensesListByCategoryAndMonth';
 import Login from "./components/authentication/Login";
 import Logout from "./components/authentication/Logout";
+import MortgageCalculator from './components/premium/MortgageCalculator';
 import Navigation from './components/navigation';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
 import OwedTracker from './components/OwedTracker';

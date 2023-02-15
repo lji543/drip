@@ -11,6 +11,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from '@mui/material';
 import {
@@ -26,15 +27,17 @@ import {
 
 import { convertToFormattedRoundNumber, convertToInt, roundNumberToTwo } from '../../utils/utilFunctions';
 
-const YearPaymentsRows = ({ calculateLoanBalance, monthlyPayment, year }) => {
-  const [open, setOpen] = React.useState(false);
+const YearPaymentsRows = ({ calculateEquity, calculateLoanBalance, calculatePaidPrincipalChange, monthlyPayment, year }) => {
+  const [open, setOpen] = React.useState(true);
   const pmtsPerYearToShow = [1,2,3,4,5,6,7,8,9,10,11,12];
   const summaryPeriods = year * 12;
 
   const prevLoanBalance = calculateLoanBalance(summaryPeriods - 1);
   let currLoanBalance = calculateLoanBalance(summaryPeriods);
   let paidPrincipal = prevLoanBalance - currLoanBalance;
+  let addtlPaidPrincipal = 0;
   const paidInterest = convertToFormattedRoundNumber(monthlyPayment - paidPrincipal);
+  const currentEquity = convertToFormattedRoundNumber(calculateEquity(summaryPeriods, currLoanBalance));
 
   currLoanBalance = convertToFormattedRoundNumber(currLoanBalance);
   paidPrincipal = convertToFormattedRoundNumber(paidPrincipal);
@@ -54,7 +57,9 @@ const YearPaymentsRows = ({ calculateLoanBalance, monthlyPayment, year }) => {
         </TableCell>
         <TableCell>{year}</TableCell>
         <TableCell align="right">{paidPrincipal}</TableCell>
+        <TableCell align="right">{addtlPaidPrincipal}</TableCell>
         <TableCell align="right">{paidInterest}</TableCell>
+        <TableCell align="right">{currentEquity}</TableCell>
         <TableCell align="right">{currLoanBalance}</TableCell>
       </TableRow>
       <TableRow>
@@ -79,17 +84,41 @@ const YearPaymentsRows = ({ calculateLoanBalance, monthlyPayment, year }) => {
                       const prevLB = calculateLoanBalance(periods - 1);
                       let currLB = calculateLoanBalance(periods);
                       let paidPrinc = prevLB - currLB;
+                      let addtlPaidPrinc = 0;
                       const paidInt = convertToFormattedRoundNumber(monthlyPayment - paidPrinc);
+                      const currEqu = convertToFormattedRoundNumber(calculateEquity(periods, currLB));
 
                       currLB = convertToFormattedRoundNumber(currLB);
-                      paidPrinc = convertToFormattedRoundNumber(paidPrinc);                    
+                      paidPrinc = convertToFormattedRoundNumber(paidPrinc);
+
+                      const handlePaidPrincipalChange = (target) => {
+                        let { id, value } = target;
+                        value = convertToInt(value);
+
+                        currLB = calculateLoanBalance(periods, value);
+                        addtlPaidPrinc = value;
+                        return currLB;
+                      }
 
                     return (
                       <TableRow key={periods}>
                         <TableCell component="th" scope="row"></TableCell>
                         <TableCell>{periods}</TableCell>
                         <TableCell align="right">{paidPrinc}</TableCell>
+                        <TableCell align="right">
+                        <TextField
+                          className="textField-small bottom-padding-24"
+                          id="addtlPaidPrinc"
+                          label="Additional"
+                          onChange={(e) => handlePaidPrincipalChange(e.target)}
+                          size="small"
+                          type="number"
+                          // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
+                          value={addtlPaidPrinc}
+                        />
+                        </TableCell>
                         <TableCell align="right">{paidInt}</TableCell>
+                        <TableCell align="right">{currEqu}</TableCell>
                         <TableCell align="right">{currLB}</TableCell>
                       </TableRow>
                     );
@@ -105,7 +134,9 @@ const YearPaymentsRows = ({ calculateLoanBalance, monthlyPayment, year }) => {
 }
 
 const LoanPmtTable = ({
+  calculateEquity,
   calculateLoanBalance,
+  calculatePaidPrincipalChange,
   loanPrincipal,
   loanYears,
   monthlyPayment,
@@ -129,14 +160,18 @@ const LoanPmtTable = ({
             <TableCell></TableCell>
             <TableCell>Year</TableCell>
             <TableCell align="right">Principal Paid</TableCell>
+            <TableCell align="right">Additional Principal Paid</TableCell>
             <TableCell align="right">Interest Paid</TableCell>
+            <TableCell align="right">Current Equity</TableCell>
             <TableCell align="right">Remaining Loan Balance</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {yearsArray.map((year, i) => ( 
             <YearPaymentsRows
+              calculateEquity={calculateEquity}
               calculateLoanBalance={calculateLoanBalance}
+              calculatePaidPrincipalChange={calculatePaidPrincipalChange}
               key={year}
               monthlyPayment={monthlyPayment}
               year={year}

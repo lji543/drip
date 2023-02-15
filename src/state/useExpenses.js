@@ -232,6 +232,23 @@ const useExpenses = () => {
     }
   }
 
+  const _adjustDatabaseExpenses = async (newSpendingState, updateType) => {
+    try {
+      // console.log('doc update with: ',newSpendingState.expensesByCategoryAndMonth[1]);
+      const expenses = doc(db, 'vmY4AP4x60aloImfFhO4rgl5l0k1', 'expenses');
+      // console.log('expenses update: ',spending);
+      console.log('expenses update: ',expenses);
+      await updateDoc(expenses, {
+        ...spending,
+        timestamp: serverTimestamp(),
+      });
+      setStatus({ updateType, result: 'success' });
+    } catch (err) {
+      setStatus({ updateType, result: 'error'});
+      console.log(err);
+    }
+  }
+
   return {
     addNewExpense,
     deleteExpense,

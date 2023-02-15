@@ -317,6 +317,13 @@
   padding-bottom: 24px;
   text-align: left;
 }
+.form-subtitle {
+  color: var(--veryDarkBlue);
+  /* color: var(--darkBlue); */
+  /* font-size: 12px; */
+  padding-bottom: 24px;
+  text-align: left;
+}
 
 .form-row {
   display: flex;
@@ -370,9 +377,18 @@
   display: flex;
   flex-direction: column;
 }
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 
 .textField-background .MuiInputBase-root {
   background-color: aliceblue;
+  max-width: 192px;
+}
+.textField-small .MuiInputBase-root {
+  max-width: 96px;
 }
 
 /*/ Spacing /*/
@@ -385,6 +401,9 @@
 .bottom-padding-12 {
   padding-bottom: 12px !important;
 }
+.bottom-padding-24 {
+  padding-bottom: 24px !important;
+}
 .bottom-padding-48 {
   padding-bottom: 48px !important;
 }
@@ -393,6 +412,15 @@
 }
 .right-margin-12 {
   margin-right: 12px !important;
+}
+.right-margin-24 {
+  margin-right: 24px !important;
+}
+.right-margin-48 {
+  margin-right: 48px !important;
+}
+.right-margin-68 {
+  margin-right: 68px !important;
 }
 .top-margin-8 {
   margin-top: 8px !important;

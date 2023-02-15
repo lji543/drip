@@ -153,6 +153,24 @@ const useItems = () => {
     }
   }
 
+  const _adjustDatabaseItems = async (newOwedItemsState, updateType) => {
+    const uType = `${updateType}owed`;
+
+    try {
+      // console.log('doc update with: ',newOwedItemsState);
+      // console.log('items update: ',owedItems);
+      const owed = doc(db, 'vmY4AP4x60aloImfFhO4rgl5l0k1', 'owedItems');
+      await updateDoc(owed, {
+        ...owedItems,
+        timestamp: serverTimestamp(),
+      });
+      setStatus({ uType, result: 'success' });
+    } catch (err) {
+      setStatus({ uType, result: 'error'});
+      console.log(err);
+    }
+  }
+
   return {
     addNewOwedItem,
     deleteOwedItem,

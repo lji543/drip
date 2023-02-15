@@ -159,7 +159,8 @@ const useExpenses = () => {
   async function getTotalsByCategoryAndMonth() {
     await getDocs(expensesCollectionRef).then((expenses) => {
       const expensesData = expenses.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      // console.log('***Firebase Expenses ', expensesData[0])
+      // console.log('***Firebase Expenses ', expensesData)
+      // console.log('***Firebase Expenses ', expenses)
 
       // if (!expensesData[0]) { // TODO: add some sort of error handling
       //   expensesData = {
@@ -190,6 +191,23 @@ const useExpenses = () => {
       const expenses = doc(db, "expenses", newSpendingState.id);
       await updateDoc(expenses, {
         ...newSpendingState,
+        timestamp: serverTimestamp(),
+      });
+      setStatus({ updateType, result: 'success' });
+    } catch (err) {
+      setStatus({ updateType, result: 'error'});
+      console.log(err);
+    }
+  }
+
+  const _adjustDatabaseExpenses = async (newSpendingState, updateType) => {
+    try {
+      // console.log('doc update with: ',newSpendingState.expensesByCategoryAndMonth[1]);
+      const expenses = doc(db, 'vmY4AP4x60aloImfFhO4rgl5l0k1', 'expenses');
+      // console.log('expenses update: ',spending);
+      console.log('expenses update: ',expenses);
+      await updateDoc(expenses, {
+        ...spending,
         timestamp: serverTimestamp(),
       });
       setStatus({ updateType, result: 'success' });

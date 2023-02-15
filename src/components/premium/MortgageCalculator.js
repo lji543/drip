@@ -122,6 +122,21 @@ const MortgageCalculator = () => {
     setMiscDetails(id, value); // TODO: may have to adj somewhere else to propogate LoanPmtTable
   }
 
+  const calculateTotalNeeded = (total) => {
+    if (total === 'all') {
+      // console.log('calculateTotalNeeded ',downPayment, estimatedClosingCosts)
+      return convertToFormattedRoundNumber(downPayment + estimatedClosingCosts.total);
+    }
+    if (total === 'downpayment') {
+      return convertToFormattedRoundNumber(downPayment - currentDownPayment);
+    }
+  }
+
+  const calculatePaidPrincipalChange = (target) => {
+    let { id, value } = target;
+    value = convertToInt(value);
+  }
+
   useEffect(() => {
     getMortgageDetails();
   // eslint-disable-next-line

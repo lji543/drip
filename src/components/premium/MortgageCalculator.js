@@ -128,7 +128,7 @@ const MortgageCalculator = () => {
       return convertToFormattedRoundNumber(downPayment + estimatedClosingCosts.total);
     }
     if (total === 'downpayment') {
-      return convertToFormattedRoundNumber(downPayment - currentDownPayment);
+      return convertToFormattedRoundNumber(downPayment - currentCashOnHand);
     }
   }
 
@@ -338,7 +338,7 @@ const MortgageCalculator = () => {
         </div>
       </div>
       <div className="flex-row top-margin-24">
-        <LoanPmtTable
+        {/* <LoanPmtTable
           calculateEquity={calculateEquity}
           calculateLoanBalance={calculateLoanBalance}
           calculateMortgageDetails={calculateMortgageDetails}
@@ -347,7 +347,7 @@ const MortgageCalculator = () => {
           loanYears={loanYears}
           monthlyPayment={monthlyPayment}
           pmtsPerYear={pmtsPerYear}
-        />
+        /> */}
       </div>
     </div>
 	);

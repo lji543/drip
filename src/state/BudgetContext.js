@@ -2,7 +2,7 @@
 // or maybe split up useExpenses instead
 import React, { useState } from 'react';
 
-import { totalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth, trackedExpenses } from '../utils/ericConstants';
+import { totalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth } from '../utils/ericConstants';
 
 const BudgetContext = React.createContext([{}, () => {}]);
 
@@ -11,13 +11,23 @@ const BudgetProvider = (props) => {
     email: null,
     // name: null,
   });
+  const [mortgageDetails, setMortgageDetails] = useState({
+    currentCashOnHand: 0,
+    downPayment: 0,
+    downPaymentPct: 0,
+    estimatedClosingCosts: {
+      percent: 0,
+      total: 0,
+    },
+    housingMktGrowthRate: 0,
+    interestRate: 0,
+    loanPrincipal: 0,
+    loanYears: 0,
+    monthlyPayment: 0,
+    pmtsPerYear: 0,
+    presentDayHomeValue: 0,
+  });
   const [owedItems, setOwedItems] = useState({
-    // owedByEric: trackedExpenses.owedByEric,
-    // owedToEric: trackedExpenses.owedToEric,
-    // owedByEricDisabled: trackedExpenses.owedByEricDisabled,
-    // owedToEricDisabled: trackedExpenses.owedToEricDisabled,
-    // totalOwedByEric: trackedExpenses.totalOwedByEric,
-    // totalOwedToEric: trackedExpenses.totalOwedToEric,
     owedByEric: [],
     owedToEric: [],
     owedByEricDisabled: [],
@@ -29,9 +39,6 @@ const BudgetProvider = (props) => {
     totalsByCategory: totalsByCategory,
     expensesByCategoryAndMonth: expensesByCategoryAndMonth,
     totalsByCategoryAndMonth: totalsByCategoryAndMonth,
-    // totalsByCategory: {},
-    // expensesByCategoryAndMonth: [],
-    // totalsByCategoryAndMonth: {},
     id: null,
     timestamp: null,
   });
@@ -45,8 +52,8 @@ const BudgetProvider = (props) => {
   return (
     <BudgetContext.Provider
       value={{
-        // stateBudgetContext: [state, setState],
         authenticatedUserBudgetContext: [authenticatedUser, setAuthenticatedUser],
+        mortgageDetailsBudgetContext: [mortgageDetails, setMortgageDetails],
         owedItemsBudgetContext: [owedItems, setOwedItems],
         spendingBudgetContext: [spending, setSpending],
         statusBudgetContext: [status, setStatus],

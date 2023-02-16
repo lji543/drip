@@ -1,5 +1,7 @@
 export const getVariance = (budget, total) => budget - total;
 
+export const roundNumber = (num) => Math.round(num);
+
 // two decimals
 export const roundNumberToTwo = (num) => Math.round(num * 100) / 100;
 

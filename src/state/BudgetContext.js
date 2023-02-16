@@ -12,13 +12,23 @@ const BudgetProvider = (props) => {
     name: null,
     uid: null,
   });
+  const [mortgageDetails, setMortgageDetails] = useState({
+    currentCashOnHand: 0,
+    downPayment: 0,
+    downPaymentPct: 0,
+    estimatedClosingCosts: {
+      percent: 0,
+      total: 0,
+    },
+    housingMktGrowthRate: 0,
+    interestRate: 0,
+    loanPrincipal: 0,
+    loanYears: 0,
+    monthlyPayment: 0,
+    pmtsPerYear: 0,
+    presentDayHomeValue: 0,
+  });
   const [owedItems, setOwedItems] = useState({
-    // owedByEric: trackedExpenses.owedByEric,
-    // owedToEric: trackedExpenses.owedToEric,
-    // owedByEricDisabled: trackedExpenses.owedByEricDisabled,
-    // owedToEricDisabled: trackedExpenses.owedToEricDisabled,
-    // totalOwedByEric: trackedExpenses.totalOwedByEric,
-    // totalOwedToEric: trackedExpenses.totalOwedToEric,
     owedByEric: [],
     owedToEric: [],
     owedByEricDisabled: [],
@@ -46,8 +56,8 @@ const BudgetProvider = (props) => {
   return (
     <BudgetContext.Provider
       value={{
-        // stateBudgetContext: [state, setState],
         authenticatedUserBudgetContext: [authenticatedUser, setAuthenticatedUser],
+        mortgageDetailsBudgetContext: [mortgageDetails, setMortgageDetails],
         owedItemsBudgetContext: [owedItems, setOwedItems],
         spendingBudgetContext: [spending, setSpending],
         statusBudgetContext: [status, setStatus],

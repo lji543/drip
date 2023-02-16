@@ -19,7 +19,8 @@ const useAuth = () => {
   const { authenticatedUserBudgetContext } = useContext(BudgetContext);
   // const owedItemsCollectionRef = collection(db, 'owedItems');
   const [authenticatedUser, setAuthenticatedUser] = authenticatedUserBudgetContext;
-
+  // console.log('useAuth authenticated user: ', authenticatedUserBudgetContext)
+  // console.log('useAuth authenticated user: ', authenticatedUser)
   const getAuthenticatedUser = () => {
     if (!authenticatedUser.refreshToken) {
       onAuthStateChanged(auth, (user) => {

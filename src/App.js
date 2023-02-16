@@ -19,6 +19,7 @@ import MortgageCalculator from './components/premium/MortgageCalculator';
 import useAuth from './state/useAuth';
 import useExpenses from './state/useExpenses';
 import useItems from './state/useItems';
+import useMortgage from './state/useMortgage';
 import useUtility from './state/useUtility';
 
 import './styles/App.css';
@@ -27,18 +28,16 @@ function App() {
   const { authenticatedUser, getAuthenticatedUser, updateUser } = useAuth();
   const { checkedLogin } = authenticatedUser;
   const { getTotalsByCategoryAndMonth } = useExpenses();
+  const { getMortgageDetails } = useMortgage();
   const { getDate } = useUtility();
   const { getOwedItems } = useItems();
 
   const location = useLocation();
 
-  const [isActive, setIsActive] = useState(location.pathname);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const handleSelectionChange = (newPage) => {
-    setIsActive(newPage);
-  }
-
+	const handlePageChange = (e, newPage) => {
+		setPage(newPage);
+	};
+  
   useEffect(() => {
     // console.log('App - checking for user ',authenticatedUser)
     getAuthenticatedUser();
@@ -54,6 +53,7 @@ function App() {
       getDate(); // TODO: change this to something that runs all the basic util functions needed?
       getOwedItems();
       getTotalsByCategoryAndMonth();
+      // getMortgageDetails();
     }
   // eslint-disable-next-line
   }, [authenticatedUser]); // react-hooks/exhaustive-deps

@@ -12,20 +12,25 @@ const BudgetProvider = (props) => {
     // name: null,
   });
   const [mortgageDetails, setMortgageDetails] = useState({
+    additionalPaid: [], // TODO:
+    loanBalancesByPeriod: [], // TODO:
+    currentAffordableHomeValue: 0,
+    currentCashNeeded: 0,
     currentCashOnHand: 0,
-    downPayment: 0,
-    downPaymentPct: 0,
-    estimatedClosingCosts: {
-      percent: 0,
-      total: 0,
-    },
-    housingMktGrowthRate: 0,
-    interestRate: 0,
-    loanPrincipal: 0,
-    loanYears: 0,
-    monthlyPayment: 0,
-    pmtsPerYear: 0,
-    presentDayHomeValue: 0,
+    downPayment: 70000,
+    downPaymentPct: 20,
+    estimatedClosingCostsTotal: 17500,
+    estimatedClosingCostsPct: 5,
+    housingMktGrowthRate: 4,
+    interestRate: 7,
+    loanPrincipal: 280000,
+    loanYears: 30,
+    monthlyPayment: 1863,
+    pmtsPerYear: 12,
+    presentDayHomeValue: 350000,
+    targetDownPayment: 0,
+    targetDownPaymentPct: 0,
+    targetHomeValue: 0,
   });
   const [owedItems, setOwedItems] = useState({
     owedByEric: [],

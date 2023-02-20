@@ -39,10 +39,14 @@ const MortgageCalculator = () => {
     calculateMortgageDetails,
     getMortgageDetails,
     updateMortgageDetails,
+    setMiscDetails,
+    currentAffordableHomeValue,
+    currentCashNeeded,
     currentCashOnHand,
     downPayment,
     downPaymentPct,
-    estimatedClosingCosts,
+    estimatedClosingCostsPct,
+    estimatedClosingCostsTotal,
     housingMktGrowthRate,
     interestRate,
     loanPrincipal,
@@ -50,82 +54,26 @@ const MortgageCalculator = () => {
     monthlyPayment,
     pmtsPerYear,
     presentDayHomeValue,
+    targetDownPayment,
+    targetDownPaymentPct,
+    targetHomeValue,
   } = useMortgage();
 
-  // const [currentCashOnHand, setCurrentCashOnHand] = useState(124000); ///
-  const [currentPeriod, setCurrentPeriod] = useState(0);
-  // const [downPayment, setDownPayment] = useState(currentCashOnHand);
-  // const [downPaymentPct, setDownPaymentPct] = useState(20);
-  // const [loanPrincipal, setLoanPrincipal] = useState(620000 - downPayment);
-  // const [estimatedClosingCosts, setEstimatedClosingCosts] = useState({
-  //   percent: 5,
-  //   total: (downPayment / (downPaymentPct / 100)) * 0.05,
-  // });
-  // const [housingMktGrowthRate, setHousingMktGrowthRate] = useState(4);
-  // const [interestRate, setInterestRate] = useState(7);
-  const [loanBalance, setLoanBalance] = useState(0);
-  // const [loanYears, setLoanYears] = useState(30);
-  // const [monthlyPayment, setMonthlyPayment] = useState(0);
-  // const [pmtsPerYear, setPmtsPerYear] = useState(12);
-  // const [presentDayHomeValue, setPresentDayHomeValue] = useState(620000);
-  const [targetHomeValue, setTargetHomeValue] = useState(presentDayHomeValue);
-
-  const calculateAffordability = (target) => {
-    let { id, value } = target;
-    value = convertToInt(value);
-    calculateMortgageDetails(id, value);
-    // console.log('id: ',id, 'value: ', value)
-
-    // if (id === 'downPayment') {
-    //   // let targetPct = (value / presentDayHomeValue) * 100;
-    //   let targetHomeValue = value / (downPaymentPct / 100);
-    //   // console.log('targetHomeValue ',targetHomeValue)
-  
-    //   // setDownPaymentPct(convertToInt(targetPct));
-    //   setDownPayment(value);
-    //   setLoanPrincipal(targetHomeValue - value);
-    //   setPresentDayHomeValue(targetHomeValue);
-    // }
-    // if (id === 'targetDownPmtPerc') {
-    //   // let targetDp = (value / 100) * presentDayHomeValue;
-    //   let targetHomeValue = downPayment / (value / 100);
-
-    //   setDownPaymentPct(value);
-    //   setLoanPrincipal(targetHomeValue - downPayment);
-    //   setPresentDayHomeValue(targetHomeValue);
-    // }
-    // if (id === 'targetHomeValue') {
-    //   let targetDP = (downPaymentPct / 100) * value;
-
-    //   setDownPayment(targetDP);
-    //   setTargetHomeValue(value);
-    // }
+  const addClosingCosts = (currentCost) => {
+    return ((estimatedClosingCostsPct / 100) * currentCost) + currentCost;
   }
 
-  const calculateClosingCosts = (target) => {
-    let { id, value } = target;
-    value = convertToInt(value);
-    const { percent, total } = estimatedClosingCosts;
-    calculateMortgageDetails(id, value);
-
-    // if (id === 'ccpercent') {
-    //   setEstimatedClosingCosts({
-    //     percent: value,
-    //     total: convertToInt(presentDayHomeValue * (value / 100)),
-    //   });
-    // }
-    // if (id === 'cctotal') {
-    //   setEstimatedClosingCosts({
-    //     percent: convertToInt((value / presentDayHomeValue) * 100),
-    //     total: value,
-    //   });
-    // }
+  const hvIncludingClosingCosts = (cash) => {
+    const adjCCPct = estimatedClosingCostsPct / 100;
+    const adjDPPct = targetDownPaymentPct / 100;
+    // console.log('includingClosingCosts ', currentCashOnHand / (adjCCPct + adjDPPct))
+    return cash / (adjCCPct + adjDPPct);
   }
 
   const calculateLoanBalance = (p, addtlPmt) => {
     // P * [(1+r)^n - (1+r)^m] / [(1+r)^(n-1)]
     let addtlPaidPrincipal = addtlPmt || 0;
-    let period = p ?? currentPeriod;
+    let period = p // ?? currentPeriod;
     let numberOfPayments = loanYears * pmtsPerYear;
     let adjRate = (interestRate / 100) / 12;
     let nPow = Math.pow((1 + adjRate), numberOfPayments);
@@ -174,51 +122,23 @@ const MortgageCalculator = () => {
     // console.log('handle Change ', presentDayHomeValue)
   }
 
-  const calculateMonthlyPayment = () => {
-    // P * r * (1+r)^n / [(1+r)n-1]
-    let numberOfPayments = loanYears * pmtsPerYear;
-    let adjRate = (interestRate / 100) / 12;
-    // let nPow = Math.pow((1 + adjRate), numberOfPayments);
-    // let nLessOnePow = nPow - 1;
-
-    // const monthlyPmt = loanPrincipal * adjRate * (nPow / nLessOnePow);
-    const monthlyPmt = getMonthlyPayment(adjRate, numberOfPayments, loanPrincipal);
-    // console.log('pmt ',monthlyPmt)
-    // setMonthlyPayment(convertToFormattedRoundNumber(monthlyPmt));
-    // console.log('getMonthlyPayment ',getMonthlyPayment(adjRate, 360, loanPrincipal))
-    // setMonthlyPayment(monthlyPmt);
-    
-    // tally what's been updated and then run calculate?
-    // calculateMortgageDetails('monthlyPayment', monthlyPmt);
-  }
-
-  const calculateTotalNeeded = (total) => {
-    if (total === 'all') {
-      // console.log('calculateTotalNeeded ',downPayment, estimatedClosingCosts)
-      return convertToFormattedRoundNumber(downPayment + estimatedClosingCosts.total);
-    }
-    if (total === 'downpayment') {
-      return convertToFormattedRoundNumber(downPayment - currentCashOnHand);
-    }
-  }
-
-  const calculatePaidPrincipalChange = (target) => {
+  const handleMiscDetailsChange = (target) => {
     let { id, value } = target;
+    // console.log(id, value);
     value = convertToInt(value);
+    
+    setMiscDetails(id, value); // TODO: may have to adj somewhere else to propogate LoanPmtTable
   }
 
   useEffect(() => {
     getMortgageDetails();
-    // calculateOriginalLoanPrincipal();
-    // calculateLoanBalance();
-    calculateEquity(); //
-    calculateMonthlyPayment(); //
   // eslint-disable-next-line
   }, []); // react-hooks/exhaustive-deps
 
 	return (
 		<div className="">
       <div className="flex-row">
+        {/* SUMMARY COLUMNN */}
         <div className='flex-column right-margin-68'>
           <div className='form-title'>Mortgage Summary:</div>
           <List disablePadding>
@@ -246,11 +166,12 @@ const MortgageCalculator = () => {
               <ListItemIcon>
                 <AttachMoneyIcon />
               </ListItemIcon>
-              {/* <ListItemText primary={`$ ${calculateTotalNeeded('all')}`} /> */}
+              <ListItemText primary={`$ ${convertToFormattedRoundNumber(downPayment + estimatedClosingCostsTotal)}`} />
             </ListItem>
           </List>
         </div>
-        <div className='flex-column  right-margin-24'>
+        {/* LOAN INFO COLUMNN */}
+        <div className='flex-column right-margin-24'>
           <div className='form-title'>Loan Details:</div>
           <TextField
             className="textField-background bottom-padding-24"
@@ -309,13 +230,14 @@ const MortgageCalculator = () => {
             value={loanYears}
           />
         </div>
-        <div className='flex-column  right-margin-24'>
+        {/* OTHER ITEMS COLUMNN */}
+        <div className='flex-column right-margin-68'>
           <div className='form-title'>Other Items:</div>
           <TextField
             className="textField-background bottom-padding-24"
             id="housingMktGrowthRate"
             label="Housing Market Est Growth"
-            // onChange={(e) => calculateEquity(e.target)}
+            onChange={(e) => handleMiscDetailsChange(e.target)}
             size="small"
             type="number"
             // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
@@ -323,75 +245,102 @@ const MortgageCalculator = () => {
           />
           <TextField
             className="textField-background bottom-padding-24"
-            id="cctotal"
+            id="estimatedClosingCostsTotal"
             label="Estimated Closing Costs"
-            // onChange={(e) => calculateClosingCosts(e.target)}
+            onChange={(e) => handleMiscDetailsChange(e.target)}
             size="small"
             type="number"
             // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
-            // value={(estimatedClosingCosts.total)}
+            value={convertToInt(estimatedClosingCostsTotal)}
           />
           <TextField
             className="textField-background bottom-padding-24"
-            id="ccpercent"
+            id="estimatedClosingCostsPct"
             label="Estimated Closing Costs %"
-            // onChange={(e) => calculateClosingCosts(e.target)}
+            onChange={(e) => handleMiscDetailsChange(e.target)}
             size="small"
             type="number"
             // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
-            // value={estimatedClosingCosts.percent}
+            value={estimatedClosingCostsPct}
           />
           {/* <div className='form-subtitle'>{`Total Needed: $ ${calculateTotalNeeded('all')}`}</div> */}
         </div>
-        <div className='flex-column'>
-          <div className='form-title'>Current Capability:</div>
+        {/* AFFORDABILITY COLUMNN */}
+        <div className='flex-column right-margin-24'>
+          <div className='form-title'>Review Affordability:</div>
           <TextField
             className="textField-background bottom-padding-24"
             id="currentCashOnHand"
             label="Down Payment (What I have)"
-            // onChange={(e) => calculateAffordability(e.target)}
+            onChange={(e) => handleMiscDetailsChange(e.target)}
             size="small"
             type="number"
             // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
             value={currentCashOnHand}
           />
           <TextField
+            disabled={!currentCashOnHand && !targetHomeValue}
             className="textField-background bottom-padding-24"
-            id="downPaymentPct"
-            label="Down Payment %"
-            // onChange={(e) => calculateAffordability(e.target)}
+            id="targetDownPaymentPct"
+            label="Target Down Payment %"
+            onChange={(e) => handleMiscDetailsChange(e.target)}
             size="small"
             type="number"
             // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
-            value={downPaymentPct}
+            value={targetDownPaymentPct}
           />
-          <div className='form-subtitle'>{`$ ${convertToFormattedRoundNumber(presentDayHomeValue)} Home Value`}</div>
+          <div className='form-subtitle bottom-padding-12'>{`Affordable Home Value: $ ${convertToFormattedRoundNumber(currentAffordableHomeValue)}`}</div>
+
           <Divider className='divider' />
-          <div className='form-title'>Target Capability:</div>
+          
           <TextField
             className="textField-background bottom-padding-24"
             id="targetHomeValue"
             label="Desired Home Value"
-            // onChange={(e) => calculateAffordability(e.target)}
+            onChange={(e) => handleMiscDetailsChange(e.target)}
             size="small"
             type="number"
             // inputProps={{ inputMode: 'numeric', pattern: '[0-9]*'}}
             value={targetHomeValue}
           />
-          <div className='form-subtitle'>{`Down Payment Needed: $ ${convertToFormattedRoundNumber(downPayment)}`}</div>
-          {/* <div className='form-subtitle'>{`Amount I need: $ ${calculateTotalNeeded('downpayment')}`}</div> */}
+          <div className='form-subtitle'>{`Down Payment Needed: $ ${convertToFormattedRoundNumber(targetDownPayment)}`}</div>
+          <div className='form-subtitle'>{`Amount I need: $ ${convertToFormattedRoundNumber(currentCashNeeded)}`}</div>
+        </div>
+        {/* AFFORDABILITY SUMMARY COLUMNN */}
+        <div className='flex-column'>
+          <div className='form-title'>Current Capability:</div>
+          <div className='form-subtitle border'>
+            <div className='bottom-padding-12'>Including Closing Costs:</div>
+            <div>{`Down Payment: $ ${convertToFormattedRoundNumber((targetDownPaymentPct/100) * hvIncludingClosingCosts(currentCashOnHand))}`}</div>
+            <div>{`Closing Costs (${estimatedClosingCostsPct}%): $ ${convertToFormattedRoundNumber((estimatedClosingCostsPct/100) * hvIncludingClosingCosts(currentCashOnHand))}`}</div>
+            {`Home Value:  $ ${convertToFormattedRoundNumber(hvIncludingClosingCosts(currentCashOnHand))}`}
+          </div>
+
+          <Divider className='divider' />
+
+          <div className='form-title'>Target:</div>
+          <div className='form-subtitle border'>
+            <div className='bottom-padding-12'>Including Closing Costs:</div>
+            <div>{`Down Payment: $ ${convertToFormattedRoundNumber(targetDownPayment)}`}</div>
+            <div>
+              {`Closing Costs (${estimatedClosingCostsPct}%): $ ${convertToFormattedRoundNumber((estimatedClosingCostsPct/100) * hvIncludingClosingCosts(targetDownPayment))}`}
+            </div>
+            <br />
+            {`Amount Needed:  $ ${convertToFormattedRoundNumber(targetDownPayment + ((estimatedClosingCostsPct/100) * hvIncludingClosingCosts(targetDownPayment)))}`}
+          </div>
         </div>
       </div>
       <div className="flex-row top-margin-24">
-        {/* <LoanPmtTable
+        <LoanPmtTable
           calculateEquity={calculateEquity}
           calculateLoanBalance={calculateLoanBalance}
-          calculatePaidPrincipalChange={calculatePaidPrincipalChange}
+          calculateMortgageDetails={calculateMortgageDetails}
+          setMiscDetails={setMiscDetails}
           loanPrincipal={loanPrincipal}
           loanYears={loanYears}
           monthlyPayment={monthlyPayment}
           pmtsPerYear={pmtsPerYear}
-        /> */}
+        />
       </div>
     </div>
 	);

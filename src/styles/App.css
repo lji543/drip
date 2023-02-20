@@ -300,6 +300,12 @@
   color: var(--veryDarkBlue) !important;
 }
 
+.border {
+  border: solid 1px var(--lightGray);
+  border-radius: 4px;
+  padding: 12px;
+}
+
 .divider {
   margin-bottom: 24px;
   padding-top: 24px;
@@ -308,6 +314,14 @@
 .form {
   /* padding-top: 56px; */
   padding: 56px 8px 0px 8px
+}
+.form-title-large {
+  color: var(--veryDarkBlue);
+  /* color: var(--darkBlue); */
+  font-size: 18px;
+  font-weight: bold;
+  /* padding-bottom: 24px; */
+  text-align: left;
 }
 .form-title {
   color: var(--veryDarkBlue);
@@ -332,6 +346,10 @@
 .form-error {
   color: var(--red);
   padding-top: 12px;
+}
+
+.text-subtitle {
+  overflow-wrap: break-word;
 }
 
 .linear-progress {
@@ -372,6 +390,13 @@
   justify-content: end !important;
 }
 
+.textAlign-left {
+  text-align: left;
+}
+.textAlign-right {
+  text-align: right;
+}
+
 .flex-column {
   align-items: center;
   display: flex;
@@ -410,6 +435,15 @@
 .right-margin-8 {
   margin-right: 8px !important;
 }
+.left-margin-12 {
+  margin-left: 8px; /* TODO: loanpmt */
+}
+.left-margin-24 {
+  margin-left: 24px;
+}
+.left-margin-48 { /*     */
+  margin-left: 48px;
+}
 .right-margin-12 {
   margin-right: 12px !important;
 }
@@ -428,35 +462,59 @@
 .top-margin-12 {
   margin-top: 12px !important;
 }
-.top-padding-12 {
-  padding-top: 12px !important;
-}
 .top-margin-24 {
   margin-top: 24px !important;
 }
 .top-margin-48 {
   margin-top: 48px !important;
 }
+.top-padding-12 {
+  padding-top: 12px !important;
+}
+
+.minWidth-120 {
+  min-width: 120px;
+}
 
 /* /////// */
 /*/ TABLE /*/
 /* /////// */
-.table-column-header-lg {
-  font-weight: bold !important;
-  font-size: 16px !important;
-}
-.table-column-header {
-  font-weight: bold !important;
-  font-size: 0.75rem !important;
-}
-.table-row-header {
-  font-weight: 500 !important;
-}
-.table-cell {
-  font-size: 0.75rem !important;
+/* .table-container .MuiGrid-root {
+  background-color: #8bafc1 !important;
+} */
+
+.table-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 12px;
 }
 
+.table-gridRowsContainer {
+  background-color: #8bafc1;
+  padding: 12px 12px 0px 12px;
+  margin-bottom: 12px;
+}
+.table-gridCell-xs {
+  min-width: 48px;
+  /* text-align: left; */
+}
+.table-gridCell-sm {
+  min-width: 120px;
+  /* text-align: left; */
+}
+.table-gridCell-med {
+  min-width: 120px;
+  /* text-align: left; */
+}
 
+.table-gridCell-med .MuiInputBase-input.MuiOutlinedInput-input {
+  padding: 4px 14px !important;
+}
+
+.set-width-34 {
+  width: 34px;
+}
 
 /*
 // gray Palette:

@@ -27,7 +27,7 @@
 
 .App {
   background-color: #e6e6e678;
-  height: 100vh;
+  /* height: 100vh; */
   height: 100vw; /* TODO: */
   text-align: center;
 }
@@ -271,7 +271,8 @@
   color: var(--gray) !important;
 }
 .icon-button-disabled:hover {
-  color: var(--veryDarkBlue) !important;
+  color: var(--lightGray) !important;
+  cursor: default;
 }
 .button-outlined {
   border: solid 1px var(--veryDarkBlue) !important;

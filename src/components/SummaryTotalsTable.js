@@ -239,7 +239,7 @@ const SummaryTotalsTable = () => {
     getDataGridContainerSize(); // TODO: should we also set this up to fire when screen sizes change?
     getRows();
   // eslint-disable-next-line
-  }, [totalsByCategory]); // react-hooks/exhaustive-deps
+  }, [totalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
     <div ref={pageRef} className='dataGrid-table-container'>

@@ -15,6 +15,7 @@ import useUtility from '../state/useUtility';
  
 const CategoryTablesList = ({ expenses, month }) => {
   const { totalsByCategoryAndMonth  } = useExpenses();
+  // console.log('totalsByCategoryAndMonth ',totalsByCategoryAndMonth[month]._monthTotal)
   // console.log('expenses ', expenses)
   return (
     <div>

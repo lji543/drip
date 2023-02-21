@@ -16,7 +16,7 @@ import { BudgetContext } from "./BudgetContext";
 
 const useAuth = () => {
   const { authenticatedUserBudgetContext } = useContext(BudgetContext);
-  const owedItemsCollectionRef = collection(db, 'owedItems');
+  // const owedItemsCollectionRef = collection(db, 'owedItems');
   const [authenticatedUser, setAuthenticatedUser] = authenticatedUserBudgetContext;
 
   const getAuthenticatedUser = () => {
@@ -27,6 +27,7 @@ const useAuth = () => {
           // console.log('getAuthenticatedUser -logged in')
           setAuthenticatedUser({
             email: user.email,
+            uid: user.uid,
             checkedLogin: true, // using for loading state (TODO: use router instead?)
             refreshToken: user.sTsTokenManager?.refreshToken,
           });

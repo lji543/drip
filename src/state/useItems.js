@@ -1,14 +1,16 @@
 import { useContext } from 'react';
-import { collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
 
+import useAuth from './useAuth';
 import { db } from '../utils/firebase.config';
 import { BudgetContext } from "./BudgetContext";
 
 const useItems = () => {
   const { owedItemsBudgetContext, statusBudgetContext } = useContext(BudgetContext);
-  const owedItemsCollectionRef = collection(db, 'owedItems');
+  // const owedItemsCollectionRef = collection(db, 'owedItems');
   const [owedItems, setOwedItems] = owedItemsBudgetContext;
   const [status, setStatus] = statusBudgetContext;
+  const { authenticatedUser, getAuthenticatedUser } = useAuth();
 
   function addNewOwedItem(newItem, owedCategory) { // TODO: combine with update fn
     let itemList = [...owedItems[owedCategory]];
@@ -111,22 +113,24 @@ const useItems = () => {
   }
 
   async function getOwedItems() {
-    await getDocs(owedItemsCollectionRef).then((owedItems) => {
-      const owedItemsData = owedItems.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      // console.log('Firebase owedItems ', owedItemsData[0])
+    const owedItemsDocRef = doc(db, authenticatedUser.uid, "owedItems");
 
-        setOwedItems(state => (
-          { 
-            ...state,
-            id: owedItemsData[0].id,
-            owedByEric: owedItemsData[0].owedByEric,
-            owedToEric: owedItemsData[0].owedToEric,
-            owedByEricDisabled: owedItemsData[0].owedByEricDisabled,
-            owedToEricDisabled: owedItemsData[0].owedToEricDisabled,
-            totalOwedByEric: owedItemsData[0].totalOwedByEric,
-            totalOwedToEric: owedItemsData[0].totalOwedToEric,
-          }
-        ));
+    await getDoc(owedItemsDocRef).then((owedItems) => {
+      const owedItemsData = owedItems.data();
+      console.log('OWED ITEMS ',owedItemsData)
+
+      setOwedItems(state => (
+        { 
+          ...state,
+          // id: owedItemsData.id,
+          owedByEric: owedItemsData.owedByEric || [],
+          owedToEric: owedItemsData.owedToEric || [],
+          owedByEricDisabled: owedItemsData.owedByEricDisabled || [],
+          owedToEricDisabled: owedItemsData.owedToEricDisabled || [],
+          totalOwedByEric: owedItemsData.totalOwedByEric || [],
+          totalOwedToEric: owedItemsData.totalOwedToEric || [],
+        }
+      ));
     }).catch((err) => {
       console.log(err);
     })
@@ -134,11 +138,11 @@ const useItems = () => {
   
   const updateOwedItemsInDatabase = async (newOwedItemsState, updateType) => {
     const uType = `${updateType}owed`;
+    const owedItemsDocRef = doc(db, authenticatedUser.uid, "owedItems");
 
     try {
       // console.log('doc update with: ',newOwedItemsState);
-      const owedItems = doc(db, "owedItems", newOwedItemsState.id);
-      await updateDoc(owedItems, {
+      await updateDoc(owedItemsDocRef, {
         ...newOwedItemsState,
         timestamp: serverTimestamp(),
       });

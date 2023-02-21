@@ -74,7 +74,7 @@ owedToColumns.splice(2, 0, { // owed To Eric, from someone else
 
 const Tracker = () => {
   const { addNewOwedItem, owedItems } = useItems();
-  console.log('owed Items ', owedItems)
+  // console.log('owed Items ', owedItems)
   const [isAddingOwedToEricItem, setIsAddingOwedToEricItem] = useState(false);
   const [isAddingOwedByEricItem, setIsAddingOwedByEricItem] = useState(false);
   const [isShowingOwedByDisabled, setIsShowingOwedByDisabled] = useState(false);
@@ -142,12 +142,12 @@ const Tracker = () => {
           />
           <div className='button-container'>
             <Button 
-              className={`button top-margin-24${owedItems.owedByEricDisabled.length === 0 ? ' button-disabled' : ''}`}
-              disabled={owedItems.owedByEricDisabled.length === 0 ? true : false}
+              className={`button top-margin-24${owedItems.owedByEricDisabled?.length === 0 ? ' button-disabled' : ''}`}
+              disabled={owedItems.owedByEricDisabled?.length === 0 ? true : false}
               startIcon={<MoneyOffIcon />}
               onClick={() => setIsShowingOwedByDisabled(!isShowingOwedByDisabled)}
             >
-              {`${isShowingOwedByDisabled && owedItems.owedByEricDisabled.length > 0 ? 'Hide' : 'Show'} Paid Items`}
+              {`${isShowingOwedByDisabled && owedItems.owedByEricDisabled?.length > 0 ? 'Hide' : 'Show'} Paid Items`}
             </Button>
           </div>
           <AddNewItem
@@ -178,11 +178,11 @@ const Tracker = () => {
           <div className='button-container'>
             <Button
               className='button top-margin-24'
-              disabled={owedItems.owedByEricDisabled.length === 0 ? true : false}
+              disabled={owedItems.owedToEricDisabled?.length === 0 ? true : false}
               startIcon={<MoneyOffIcon />}
               onClick={() => setIsShowingOwedToDisabled(!isShowingOwedToDisabled)}
             >
-              {`${isShowingOwedToDisabled ? 'Hide' : 'Show'} Paid Items`}
+              {`${isShowingOwedToDisabled && owedItems.owedToEricDisabled?.length > 0  ? 'Hide' : 'Show'} Paid Items`}
             </Button>
           </div>
           <AddNewItem

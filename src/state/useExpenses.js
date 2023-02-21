@@ -1,14 +1,20 @@
 import { useContext } from 'react';
-import { collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
 
+import useAuth from './useAuth';
 import { db } from '../utils/firebase.config';
 import { BudgetContext } from "./BudgetContext";
-import { categories } from '../utils/ericConstants';
+import { categories, expensesByCategoryAndMonth, totalsByCategory, totalsByCategoryAndMonth } from '../utils/ericConstants';
 import { roundNumberToTwo } from '../utils/utilFunctions';
 
 const useExpenses = () => {
   const { spendingBudgetContext, statusBudgetContext } = useContext(BudgetContext);
-  const expensesCollectionRef = collection(db, 'expenses');
+  const { authenticatedUser, getAuthenticatedUser } = useAuth();
+  // const expensesDocRef = doc(db, authenticatedUser.uid, "expenses");
+  // console.log('useExpenses ', authenticatedUser)
+  // const expensesCollectionRef = collection(db, 'expenses');
+  
+  // const userDocRef = doc(db, 'vmY4AP4x60aloImfFhO4rgl5l0k1', "mortgage");
   const [spending, setSpending] = spendingBudgetContext;
   const [status, setStatus] = statusBudgetContext;
 
@@ -29,7 +35,7 @@ const useExpenses = () => {
 
     // console.log('addNewExpense ', newExpense, category, owedItem);
     // console.log('expensesByCategoryAndMonth ', expensesByCategoryAndMonth);
-    console.log('month ', month);
+    // console.log('month ', month);
     if (!expensesByCategoryAndMonth[month][category]) {
       expensesByCategoryAndMonth[month][category] = { expenses: [] };
       // expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
@@ -45,7 +51,7 @@ const useExpenses = () => {
     expenseList.push(updatedNewExpense);
 
     expensesByCategoryAndMonth[month][category].expenses = expenseList;
-    console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
+    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
     totalByCategoryAndMonth(expensesByCategoryAndMonth, 'add');
   }
 
@@ -93,6 +99,8 @@ const useExpenses = () => {
     const { expensesByCategoryAndMonth, totalsByCategory, totalsByCategoryAndMonth } = spending;
     const expenseList = totalsByCategoryAndMonth;
     const newExpensesByCategoryAndMonth = newMonthCategoryArray || expensesByCategoryAndMonth;
+    // console.log('totalByCategoryAndMonth ',newMonthCategoryArray)
+    // console.log('totalByCategoryAndMonth ',expensesByCategoryAndMonth)
     // console.log('newExpensesByCategoryAndMonth ',newExpensesByCategoryAndMonth)
 
     let yearTotal = 0;
@@ -142,6 +150,9 @@ const useExpenses = () => {
       totalsByCategoryAndMonth: expenseList,
       totalsByCategory: totalsByCategory
     }
+    // console.log('newExpensesByCategoryAndMonth ',newExpensesByCategoryAndMonth)
+    // console.log('expenseList ',expenseList)
+    // console.log('totalsByCategory ',totalsByCategory)
     
     setSpending(newSpendingState);
     
@@ -157,9 +168,13 @@ const useExpenses = () => {
   }
 
   async function getTotalsByCategoryAndMonth() {
-    await getDocs(expensesCollectionRef).then((expenses) => {
-      const expensesData = expenses.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-      // console.log('***Firebase Expenses ', expensesData[0])
+    const expensesDocRef = doc(db, authenticatedUser.uid, "expenses");
+    // await getDocs(expensesDocRef).then((expenses) => {
+    //   const expensesData = expenses.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    await getDoc(expensesDocRef).then((expenses) => {
+      const expensesData = expenses.data();
+
+      // console.log('***Firebase Expenses ', expensesData)
 
       // if (!expensesData[0]) { // TODO: add some sort of error handling
       //   expensesData = {
@@ -168,13 +183,22 @@ const useExpenses = () => {
       //   }
       // } else {
       //   console.log('getTotalsByCategoryAndMonth - not setting ', expensesData[0])
+      // TODO: will have to figure out how to load temp data for new users - or maybe just auto-update with constant data if an empty data obj is returned
+      // const expByCatMo = expensesData.expensesByCategoryAndMonth?.length > 0 ? expensesData.expensesByCategoryAndMonth : expensesByCategoryAndMonth;
+      // const totalsByCat = expensesData.totalsByCategory?.length > 0 ? expensesData.totalsByCategory : totalsByCategory;
+      // const totalsByCatMo = expensesData.totalsByCategoryAndMonth?.length > 0 ? expensesData.totalsByCategoryAndMonth : totalsByCategoryAndMonth;
+      const expByCatMo = expensesData.expensesByCategoryAndMonth;
+      const totalsByCat = expensesData.totalsByCategory;
+      const totalsByCatMo = expensesData.totalsByCategoryAndMonth;
+      // console.log(expensesData.totalsByCategory.length > 0)
+      // console.log(totalsByCategory)
         setSpending(state => (
           { 
             ...state,
-            expensesByCategoryAndMonth: expensesData[0].expensesByCategoryAndMonth,
-            totalsByCategory: expensesData[0].totalsByCategory, // TODO: update this call so we don't have to ref an array index
-            totalsByCategoryAndMonth: expensesData[0].totalsByCategoryAndMonth,
-            id: expensesData[0].id,
+            expensesByCategoryAndMonth: expByCatMo,
+            totalsByCategory: totalsByCat,
+            totalsByCategoryAndMonth: totalsByCatMo,
+            // id: expensesData.id,
           }
         ));
       // }
@@ -185,10 +209,14 @@ const useExpenses = () => {
   }
 
   const updateExpensesInDatabase = async (newSpendingState, updateType) => {
+    // console.log('newSpendingState ',newSpendingState)
     try {
+      const expensesDocRef = doc(db, authenticatedUser.uid, "expenses");
       // console.log('doc update with: ',newSpendingState.expensesByCategoryAndMonth[1]);
-      const expenses = doc(db, "expenses", newSpendingState.id);
-      await updateDoc(expenses, {
+      // const expensesDocRef = doc(db, authenticatedUser.uid, "expenses");
+      // console.log(authenticatedUser.uid)
+      // console.log(expensesDocRef)
+      await updateDoc(expensesDocRef, {
         ...newSpendingState,
         timestamp: serverTimestamp(),
       });

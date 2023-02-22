@@ -187,17 +187,27 @@ const useExpenses = () => {
       // const expByCatMo = expensesData.expensesByCategoryAndMonth?.length > 0 ? expensesData.expensesByCategoryAndMonth : expensesByCategoryAndMonth;
       // const totalsByCat = expensesData.totalsByCategory?.length > 0 ? expensesData.totalsByCategory : totalsByCategory;
       // const totalsByCatMo = expensesData.totalsByCategoryAndMonth?.length > 0 ? expensesData.totalsByCategoryAndMonth : totalsByCategoryAndMonth;
-      const expByCatMo = expensesData.expensesByCategoryAndMonth;
-      const totalsByCat = expensesData.totalsByCategory;
-      const totalsByCatMo = expensesData.totalsByCategoryAndMonth;
+      const expByCatMo = expensesData.expensesByCategoryAndMonth ? expensesData.expensesByCategoryAndMonth : expensesByCategoryAndMonth;
+      const totalsByCat = expensesData.totalsByCategory ? expensesData.totalsByCategory : totalsByCategory;
+      const totalsByCatMo = expensesData.totalsByCategoryAndMonth ? expensesData.totalsByCategoryAndMonth : totalsByCategoryAndMonth;
+
+      // if (expByCatMo.length === 0 || totalsByCat.length === 0 || totalsByCatMo.length === 0) {
+      // if (!expByCatMo || !totalsByCat || !totalsByCatMo) {
+      //   expByCatMo = expensesByCategoryAndMonth;
+      //   totalsByCat = totalsByCategory;
+      //   totalsByCatMo = totalsByCategoryAndMonth;
+      // }
       // console.log(expensesData.totalsByCategory.length > 0)
       // console.log(totalsByCategory)
         setSpending(state => (
           { 
             ...state,
-            expensesByCategoryAndMonth: expByCatMo,
-            totalsByCategory: totalsByCat,
-            totalsByCategoryAndMonth: totalsByCatMo,
+            // expensesByCategoryAndMonth: expByCatMo,
+            // totalsByCategory: totalsByCat,
+            // totalsByCategoryAndMonth: totalsByCatMo,
+            expensesByCategoryAndMonth: expensesData.expensesByCategoryAndMonth || [],
+            totalsByCategory: expensesData.totalsByCategory || [],
+            totalsByCategoryAndMonth: expensesData.totalsByCategoryAndMonth || [],
             // id: expensesData.id,
           }
         ));

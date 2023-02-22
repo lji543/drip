@@ -29,7 +29,7 @@ const useAuth = () => {
             email: user.email,
             uid: user.uid,
             checkedLogin: true, // using for loading state (TODO: use router instead?)
-            refreshToken: user.sTsTokenManager?.refreshToken,
+            // refreshToken: user.sTsTokenManager?.refreshToken,
           });
         } else {
           // User is signed out, will go to login page

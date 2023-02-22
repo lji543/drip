@@ -117,7 +117,7 @@ const useItems = () => {
 
     await getDoc(owedItemsDocRef).then((owedItems) => {
       const owedItemsData = owedItems.data();
-      console.log('OWED ITEMS ',owedItemsData)
+      // console.log('OWED ITEMS ',owedItemsData)
 
       setOwedItems(state => (
         { 

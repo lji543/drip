@@ -113,8 +113,6 @@ const useExpenses = () => {
     const { expensesByCategoryAndMonth, yearTotalsByCategory, totalsByCategoryAndMonth } = spending;
     const expenseList = totalsByCategoryAndMonth;
     const newExpensesByCategoryAndMonth = newMonthCategoryArray || expensesByCategoryAndMonth;
-    // console.log('totalByCategoryAndMonth ',newMonthCategoryArray)
-    // console.log('totalByCategoryAndMonth ',expensesByCategoryAndMonth)
     // console.log('newExpensesByCategoryAndMonth ',newExpensesByCategoryAndMonth)
   
     let yearTotal = 0;
@@ -163,9 +161,6 @@ const useExpenses = () => {
       totalsByCategoryAndMonth: expenseList,
       yearTotalsByCategory: yearTotalsByCategory
     }
-    // console.log('newExpensesByCategoryAndMonth ',newExpensesByCategoryAndMonth)
-    // console.log('expenseList ',expenseList)
-    // console.log('totalsByCategory ',totalsByCategory)
     
     setSpending(newSpendingState);
     

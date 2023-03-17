@@ -1,5 +1,7 @@
 :root {
   --darkBlue: #02174c;
+  /* --darkBlueOpacity: rgba(5, 23, 76, 0.50); */
+  --darkBlueOpacity: #1e3e90;
   --veryDarkBlue: #02035e;
   --grayBlue: #8bafc1;
   --veryLightBlue: #d0e5ff;
@@ -49,19 +51,34 @@
 /* .navigation { */
   /* width: 100%; */
 /* } */
-.navigation-appBar {
-  width: 100% !important; /* TODO: figure out how to get the scroll buttons maybe? */
+.nav-appBar {
+  /* width: 100% !important; TODO: figure out how to get the scroll buttons maybe? */
+  background-color: var(--darkBlue) !important;
+  display: flex;
+  flex-direction: row !important;
+  height: 48px;
 }
-.navigation .MuiPaper-root {
+/* .navigation .MuiPaper-root {
   background-color: var(--darkBlue);
+} */
+.nav-buttonLink {
+  border-radius: 0px !important;
+  margin-bottom: 8px !important;
+  margin-left: 8px !important;
+  margin-top: 8px !important;
 }
-.navigation-links.MuiTab-textColorPrimary {
-  color: var(--green) !important;
-}
-.navigation-tabs .MuiTabs-indicator {
-  background-color: var(--green) !important;
+.nav-buttonLink:hover {
+  background-color: var(--darkBlueOpacity) !important;
 }
 
+.nav-links {
+  color: var(--green);
+  font-size: 16px;
+  text-decoration: none;
+}
+.nav-activeButtonLink {
+  background-color: var(--darkBlueOpacity) !important;
+}
 
 /* //////////// */
 /*/ COMPONENTS /*/
@@ -370,6 +387,9 @@
 }
 .bottom-padding-48 {
   padding-bottom: 48px !important;
+}
+.right-margin-8 {
+  margin-right: 8px !important;
 }
 .right-margin-12 {
   margin-right: 12px !important;

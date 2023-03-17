@@ -1,26 +1,65 @@
 import React from 'react';
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
-import { AppBar, Tab, Tabs } from '@mui/material';
+import { AppBar, Button } from '@mui/material';
 
-function Navigation({ handlePageChange, page }) {
+function Navigation({ handleSelectionChange, isActive }) {
+
 	return (
-		<div className='navigation'>
-			<AppBar position='static' className='navigation-appBar'>
-				<Tabs
-					className='navigation-tabs'
-					value={page}
-					onChange={handlePageChange}
-					variant="scrollable"
-      		scrollButtons="auto"
+		<AppBar position='static' className='nav-appBar'>
+			{/* <nav
+				className='navigation-tabs'
+				// value={page}
+				// onChange={handlePageChange}
+				variant="scrollable"
+				// scrollButtons="auto"
+			> */}
+				<Button
+					className={`nav-buttonLink ${isActive === '/' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/')}
 				>
-					<Tab key={'summary'} className='navigation-links' label='Summary' />
-					<Tab key={'monthly'} className='navigation-links' label='Monthly' />
-					<Tab key={'categorically'} className='navigation-links' label='Categorically' />
-					<Tab key={'tracker'} className='navigation-links' label='Tracker' />
-					<Tab key={'logout'} className='navigation-links' label='-Logout-' />
-				</Tabs>
-			</AppBar>
-		</div>
+					<Link className='nav-links' to='/'>
+						Home
+					</Link>
+				</Button>
+				<Button
+					className={`nav-buttonLink ${isActive === '/Summary' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/Summary')}
+				>
+					<Link className='nav-links' to='/Summary'>Summary</Link>
+				</Button>
+				<Button
+					className={`nav-buttonLink ${isActive === '/Monthly' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/Monthly')}
+				>
+					<Link className='nav-links' to='/Monthly'>Monthly</Link>
+				</Button>
+				<Button
+					className={`nav-buttonLink ${isActive === '/MonthlyTally' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/MonthlyTally')}
+				>
+					<Link className='nav-links' to='/MonthlyTally'>Monthly Tally</Link>
+				</Button>
+				<Button
+					className={`nav-buttonLink ${isActive === '/Categorically' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/Categorically')}
+				>
+					<Link className='nav-links' to='/Categorically'>Categorically</Link>
+				</Button>
+				<Button
+					className={`nav-buttonLink ${isActive === '/Tracker' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/Tracker')}
+				>
+					<Link className='nav-links' to='/Tracker'>Tracker</Link>
+				</Button>
+				<Button
+					className={`nav-buttonLink ${isActive === '/Logout' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/Logout')}
+				>
+					<Link className='nav-links' to='/Logout'>-Logout-</Link>
+				</Button>
+			{/* </nav> */}
+		</AppBar>
 	);
 }
 

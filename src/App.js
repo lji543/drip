@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
 import { Container, LinearProgress } from '@mui/material';
 
 import dinoLogoFull from './styles/assets/dinoLogoFull.png';
+import Dashboard from './components/Dashboard';
 import ExpensesListByMonth from './components/ExpensesListByMonth';
+import ExpensesListTallyByMonth from './components/ExpensesListTallyByMonth';
 import ExpensesListByCategoryAndMonth from './components/ExpensesListByCategoryAndMonth';
 import Login from "./components/authentication/Login";
 import Logout from "./components/authentication/Logout";
 import Navigation from './components/navigation';
-import PageWrapper from './components/navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
 import OwedTracker from './components/OwedTracker';
 import MortgageCalculator from './components/premium/MortgageCalculator';
@@ -27,12 +29,12 @@ function App() {
   const { getDate } = useUtility();
   const { getOwedItems } = useItems();
 
+  const [isActive, setIsActive] = useState('/MonthlyTally');
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
 
-	const handlePageChange = (e, newPage) => {
-		setPage(newPage);
-	};
+  const handleSelectionChange = (newPage) => {
+    setIsActive(newPage);
+  }
 
   useEffect(() => {
     // console.log('App - checking for user ',authenticatedUser)
@@ -76,23 +78,16 @@ function App() {
         <div>
           {authenticatedUser.email ? (
             <div>
-              <Navigation handlePageChange={handlePageChange} page={page} />
-              <PageWrapper value={page} index={0}>
-                {authenticatedUser.name && <div className='dataGrid-tableHeader-title'>{`Hi ${authenticatedUser.name}`}</div>}
-                <SummaryTotalsTable />
-              </PageWrapper>
-              <PageWrapper value={page} index={1}>
-                <ExpensesListByMonth />
-              </PageWrapper>
-              <PageWrapper value={page} index={2}>
-                <ExpensesListByCategoryAndMonth />
-              </PageWrapper>
-              <PageWrapper value={page} index={3}>
-                <OwedTracker />
-              </PageWrapper>
-              <PageWrapper value={page} index={4}>
-                <Logout />
-              </PageWrapper>
+              <Navigation handleSelectionChange={handleSelectionChange} isActive={isActive}/>
+              <Routes>
+                <Route path='/' element={<Dashboard />} />
+                <Route path='/Summary' element={<SummaryTotalsTable />} />
+                <Route path='/Monthly' element={<ExpensesListByMonth />} />
+                <Route path='/MonthlyTally' element={<ExpensesListTallyByMonth />} />
+                <Route path='/Categorically' element={<ExpensesListByCategoryAndMonth />} />
+                <Route path='/Tracker' element={<OwedTracker />} />
+                <Route path='/Logout' element={<Logout />} />
+              </Routes>
             </div>
           ) : (
             <Login />

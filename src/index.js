@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+
 import './styles/index.css';
 import { BudgetProvider } from './state/BudgetContext';
 import App from './App';
@@ -8,7 +10,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BudgetProvider>
-    <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </BudgetProvider>
   </React.StrictMode>
 );

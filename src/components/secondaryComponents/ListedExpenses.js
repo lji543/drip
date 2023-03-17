@@ -20,15 +20,19 @@ const styleProps = {
 };
 // TODO: do we really need to pass expenses in? Could grab that from state
 const ListedExpenses = ({ category, expenses, month}) => {
-  const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, totalsByCategory, updateExpense  } = useExpenses();
+  const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, yearTotalsByCategory, updateExpense  } = useExpenses();
 
   const [isAddingExpense, setIsAddingExpense] = useState(false);
   const [monthCatTotal, setMonthCatTotal] = useState([]);
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   // console.log('Listed Expenses ', expenses)
+  // console.log('ListedExpenses totalsByCategoryAndMonth ', totalsByCategoryAndMonth[month][category])
   
-  const categoryName = totalsByCategory[category].name;
+  let categoryName = category;
+  if (yearTotalsByCategory[category]) {
+    categoryName = yearTotalsByCategory[category].name;
+  }
   
   const addNewRow = (newRow) => {
     const updatedRow = {
@@ -37,7 +41,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
     };
     const newRows = [...rows];
     newRows.push(updatedRow);
-    console.log('updateRow ', updatedRow.date)
+    // console.log('updateRow ', updatedRow.date)
 
     addNewExpense(updatedRow, category);
     setRows(newRows);
@@ -82,7 +86,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
   };
 
   const handleEditClick = (id) => () => {
-    console.log('handleEditClick ', id)
+    // console.log('handleEditClick ', id)
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
@@ -94,6 +98,8 @@ const ListedExpenses = ({ category, expenses, month}) => {
   const organizeRowExpensesList = () => {
     let newList = [];
     let total = 0;
+    // console.log('->organizeRowExpensesList<- totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
+    // console.log('->organizeRowExpensesList<- yearTotalsByCategory ',yearTotalsByCategory)
     
     if (expenses.length !== 0) {
       expenses.forEach((exp, i) => {
@@ -203,13 +209,25 @@ const ListedExpenses = ({ category, expenses, month}) => {
     organizeRowExpensesList();
   // }, [category, month, totalsByCategoryAndMonth]);
   // eslint-disable-next-line
-  }, [expenses]); // react-hooks/exhaustive-deps
+  }, [expenses, yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setMonthCatTotal(totalsByCategoryAndMonth[month][category]);
-  // }, [organizeRowExpensesList]);
+    // setMonthCatTotal(totalsByCategoryAndMonth[month][category]);
+    // console.log(month, category, totalsByCategoryAndMonth ? true : false)
+    // console.log(month, category, !totalsByCategoryAndMonth[month])
+    let moCatTtl = totalsByCategoryAndMonth;
+    if (totalsByCategoryAndMonth) {
+      if (!totalsByCategoryAndMonth[month]) {
+        moCatTtl[month] = {};
+      }
+      // if (moCatTtl[month]) {
+      //   moCatTtl[month][category] = 0;
+      // }
+      // console.log('moCatTtl ',moCatTtl[month][category]);
+      setMonthCatTotal(moCatTtl[month][category]);
+    }
   // eslint-disable-next-line
-  }, [rows]); // react-hooks/exhaustive-deps
+  }, [rows, yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
     <div className='dataGrid-page-container'>

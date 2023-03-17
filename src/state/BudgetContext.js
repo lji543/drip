@@ -2,14 +2,15 @@
 // or maybe split up useExpenses instead
 import React, { useState } from 'react';
 
-import { totalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth, trackedExpenses } from '../utils/ericConstants';
+import { yearTotalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth, trackedExpenses } from '../utils/ericConstants';
 
 const BudgetContext = React.createContext([{}, () => {}]);
 
 const BudgetProvider = (props) => {
   const [authenticatedUser, setAuthenticatedUser] = useState({
     email: null,
-    // name: null,
+    name: null,
+    uid: null,
   });
   const [owedItems, setOwedItems] = useState({
     // owedByEric: trackedExpenses.owedByEric,
@@ -26,10 +27,10 @@ const BudgetProvider = (props) => {
     totalOwedToEric: 0,
   });
   const [spending, setSpending] = useState({
-    totalsByCategory: totalsByCategory,
+    yearTotalsByCategory: yearTotalsByCategory,
     expensesByCategoryAndMonth: expensesByCategoryAndMonth,
     totalsByCategoryAndMonth: totalsByCategoryAndMonth,
-    // totalsByCategory: {},
+    // yearTotalsByCategory: {},
     // expensesByCategoryAndMonth: [],
     // totalsByCategoryAndMonth: {},
     id: null,

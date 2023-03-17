@@ -1,4 +1,3 @@
-// TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -72,7 +71,7 @@ owedToColumns.splice(2, 0, { // owed To Eric, from someone else
   flex: 2,
 });
 
-const Tracker = () => {
+const OwedTracker = () => {
   const { addNewOwedItem, owedItems } = useItems();
   // console.log('owed Items ', owedItems)
   const [isAddingOwedToEricItem, setIsAddingOwedToEricItem] = useState(false);
@@ -119,7 +118,7 @@ const Tracker = () => {
   };
 
   useEffect(() => {
-    // console.log('Tracker ', owedItems)
+    // console.log('OwedTracker ', owedItems)
     organizeRowItems();
   // eslint-disable-next-line
   }, [owedItems]); // react-hooks/exhaustive-deps
@@ -198,4 +197,4 @@ const Tracker = () => {
   );
 }
 
-export default Tracker;
+export default OwedTracker;

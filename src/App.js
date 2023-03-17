@@ -10,7 +10,7 @@ import Logout from "./components/authentication/Logout";
 import Navigation from './components/navigation';
 import PageWrapper from './components/navigation/PageWrapper';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
-import Tracker from './components/Tracker';
+import OwedTracker from './components/OwedTracker';
 import MortgageCalculator from './components/premium/MortgageCalculator';
 
 import useAuth from './state/useAuth';
@@ -21,7 +21,7 @@ import useUtility from './state/useUtility';
 import './styles/App.css';
 
 function App() {
-  const { authenticatedUser, getAuthenticatedUser } = useAuth();
+  const { authenticatedUser, getAuthenticatedUser, updateUser } = useAuth();
   const { checkedLogin } = authenticatedUser;
   const { getTotalsByCategoryAndMonth } = useExpenses();
   const { getDate } = useUtility();
@@ -45,6 +45,7 @@ function App() {
 
   useEffect(() => {
     if (authenticatedUser.email) {
+      // updateUser();
       getDate(); // TODO: change this to something that runs all the basic util functions needed?
       getOwedItems();
       getTotalsByCategoryAndMonth();
@@ -77,6 +78,7 @@ function App() {
             <div>
               <Navigation handlePageChange={handlePageChange} page={page} />
               <PageWrapper value={page} index={0}>
+                {authenticatedUser.name && <div className='dataGrid-tableHeader-title'>{`Hi ${authenticatedUser.name}`}</div>}
                 <SummaryTotalsTable />
               </PageWrapper>
               <PageWrapper value={page} index={1}>
@@ -86,7 +88,7 @@ function App() {
                 <ExpensesListByCategoryAndMonth />
               </PageWrapper>
               <PageWrapper value={page} index={3}>
-                <Tracker />
+                <OwedTracker />
               </PageWrapper>
               <PageWrapper value={page} index={4}>
                 <Logout />

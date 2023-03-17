@@ -8,7 +8,7 @@ import { convertToInt, formatDate } from '../../utils/utilFunctions';
 
 const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tracking page at least
   const { addNewRow, owedCategory, className, itemCategoryName, itemObj = baseItemSchema, setIsAddingItem } = props;
-  const { totalsByCategory } = useExpenses();
+  const { yearTotalsByCategory } = useExpenses();
   const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 
@@ -115,13 +115,13 @@ const NewItemForm = ({ props }) => { // TODO: maybe make this a modal for the tr
           size="small"
           id="category"
           label="Category"
-          defaultValue={totalsByCategory.other.name}
+          defaultValue={yearTotalsByCategory.other.name}
           name="category"
           onChange={handleFieldChange}
           value={newItem.category}
         >
           <MenuItem key={'none'} value="">None</MenuItem>
-          {categories.map((cat) => <MenuItem key={cat} value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
+          {categories.map((cat) => <MenuItem key={cat} value={cat}>{yearTotalsByCategory[cat].name}</MenuItem>)}
         </Select>
           </FormControl>
       </div>

@@ -13,13 +13,14 @@ import { convertToString } from '../utils/utilFunctions';
 import useExpenses from '../state/useExpenses';
 import useUtility from '../state/useUtility';
  
-const CategoryTablesList = ({ expenses, month }) => {
+const CategoryTablesList = ({ expenses = {}, month }) => {
   const { totalsByCategoryAndMonth  } = useExpenses();
+  const monthTotal = convertToString(totalsByCategoryAndMonth[month]?._monthTotal) || 0;
   // console.log('totalsByCategoryAndMonth ',totalsByCategoryAndMonth[month]._monthTotal)
   // console.log('expenses ', expenses)
   return (
     <div>
-      <div className='page-heading'>{`${monthsFull[month]} TOTAL: $ ${convertToString(totalsByCategoryAndMonth[month]._monthTotal)}`}</div>
+      <div className='page-heading'>{`${monthsFull[month]} TOTAL: $ ${monthTotal}`}</div>
       {categories.map((cat) => {
         if (!expenses[cat] || !expenses[cat].expenses) {
           expenses[cat] = {
@@ -38,7 +39,7 @@ const ExpensesListByMonth = () => {
    const { currentMonth  } = useUtility();
    const expenseListRef = useRef(null);
   //  console.log('ExpensesListByMonth ',month, today)
-   const { expensesByCategoryAndMonth, statusState, totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+   const { expensesByCategoryAndMonth, statusState, yearTotalsByCategory, totalsByCategoryAndMonth } = useExpenses();
  
   // const [currentMonth, setCurrentMonth] = useState(0);
   const [smallScreen, setSmallScreen] = useState(false);
@@ -47,7 +48,7 @@ const ExpensesListByMonth = () => {
  
    const screenWidth = expenseListRef.current?.clientWidth;
   //  const statusMessage = statusState.updateType ? 
-  //    `${statusMessages[statusState.updateType][statusState.result]} ${totalsByCategory[category].name}` : '';
+  //    `${statusMessages[statusState.updateType][statusState.result]} ${yearTotalsByCategory[category].name}` : '';
  
   const handleMonthChange = () => {
 

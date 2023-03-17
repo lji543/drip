@@ -165,7 +165,9 @@ const columns = [
 
 const SummaryTotalsTable = () => {
   const pageRef = useRef();
-  const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+  const { yearTotalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+  // console.log('yearTotalsByCategory ',yearTotalsByCategory)
+  // console.log('totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
 
   const [isMobile, setIsMobile] = useState(false);
   const [rows, setRows] = useState([]);
@@ -179,28 +181,29 @@ const SummaryTotalsTable = () => {
       total: convertToFormattedRoundNumber(totalsByCategoryAndMonth._yearTotal),
       average: convertToFormattedRoundNumber(totalsByCategoryAndMonth._yearAverage),
     };
-    
-    categories.forEach((cat) => {
-      let updatedRow = {
-        id: cat,
-        category: totalsByCategory[cat].name,
-        details: totalsByCategory[cat].details,
-        total: convertToFormattedRoundNumber(totalsByCategory[cat].total),
-        average: convertToFormattedRoundNumber(totalsByCategory[cat].monthlyAvg),
-      };
-      months.forEach((mo, i) => {
-        updatedRow = {
-          ...updatedRow,
-          [mo]: convertToFormattedRoundNumber(totalsByCategoryAndMonth[i][cat]),
-        }
+    if (Object.keys(yearTotalsByCategory).length > 0 && Object.keys(totalsByCategoryAndMonth).length > 0) {
+      categories.forEach((cat) => {
+        let updatedRow = {
+          id: cat,
+          category: yearTotalsByCategory[cat].name,
+          details: yearTotalsByCategory[cat].details,
+          total: convertToFormattedRoundNumber(yearTotalsByCategory[cat].total),
+          average: convertToFormattedRoundNumber(yearTotalsByCategory[cat].monthlyAvg),
+        };
+        months.forEach((mo, i) => {
+          updatedRow = {
+            ...updatedRow,
+            [mo]: convertToFormattedRoundNumber(totalsByCategoryAndMonth[i][cat]),
+          }
 
-        totalsRow = {
-          ...totalsRow,
-          [mo]: convertToFormattedRoundNumber(totalsByCategoryAndMonth[i]._monthTotal),
-        }
+          totalsRow = {
+            ...totalsRow,
+            [mo]: convertToFormattedRoundNumber(totalsByCategoryAndMonth[i]._monthTotal),
+          }
+        });
+        updatedRows.push(updatedRow);
       });
-      updatedRows.push(updatedRow);
-    });
+    }
 
     updatedRows.push({ id: 'blankRow' });
     updatedRows.push(totalsRow);
@@ -236,10 +239,11 @@ const SummaryTotalsTable = () => {
   }, []);
 
   useEffect(() => {
+    // console.log('->SummaryTotalsTable<- totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
     getDataGridContainerSize(); // TODO: should we also set this up to fire when screen sizes change?
     getRows();
   // eslint-disable-next-line
-  }, [totalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
+  }, [yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
     <div ref={pageRef} className='dataGrid-table-container'>

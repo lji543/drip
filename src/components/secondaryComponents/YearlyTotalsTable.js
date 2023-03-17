@@ -13,7 +13,7 @@ import { categories } from '../utils/ericConstants';
 import useExpenses from '../state/useExpenses';
 
 const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reuse this component
-  const { totalsByCategory } = useExpenses();
+  const { yearTotalsByCategory } = useExpenses();
 
   return (
     <TableContainer component={Paper}>
@@ -29,7 +29,7 @@ const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reus
         </TableHead>
         <TableBody>
           {categories.map((cat) => {
-            const categoryExpenses = totalsByCategory[cat];
+            const categoryExpenses = yearTotalsByCategory[cat];
             let categoryTotal;
             
             if (!categoryExpenses) {
@@ -54,9 +54,9 @@ const YearlyTotalsTable = () => { // TODO: add timeframe as prop? so we can reus
           })}
           <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell component="th" scope="row">Total</TableCell>
-            <TableCell align="right">{totalsByCategory._yearTotal}</TableCell>
+            <TableCell align="right">{yearTotalsByCategory._yearTotal}</TableCell>
             {/* <TableCell align="right"></TableCell>
-            <TableCell align="right">{totalsByCategory.allBudget}</TableCell> */}
+            <TableCell align="right">{yearTotalsByCategory.allBudget}</TableCell> */}
           </TableRow>
         </TableBody>
       </Table>

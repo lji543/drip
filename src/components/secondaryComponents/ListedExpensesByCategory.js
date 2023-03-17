@@ -21,7 +21,7 @@ const styleProps = {
 };
 // TODO: do we really need to pass expenses in? Could grab that from state
 const ListedExpensesByCategory = ({ category, expenses, month}) => {
-  const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, totalsByCategory, updateExpense  } = useExpenses();
+  const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, yearTotalsByCategory, updateExpense  } = useExpenses();
 
   const [isAddingExpense, setIsAddingExpense] = useState(false);
   const [monthCatTotal, setMonthCatTotal] = useState([]);
@@ -29,7 +29,10 @@ const ListedExpensesByCategory = ({ category, expenses, month}) => {
   const [rowModesModel, setRowModesModel] = useState({});
   // console.log('Listed Expenses ', expenses)
   
-  const categoryName = totalsByCategory[category].name;
+  let categoryName = category;
+  if (yearTotalsByCategory[category]) {
+    categoryName = yearTotalsByCategory[category].name;
+  }
   
   const addNewRow = (newRow) => {
     const updatedRow = {
@@ -83,7 +86,7 @@ const ListedExpensesByCategory = ({ category, expenses, month}) => {
   };
 
   const handleEditClick = (id) => () => {
-    console.log('handleEditClick ', id)
+    // console.log('handleEditClick ', id)
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
@@ -94,10 +97,11 @@ const ListedExpensesByCategory = ({ category, expenses, month}) => {
 
   const organizeRowExpensesList = () => {
     let total = 0;
+    // console.log('->organizeRowExpensesList<- totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
 
     if (expenses.length !== 0) {
       setRows(expenses);
-      setMonthCatTotal(total)
+      setMonthCatTotal(total); // TODO: should this be last?
       total = totalsByCategoryAndMonth[month][category];
     }
   };
@@ -193,15 +197,25 @@ const ListedExpensesByCategory = ({ category, expenses, month}) => {
 
   useEffect(() => {
     organizeRowExpensesList();
-  // }, [category, month, totalsByCategoryAndMonth]);
   // eslint-disable-next-line
-  }, [expenses]); // react-hooks/exhaustive-deps
+  }, [expenses, totalsByCategoryAndMonth, yearTotalsByCategory]); // react-hooks/exhaustive-deps
 
   useEffect(() => {
-    setMonthCatTotal(totalsByCategoryAndMonth[month][category]);
+    // console.log('totalsByCategoryAndMonth ',totalsByCategoryAndMonth);
+    let moCatTtl = totalsByCategoryAndMonth;
+    if (totalsByCategoryAndMonth) {
+      if (!totalsByCategoryAndMonth[month]) {
+        moCatTtl[month] = {};
+      }
+      // if (moCatTtl[month]) {
+      //   moCatTtl[month][category] = 0;
+      // }
+      // console.log('moCatTtl ',category,moCatTtl[month][category]);
+      setMonthCatTotal(moCatTtl[month][category]);
+    }
   // }, [organizeRowExpensesList]);
   // eslint-disable-next-line
-  }, [rows]); // react-hooks/exhaustive-deps
+  }, [rows, totalsByCategoryAndMonth], yearTotalsByCategory); // react-hooks/exhaustive-deps
 
   return (
     <div>

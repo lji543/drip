@@ -1,13 +1,14 @@
 import { useContext } from 'react';
-import { onAuthStateChanged } from "firebase/auth";
 import { 
   GoogleAuthProvider,
   getAuth,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   sendPasswordResetEmail,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { addDoc, collection, doc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
 
@@ -26,9 +27,10 @@ const useAuth = () => {
           // console.log('getAuthenticatedUser ',user)
           // console.log('getAuthenticatedUser -logged in')
           setAuthenticatedUser({
-            email: user.email,
-            uid: user.uid,
             checkedLogin: true, // using for loading state (TODO: use router instead?)
+            email: user.email,
+            name: user.displayName,
+            uid: user.uid,
             // refreshToken: user.sTsTokenManager?.refreshToken,
           });
         } else {
@@ -114,12 +116,28 @@ const useAuth = () => {
     }
   };
 
+  const updateUser = async () => {
+    // const user = doc(db, authenticatedUser.uid, "owedItems");
+
+    try {
+      // console.log('doc update with: ',newOwedItemsState);
+      await updateProfile(auth.currentUser, {
+        displayName: 'Kelsey',
+      });
+      // setStatus({ uType, result: 'success' });
+    } catch (err) {
+      // setStatus({ uType, result: 'error'});
+      console.log(err);
+    }
+  }
+
   return {
     authenticatedUser: authenticatedUser,
     getAuthenticatedUser,
     logInWithEmailAndPassword,
     logout,
     sendPasswordReset,
+    updateUser,
   }
 };
 

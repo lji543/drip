@@ -17,7 +17,7 @@ import useUtility from '../state/useUtility';
 const ExpenseList = ({ category, handleCategoryChange }) => {
   // console.log('ExpenseList ', category)
   const expenseListRef = useRef(null);
-  const { expensesByCategoryAndMonth, statusState, totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+  const { expensesByCategoryAndMonth, statusState, yearTotalsByCategory, totalsByCategoryAndMonth } = useExpenses();
   const { currentMonth } = useUtility();
 
   const [tabContent, setTabContent] = useState([]);
@@ -26,7 +26,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => {
 
   const screenWidth = expenseListRef.current?.clientWidth;
   const statusMessage = statusState.updateType ? 
-    `${statusMessages[statusState.updateType][statusState.result]} ${totalsByCategory[category].name}` : '';
+    `${statusMessages[statusState.updateType][statusState.result]} ${yearTotalsByCategory[category].name}` : '';
 
   const handleSnackbarClose = (e, reason) => {
     if (reason === 'clickaway') {
@@ -106,7 +106,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => {
               // label="Category"
               onChange={handleCategoryChange}
             >
-              {categories.map((cat) => <MenuItem key={cat} value={cat}>{totalsByCategory[cat].name}</MenuItem>)}
+              {categories.map((cat) => <MenuItem key={cat} value={cat}>{yearTotalsByCategory[cat]?.name}</MenuItem>)}
             </Select>
           </FormControl>
         </div>
@@ -127,11 +127,11 @@ const ExpenseList = ({ category, handleCategoryChange }) => {
 ///// Vertical, Category Tabs - with ExpenseList Component as tabPanel /////
 ///// The ExpenseList Component contains months as tabs /////
 const ExpensesListByCategoryAndMonth = () => { // Category tabs, with months as child
-  const { totalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+  const { yearTotalsByCategory, totalsByCategoryAndMonth } = useExpenses();
 
   const [displayedCategory, setDisplayedCategory] = useState(0);
   const [tabContent, setTabContent] = useState([]);
-  // console.log('Summary Totals Table totalsByCategory ',totalsByCategory)
+  // console.log('Summary Totals Table yearTotalsByCategory ',yearTotalsByCategory)
 
   const handleCategoryChange = (e) => {
     const cat = categories.indexOf(e.target.value);
@@ -143,10 +143,10 @@ const ExpensesListByCategoryAndMonth = () => { // Category tabs, with months as 
     let organizedTabContent = [];
     // console.log('organizeTabContent ',organizedTabContent)
     // console.log('organizeTabContent ',categories)
-    // console.log('organizeTabContent ',totalsByCategory)
+    // console.log('organizeTabContent ',yearTotalsByCategory)
     categories.forEach((cat, i) => {
       organizedTabContent.push({
-        label: `${totalsByCategory[cat].name}`,
+        label: `${yearTotalsByCategory[cat] ? yearTotalsByCategory[cat].name : cat}`,
         panel: <ExpenseList category={cat} handleCategoryChange={handleCategoryChange} />
       });
     });

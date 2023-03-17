@@ -658,7 +658,7 @@ export const totalsByCategoryAndMonth = {
   },
 }
 
-export const totalsByCategory = {
+export const yearTotalsByCategory = {
   _yearTotal: 0,
   _yearBudget: 0,
   autoIns: {

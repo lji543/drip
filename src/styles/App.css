@@ -429,6 +429,9 @@
 .left-margin-48 { /*     */
   margin-left: 48px;
 }
+.right-margin-8 {
+  margin-right: 8px !important;
+}
 .right-margin-12 {
   margin-right: 12px !important;
 }

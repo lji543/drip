@@ -5,53 +5,30 @@ import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControl, IconButton, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
 
 //  import ListedExpenses from './secondaryComponents/ListedExpenses';
-import ListedExpensesByCategory from './secondaryComponents/ListedExpensesByCategory';
+import ListedExpensesTally from './secondaryComponents/ListedExpensesTally';
 import Tabs from './utilComponents/Tabs';
 
 import { categories, months, monthsFull, statusMessages } from '../utils/ericConstants';
 import { convertToString } from '../utils/utilFunctions';
 import useExpenses from '../state/useExpenses';
 import useUtility from '../state/useUtility';
- 
-const CategoryTablesList = ({ expenses = {}, month }) => {
-  const { totalsByCategoryAndMonth  } = useExpenses();
-  const monthTotal = convertToString(totalsByCategoryAndMonth[month]?._monthTotal) || 0;
-  // console.log('totalsByCategoryAndMonth ',totalsByCategoryAndMonth[month]._monthTotal)
-  // console.log('expenses ', expenses)
-  return (
-    <div>
-      <div className='page-heading'>{`${monthsFull[month]} TOTAL: $ ${monthTotal}`}</div>
-      {categories.map((cat) => {
-        if (!expenses[cat] || !expenses[cat].expenses) {
-          expenses[cat] = {
-            expenses: [],
-          };
-        }
-        return <ListedExpensesByCategory key={cat} category={cat} expenses={expenses[cat].expenses} month={month} />;
-      })}
-    </div>
-  );
-}
 
 const ExpensesListTallyByMonth = () => {
-   // console.log('ExpenseList ', category)
+   // console.log('ExpensesListTallyByMonth ', category)
   //  const { expensesByCategoryAndMonth  } = useExpenses();
    const { currentMonth  } = useUtility();
-   const expenseListRef = useRef(null);
-  //  console.log('ExpensesListTallyByMonth ',month, today)
+  //  console.log('ExpensesListTallyByMonth ',currentMonth)
    const { expensesByCategoryAndMonth, statusState, yearTotalsByCategory, totalsByCategoryAndMonth } = useExpenses();
  
   // const [currentMonth, setCurrentMonth] = useState(0);
-  const [smallScreen, setSmallScreen] = useState(false);
+  const [allMonthExpenses, setAllMonthExpenses] = useState([]);
+  const [monthShown, setMonthShown] = useState(currentMonth);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [tabContent, setTabContent] = useState([]);
  
-   const screenWidth = expenseListRef.current?.clientWidth;
-  //  const statusMessage = statusState.updateType ? 
-  //    `${statusMessages[statusState.updateType][statusState.result]} ${yearTotalsByCategory[category].name}` : '';
- 
-  const handleMonthChange = () => {
-
+  const handleMonthChange = (e) => {
+    // console.log('handleMonthChange ', e.target.value)
+    setMonthShown(e.target.value);
+    // organizeListContent();
   }
 
   const handleSnackbarClose = (e, reason) => {
@@ -78,74 +55,65 @@ const ExpensesListTallyByMonth = () => {
     </React.Fragment>
   );
 
-  const organizeTabContent = () => {
-    let organizedTabContent = [];
-    months.forEach((mo, i) => {
-      // let listedExpenses = [];
-      const listedExpenses = expensesByCategoryAndMonth[i];
-      // console.log('listedExpenses ',listedExpenses)
-      // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth)
+  const organizeListContent = () => {
+    const monthByCat = expensesByCategoryAndMonth[monthShown];
+    // console.log('organizeListContent ',monthShown)
+    let monthExpenses = [];
+    // console.log('expensesByCategoryAndMonth ',monthByCat)
 
-      //  if (expensesByCategoryAndMonth[i]) {
-      //    listedExpenses = expensesByCategoryAndMonth[i] = [];
-      //  };
-
-      organizedTabContent.push({
-        label: mo,
-        panel: <CategoryTablesList expenses={listedExpenses} month={i} />,
-       });
+    categories.forEach((cat) => {
+      if (!monthByCat[cat]) return;
+      return monthByCat[cat].expenses.map((expense) => monthExpenses.push(expense));
     });
-    // console.log(organizedTabContent)
-    setTabContent(organizedTabContent);
+    // let organizedTabContent = [];
+    // months.forEach((mo, i) => {
+    //   // let listedExpenses = [];
+    //   const listedExpenses = expensesByCategoryAndMonth[i];
+    //   // console.log('listedExpenses ',listedExpenses)
+    //   // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth)
+
+    //   //  if (expensesByCategoryAndMonth[i]) {
+    //   //    listedExpenses = expensesByCategoryAndMonth[i] = [];
+    //   //  };
+
+    //   organizedTabContent.push({
+    //     label: mo,
+    //     panel: <CategoryTablesList expenses={listedExpenses} month={i} />,
+    //    });
+    // });
+    // // console.log(organizedTabContent)
+    // setTabContent(organizedTabContent);
+    // console.log('monthExpenses ',monthExpenses)
+    setAllMonthExpenses(monthExpenses);
   }
 
   useEffect(() => {
-    organizeTabContent();
+    organizeListContent();
   // eslint-disable-next-line
-  }, [expensesByCategoryAndMonth, expensesByCategoryAndMonth[0]]); // react-hooks/exhaustive-deps
+  }, [expensesByCategoryAndMonth, expensesByCategoryAndMonth[0]], monthShown); // react-hooks/exhaustive-deps
 
   useEffect(() => {
-    //  setSnackbarOpen(statusState.updateType ? true : false);
+    organizeListContent();
   // eslint-disable-next-line
-  }, [statusState]); // react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    // console.log('clientWidth ',expenseListRef.current?.clientWidth)
-    // 534px is the @media cutoff for small screens in css (= 518 for clientWidth)
-    const ss = // TODO: make this dynamic in case of resizing the screen (onwindowresize or something)
-      expenseListRef.current?.clientWidth <= 518 ? true : false;
-
-      setSmallScreen(ss);
-  // eslint-disable-next-line
-  }, [screenWidth]); // react-hooks/exhaustive-deps
+  }, [monthShown]); // react-hooks/exhaustive-deps
 
   return ( 
-    <div ref={expenseListRef}>
-      {/* {smallScreen &&
-        <div className='small-screen'>
-          <FormControl
-            sx={{ m: 1, minWidth: 120 }}
-            size="small"
-          >
-            <InputLabel id="demo-select-small">Month</InputLabel>
-            <Select  sx={{ m: 1, minWidth: 120 }}
-              id="month-select"
-              value={currentMonth}
-              onChange={handleMonthChange}
-            >
-              {months.map((month) => <MenuItem key={month} value={month}>{month}</MenuItem>)}
-            </Select>
-          </FormControl>
-        </div>
-      } */}
-      <Tabs currentTab={currentMonth} tabContent={tabContent} />
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        //  message={statusMessage}
-        action={snackBarAction}
-      />
+    <div className='page-wrapper'>
+      <FormControl
+        sx={{ m: 1, minWidth: 120 }}
+        size="small"
+      >
+        {/* <InputLabel id="demo-select-small">Age</InputLabel> */}
+        <Select  sx={{ m: 1, minWidth: 120 }}
+          id="category-select"
+          value={monthShown}
+          // label="Category"
+          onChange={handleMonthChange}
+        >
+          {months.map((month, idx) => <MenuItem key={month} value={idx - 1}>{months[idx-1]}</MenuItem>)}
+        </Select>
+      </FormControl>
+      <ListedExpensesTally expenses={allMonthExpenses} month={monthShown}/>
     </div>
   );
 }

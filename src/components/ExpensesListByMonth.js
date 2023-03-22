@@ -120,7 +120,7 @@ const ExpensesListByMonth = () => {
   }, [screenWidth]); // react-hooks/exhaustive-deps
 
   return ( 
-    <div ref={expenseListRef}>
+    <div className='page-wrapper' ref={expenseListRef}>
       {/* {smallScreen &&
         <div className='small-screen'>
           <FormControl

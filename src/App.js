@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import { Container, LinearProgress } from '@mui/material';
 
@@ -29,7 +29,9 @@ function App() {
   const { getDate } = useUtility();
   const { getOwedItems } = useItems();
 
-  const [isActive, setIsActive] = useState('/MonthlyTally');
+  const location = useLocation();
+
+  const [isActive, setIsActive] = useState(location.pathname);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleSelectionChange = (newPage) => {

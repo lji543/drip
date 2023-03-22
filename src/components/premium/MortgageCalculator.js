@@ -124,8 +124,8 @@ const MortgageCalculator = () => {
 
   const calculateTotalNeeded = (total) => {
     if (total === 'all') {
-      // console.log('calculateTotalNeeded ',downPayment, estimatedClosingCosts)
-      return convertToFormattedRoundNumber(downPayment + estimatedClosingCosts.total);
+      // console.log('calculateTotalNeeded ',downPayment, estimatedClosingCostsTotal)
+      return convertToFormattedRoundNumber(downPayment + estimatedClosingCostsTotal);
     }
     if (total === 'downpayment') {
       return convertToFormattedRoundNumber(downPayment - currentCashOnHand);

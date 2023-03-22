@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore'
 
 import useAuth from './useAuth';
 import { db } from '../utils/firebase.config';
@@ -10,7 +10,7 @@ const useItems = () => {
   // const owedItemsCollectionRef = collection(db, 'owedItems');
   const [owedItems, setOwedItems] = owedItemsBudgetContext;
   const [status, setStatus] = statusBudgetContext;
-  const { authenticatedUser, getAuthenticatedUser } = useAuth();
+  const { authenticatedUser } = useAuth();
 
   function addNewOwedItem(newItem, owedCategory) { // TODO: combine with update fn
     let itemList = [...owedItems[owedCategory]];

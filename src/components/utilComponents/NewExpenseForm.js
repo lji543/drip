@@ -26,7 +26,7 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
 
   const handleExpenseUpdate = (action) => {
     if (action !== 'cancel') {
-      const { amount, date, details, name } = newItem;
+      const { amount, date, name } = newItem;
       if (!amount || !date || !name) {
       // if (!amount || !date || !details) {
         setStatusMessage(statusMessages.form.requiredError);

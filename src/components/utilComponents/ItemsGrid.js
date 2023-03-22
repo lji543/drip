@@ -1,6 +1,6 @@
 // TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import {
   Cancel as CancelIcon,

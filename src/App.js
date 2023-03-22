@@ -25,7 +25,7 @@ import useUtility from './state/useUtility';
 import './styles/App.css';
 
 function App() {
-  const { authenticatedUser, getAuthenticatedUser, updateUser } = useAuth();
+  const { authenticatedUser, getAuthenticatedUser } = useAuth();
   const { checkedLogin } = authenticatedUser;
   const { getTotalsByCategoryAndMonth } = useExpenses();
   const { getMortgageDetails } = useMortgage();

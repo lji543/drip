@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { collection, doc, getDoc, getDocs, serverTimestamp, updateDoc } from 'firebase/firestore'
+import { doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore'
 
 import useAuth from './useAuth';
 import { db } from '../utils/firebase.config';
@@ -15,7 +15,7 @@ import { roundNumberToTwo } from '../utils/utilFunctions';
 
 const useExpenses = () => {
   const { spendingBudgetContext, statusBudgetContext } = useContext(BudgetContext);
-  const { authenticatedUser, getAuthenticatedUser } = useAuth();
+  const { authenticatedUser } = useAuth();
   // const expensesDocRef = doc(db, authenticatedUser.uid, "expenses");
   // console.log('useExpenses ', authenticatedUser)
   // const expensesCollectionRef = collection(db, 'expenses');
@@ -183,9 +183,9 @@ const useExpenses = () => {
 
       // console.log('***Firebase Expenses ', expensesData);
       // TODO: will have to figure out how to load temp data for new users - or maybe just auto-update with constant data if an empty data obj is returned
-      const expByCatMo = expensesData.expensesByCategoryAndMonth ? expensesData.expensesByCategoryAndMonth : expensesByCategoryAndMonthBase;
-      const totalsByCat = expensesData.yearTotalsByCategory ? expensesData.yearTotalsByCategory : yearTotalsByCategoryBase;
-      const totalsByCatMo = expensesData.totalsByCategoryAndMonth ? expensesData.totalsByCategoryAndMonth : totalsByCategoryAndMonthBase;
+      // const expByCatMo = expensesData.expensesByCategoryAndMonth ? expensesData.expensesByCategoryAndMonth : expensesByCategoryAndMonthBase;
+      // const totalsByCat = expensesData.yearTotalsByCategory ? expensesData.yearTotalsByCategory : yearTotalsByCategoryBase;
+      // const totalsByCatMo = expensesData.totalsByCategoryAndMonth ? expensesData.totalsByCategoryAndMonth : totalsByCategoryAndMonthBase;
 
       // console.log(yearTotalsByCategory)
         setSpending(state => (

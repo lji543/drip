@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Button, Container, TextField } from '@mui/material';
+import { Button, Container } from '@mui/material';
 
 import tealBlackName from '../../styles/assets/tealBlackName.png';
 import tealBlackTagline from '../../styles/assets/tealBlackTagline.png';

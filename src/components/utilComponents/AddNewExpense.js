@@ -1,5 +1,5 @@
 // TODO: combine this and AddNewItem component
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Add as AddIcon } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -7,7 +7,6 @@ import { Button } from '@mui/material';
 import NewExpenseForm from './NewExpenseForm';
 
 // import { categories, months, statusMessages } from '../utils/ericConstants';
-import useExpenses from '../../state/useExpenses';
 
 const AddNewExpense = (props) => { // Category tabs, with months as child
   // console.log('AddNewExpense ', props)

@@ -14,7 +14,6 @@ import MortgageCalculator from './components/premium/MortgageCalculator';
 import Navigation from './components/navigation';
 import SummaryTotalsTable from './components/SummaryTotalsTable';
 import OwedTracker from './components/OwedTracker';
-import MortgageCalculator from './components/premium/MortgageCalculator';
 
 import useAuth from './state/useAuth';
 import useExpenses from './state/useExpenses';
@@ -25,7 +24,7 @@ import useUtility from './state/useUtility';
 import './styles/App.css';
 
 function App() {
-  const { authenticatedUser, getAuthenticatedUser } = useAuth();
+  const { authenticatedUser, getAuthenticatedUser, updateUser } = useAuth();
   const { checkedLogin } = authenticatedUser;
   const { getTotalsByCategoryAndMonth } = useExpenses();
   const { getMortgageDetails } = useMortgage();
@@ -34,10 +33,13 @@ function App() {
 
   const location = useLocation();
 
-	const handlePageChange = (e, newPage) => {
-		setPage(newPage);
-	};
-  
+  const [isActive, setIsActive] = useState(location.pathname);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleSelectionChange = (newPage) => {
+    setIsActive(newPage);
+  }
+
   useEffect(() => {
     // console.log('App - checking for user ',authenticatedUser)
     getAuthenticatedUser();

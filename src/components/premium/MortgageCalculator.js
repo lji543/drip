@@ -1,44 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import {
-  Button,
-  Container,
   Divider,
   InputAdornment,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   TextField,
-  OutlinedInput,
 } from '@mui/material';
 import {
-  AccessTime as AccessTimeIcon,
-  AddCard as AddCardIcon,
+  // AccessTime as AccessTimeIcon,
+  // AddCard as AddCardIcon,
   AttachMoney as AttachMoneyIcon,
   Balance as BalanceIcon,
   EventRepeat as EventRepeatIcon,
-  Home as HomeIcon,
-  Paid as PaidIcon,
+  // Home as HomeIcon,
+  // Paid as PaidIcon,
   Payments as PaymentsIcon,
-  Sell as SellIcon,
+  // Sell as SellIcon,
 } from '@mui/icons-material';
 
 import LoanPmtTable from './LoanPmtTable';
-import tealBlackName from '../../styles/assets/tealBlackName.png';
-import tealBlackTagline from '../../styles/assets/tealBlackTagline.png';
-import useAuth from '../../state/useAuth';
 import useMortgage from '../../state/useMortgage';
-import { getDownPayment, getHomeValue, getMonthlyPayment } from '../../utils/mortgageUtilFunctions';
+// import { getDownPayment, getHomeValue, getMonthlyPayment } from '../../utils/mortgageUtilFunctions';
 import { convertToFormattedRoundNumber, convertToInt, roundNumber, roundNumberToTwo } from '../../utils/utilFunctions';
 
 const MortgageCalculator = () => {
   const {
     calculateMortgageDetails,
     getMortgageDetails,
-    updateMortgageDetails,
+    // updateMortgageDetails,
     setMiscDetails,
     currentAffordableHomeValue,
     currentCashNeeded,
@@ -136,7 +128,7 @@ const MortgageCalculator = () => {
   }, []); // react-hooks/exhaustive-deps
 
 	return (
-		<div className="">
+		<div className="page-wrapper">
       <div className="flex-row">
         {/* SUMMARY COLUMNN */}
         <div className='flex-column right-margin-68'>

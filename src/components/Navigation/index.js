@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { AppBar, Button } from '@mui/material';
 
@@ -51,6 +51,12 @@ function Navigation({ handleSelectionChange, isActive }) {
 					onClick={() => handleSelectionChange('/Tracker')}
 				>
 					<Link className='nav-links' to='/Tracker'>Tracker</Link>
+				</Button>
+				<Button
+					className={`nav-buttonLink ${isActive === '/Mortgage' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/Mortgage')}
+				>
+					<Link className='nav-links' to='/Mortgage'>Mortgage</Link>
 				</Button>
 				<Button
 					className={`nav-buttonLink ${isActive === '/Logout' && 'nav-activeButtonLink'}`}

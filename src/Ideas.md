@@ -20,21 +20,29 @@ Other:
   -retirement chunck to live off of
 
 
--connect owed expenses to venmo somehow
--ability to add owed expenses to expense list
--ability to check/uncheck owed expenses to mark as completed (but still have record)
+Bugs:
+-date workaround not working for every expense addition (defaults to day before entered value)
+
+Current Tasks:
+-ability to delete/edi recurring expenses - deleting or editing the whole series
+  -recurring expenses page
+-whole system really only works for one year - will have to update to store/show data based on multiple years of data
+-combine all the expense list components
 -add 'scroll to top'/'scroll to bottom' button for long pages
   -https://stackabuse.com/how-to-scroll-to-top-in-react-with-a-button-component/
--make addexpense for the tracking page a modal
--show/hide paid items on owed page
 -on addItem form, add option to mark as expense and add it to epense list
--add tooltips to expense/item grid icons
--only add owed item to expense list one time
 -when switching categories, month should remain the same
 -edit category of expense
--organize what is details, name, etc etc for each type of item/expense
 -when deleting item from tracked or expenses, make sure it deletes from both spots?? Or ask
--should 'things that people owe' also be tied to expenses or have the ability to add to/from expenses?
+-organize what is details, name, etc etc for each type of item/expense
+
+
+-only add owed item to expense list one time
+-add tooltips to expense/item grid icons
+-ability to check/uncheck owed expenses to mark as completed (but still have record)
+-ability to add owed expenses to expense list
+-show/hide paid items on owed page
+-make addexpense for the tracking page a modal
 
 
 
@@ -46,6 +54,7 @@ Q's:
   -pending owed items count / sum
   -current Month total
 -would you care to export the data for any reason?
+-should 'things that people owe' also be tied to expenses or have the ability to add to/from expenses?
 
 
 MORTGAGE:

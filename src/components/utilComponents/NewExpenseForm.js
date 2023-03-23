@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
-import { Button, TextField } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material';
 
 import { baseExpenseSchema, statusMessages } from '../../utils/ericConstants';
 import { convertToInt, formatDate } from '../../utils/utilFunctions';
 
 const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the tracking page at least
   const { addNewRow, category, className, itemCategoryName, itemObj = baseExpenseSchema, setIsAddingExpense } = props;
+  const [isMonthly, setIsMonthly] = useState(false);
+  const [isYearly, setIsYearly] = useState(false);
   const [newItem, setNewItem] = useState(itemObj);
   const [statusMessage, setStatusMessage] = useState('');
 
@@ -14,14 +16,38 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
 
   const handleFieldChange = (event) => {
     const { id, value } = event.target;
+
     if (statusMessage) {
       setStatusMessage();
     }
-
-    setNewItem({
-      ...newItem,
-      [id]: value,
-    });
+    if (id === 'isMonthly') {
+      const newIsYearly = false;
+      if (isMonthly === false && isYearly === true) {
+        setIsYearly(newIsYearly);
+      }
+      setIsMonthly(!isMonthly);
+      setNewItem({
+        ...newItem,
+        isYearly: newIsYearly,
+        [id]: !isMonthly,
+      });
+    } else if (id === 'isYearly') {
+      const newIsMonthly = false;
+      if (isYearly === false && isMonthly === true) {
+        setIsMonthly(newIsMonthly);
+      }
+      setIsYearly(!isYearly);
+      setNewItem({
+        ...newItem,
+        isMonthly: newIsMonthly,
+        [id]: !isYearly,
+      });
+    } else {
+      setNewItem({
+        ...newItem,
+        [id]: value,
+      });
+    }
   };
 
   const handleExpenseUpdate = (action) => {
@@ -40,6 +66,8 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
     
         addNewRow(newExp, category);
         setNewItem(itemObj);
+        setIsMonthly(false);
+        setIsYearly(false);
     
         if (action === 'close') {
           setIsAddingExpense(false);
@@ -55,6 +83,7 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
       <div className='form-title'>
         {`Add expense to ${itemCategoryName}:`}
       </div>
+      <div></div>
       <div className='form-row'>
         <TextField
           required
@@ -89,8 +118,13 @@ const NewExpenseForm = ({ props }) => { // TODO: maybe make this a modal for the
           label="Amount"
           type="number"
           onChange={handleFieldChange}
+          className='right-margin-12'
           value={newItem.amount}
         />
+        <FormGroup>
+          <FormControlLabel control={<Checkbox id="isMonthly" size="small" checked={isMonthly} onChange={handleFieldChange} />} label="Monthly" />
+          {/* <FormControlLabel control={<Checkbox id="isYearly" size="small" checked={isYearly} onChange={handleFieldChange}  />}  label="Yearly" /> */}
+        </FormGroup>
       </div>
       {<div className='form-error'>
         {statusMessage}

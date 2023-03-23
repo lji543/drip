@@ -11,7 +11,7 @@ import {
   yearTotalsByCategory as yearTotalsByCategoryBase,
   totalsByCategoryAndMonth as totalsByCategoryAndMonthBase
 } from '../utils/ericConstants';
-import { roundNumberToTwo } from '../utils/utilFunctions';
+import { getDaysInMonth, roundNumberToTwo } from '../utils/utilFunctions';
 
 const useExpenses = () => {
   const { spendingBudgetContext, statusBudgetContext } = useContext(BudgetContext);
@@ -24,25 +24,23 @@ const useExpenses = () => {
   const [spending, setSpending] = spendingBudgetContext;
   const [status, setStatus] = statusBudgetContext;
 
-  function addNewExpense(newExpense, category, owedItem) { // TODO: combine with update fn
+  function addNewExpense(newExpense, category) { // TODO: combine with update fn
     // TODO: add catch to that duplicate expenses cannot be added
     // i.e. look for matching id's
     const { expensesByCategoryAndMonth } = spending;
     let expenseList = [];
-    // const date = new Date(`${newExpense.date}T00:00-0800`);
-    // const month = date.getMonth();
-    // T00:00:00
-    // console.log('newExpense ', newExpense.date);
-    const dateArray = newExpense.date.split("/");  // TODO: workaround
+
+    // console.log('newExpense ', getDaysInMonth(2023, 2, 0));
+    const dateArray = newExpense.date.split("/");  // TODO: workaround weird mui bug
     const month = dateArray[0] - 1;
     const num = parseInt(dateArray[1]) + 1;
     const numString = num.toLocaleString('en-US');
     const newDate = `${dateArray[0]}/${numString}/${dateArray[2]}`
 
-    // console.log('addNewExpense ', newExpense, category, owedItem);
+    // console.log('addNewExpense ', newExpense, category);
     // console.log('expensesByCategoryAndMonth ', expensesByCategoryAndMonth);
     // console.log('month ', month);
-    if (!expensesByCategoryAndMonth[month]) {
+    if (!expensesByCategoryAndMonth[month]) { // mainly for new users/users with no data
       months.forEach((mo) => {
         if (!expensesByCategoryAndMonth[mo]) {
           expensesByCategoryAndMonth.push(expensesByCategoryAndMonthBase[mo]);
@@ -50,23 +48,29 @@ const useExpenses = () => {
       });
     }
     // console.log('expensesByCategoryAndMonth ', expensesByCategoryAndMonth);
-    if (!expensesByCategoryAndMonth[month][category]) {
+    if (!expensesByCategoryAndMonth[month][category]) { // mainly for new users/users with no data
       expensesByCategoryAndMonth[month][category] = { expenses: [] };
       // expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
     }
-   
-    expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
 
-    const updatedNewExpense = { // TODO: workaround
-      ...newExpense,
-      date: newDate,
+    
+    if (newExpense.isMonthly || newExpense.isYearly) {
+      expenseList = handleIsRecurring(category, dateArray, month, newExpense, expensesByCategoryAndMonth);
+      // console.log('recurring monthly ',expenseList)
+      totalByCategoryAndMonth(expenseList, 'add');
+    } else {
+      expenseList = [...expensesByCategoryAndMonth[month][category].expenses];
+      const updatedNewExpense = { // TODO: workaround
+        ...newExpense,
+        date: newDate,
+      }
+      // expenseList.push(newExpense);
+      expenseList.push(updatedNewExpense);
+      expensesByCategoryAndMonth[month][category].expenses = expenseList; // array of a just the edited category, for the specified month
+      
+      // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
+      totalByCategoryAndMonth(expensesByCategoryAndMonth, 'add');
     }
-    // expenseList.push(newExpense);
-    expenseList.push(updatedNewExpense);
-
-    expensesByCategoryAndMonth[month][category].expenses = expenseList;
-    // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth[month][category])
-    totalByCategoryAndMonth(expensesByCategoryAndMonth, 'add');
   }
 
   function deleteExpense(deletedExpense, category) { // combine these owed and expense functions
@@ -84,6 +88,28 @@ const useExpenses = () => {
     expensesByCategoryAndMonth[month][category].expenses = expenseList;
     // console.log('expensesByCategoryAndMonth ',expensesByCategoryAndMonth)
     totalByCategoryAndMonth(expensesByCategoryAndMonth, 'delete');
+  }
+
+  function handleIsRecurring(category, dateArray, month, newExpense, byCatAndMonth) { // passing in array of a just the edited category, for the specified month
+    let newByCatAndMonth = [...byCatAndMonth];
+
+    if (newExpense.isMonthly) {
+      months.forEach((mo, idx) => {
+        const daysInMonth = getDaysInMonth(dateArray[2], idx + 1);
+        const day = dateArray[2] > daysInMonth ? daysInMonth : dateArray[1];
+
+        let recurringList = [...newByCatAndMonth[idx][category].expenses];
+        let recurringExp = {
+          ...newExpense,
+          date: idx === month ? newExpense.date : `${idx+1}/${day}/${dateArray[2]}`,
+        }
+        recurringList.push(recurringExp);
+        newByCatAndMonth[idx][category].expenses = recurringList;
+      });
+    } 
+    // TODO: add functionality for expenses occurring yearly
+
+    return newByCatAndMonth;
   }
 
   function updateExpense(updatedExpense, category) {
@@ -161,18 +187,18 @@ const useExpenses = () => {
       totalsByCategoryAndMonth: expenseList,
       yearTotalsByCategory: yearTotalsByCategory
     }
-    
+    console.log('newSpendingState ',newSpendingState)
     setSpending(newSpendingState);
     
-    if (newMonthCategoryArray && updateType) { // TODO: is this separation necessary? separate functions, state updates and db calls?
-      updateExpensesInDatabase(newSpendingState, updateType)
-        .then(() => {
-          setTimeout(() => setStatus({
-            updateType: null,
-            result: null,
-          }), 6000);
-        });
-    }
+    // if (newMonthCategoryArray && updateType) { // TODO: is this separation necessary? separate functions, state updates and db calls?
+    //   updateExpensesInDatabase(newSpendingState, updateType)
+    //     .then(() => {
+    //       setTimeout(() => setStatus({
+    //         updateType: null,
+    //         result: null,
+    //       }), 6000);
+    //     });
+    // }
   }
 
   async function getTotalsByCategoryAndMonth() {

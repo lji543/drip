@@ -18,16 +18,16 @@ import OwedTracker from './components/OwedTracker';
 import useAuth from './state/useAuth';
 import useExpenses from './state/useExpenses';
 import useItems from './state/useItems';
-import useMortgage from './state/useMortgage';
+// import useMortgage from './state/useMortgage';
 import useUtility from './state/useUtility';
 
 import './styles/App.css';
 
 function App() {
-  const { authenticatedUser, getAuthenticatedUser, updateUser } = useAuth();
+  const { authenticatedUser, getAuthenticatedUser } = useAuth();
   const { checkedLogin } = authenticatedUser;
   const { getTotalsByCategoryAndMonth } = useExpenses();
-  const { getMortgageDetails } = useMortgage();
+  // const { getMortgageDetails } = useMortgage();
   const { getDate } = useUtility();
   const { getOwedItems } = useItems();
 
@@ -91,6 +91,7 @@ function App() {
                 <Route path='/MonthlyTally' element={<ExpensesListTallyByMonth />} />
                 <Route path='/Categorically' element={<ExpensesListByCategoryAndMonth />} />
                 <Route path='/Tracker' element={<OwedTracker />} />
+                <Route path='/Mortgage' element={<MortgageCalculator />} />
                 <Route path='/Logout' element={<Logout />} />
               </Routes>
             </div>

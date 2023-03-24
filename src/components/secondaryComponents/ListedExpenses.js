@@ -1,4 +1,4 @@
-// TODO: leverage this w/ other totalTable so we can reuse (some keys are diff)
+// TODO: combine this with reg listed expenses (dont use forEach in hook)
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -12,7 +12,7 @@ import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 import AddNewExpense from '../utilComponents/AddNewExpense';
 import { months } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
-import { convertToString, formatDate } from '../../utils/utilFunctions';
+import { formatDate, convertToString } from '../../utils/utilFunctions';
 
 const styleProps = {
   border: 'none',
@@ -23,11 +23,10 @@ const ListedExpenses = ({ category, expenses, month}) => {
   const { addNewExpense, deleteExpense, totalsByCategoryAndMonth, yearTotalsByCategory, updateExpense  } = useExpenses();
 
   const [isAddingExpense, setIsAddingExpense] = useState(false);
-  const [monthCatTotal, setMonthCatTotal] = useState([]);
+  const [monthCatTotal, setMonthCatTotal] = useState(0);
   const [rows, setRows] = useState([]);
   const [rowModesModel, setRowModesModel] = useState({});
   // console.log('Listed Expenses ', expenses)
-  // console.log('ListedExpenses totalsByCategoryAndMonth ', totalsByCategoryAndMonth[month][category])
   
   let categoryName = category;
   if (yearTotalsByCategory[category]) {
@@ -35,19 +34,21 @@ const ListedExpenses = ({ category, expenses, month}) => {
   }
   
   const addNewRow = (newRow) => {
+    const expCategory = category ? category : newRow.category;
     const updatedRow = {
       ...newRow,
-      category: category,
+      category: expCategory,
     };
     const newRows = [...rows];
     newRows.push(updatedRow);
     // console.log('updateRow ', updatedRow.date)
 
-    addNewExpense(updatedRow, category);
+    addNewExpense(updatedRow, expCategory);
     setRows(newRows);
   }
 
   const processRowUpdate = (newRow) => {
+    const expCategory = category ? category : newRow.category;
     const updatedRow = {
       ...newRow,
       date: formatDate(newRow.date),
@@ -55,7 +56,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
     };
     // console.log('processRowUpdate ', updatedRow);
 
-    updateExpense(updatedRow, category);
+    updateExpense(updatedRow, expCategory);
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
     return updatedRow;
@@ -80,8 +81,9 @@ const ListedExpenses = ({ category, expenses, month}) => {
   };
 
   const handleDeleteClick = (row) => () => {
+    const expCategory = category ? category : row.category
     // console.log('handleDeleteClick ', row)
-    deleteExpense(row, category);
+    deleteExpense(row, expCategory);
     setRows(rows.filter((r) => r.id !== row.id));
   };
 
@@ -96,25 +98,57 @@ const ListedExpenses = ({ category, expenses, month}) => {
   };
 
   const organizeRowExpensesList = () => {
-    let newList = [];
     let total = 0;
     // console.log('->organizeRowExpensesList<- totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
-    // console.log('->organizeRowExpensesList<- yearTotalsByCategory ',yearTotalsByCategory)
-    
+    // console.log('expenses ',expenses)
+    // console.log('expenses ',month, category)
+    // console.log('organizeRowExpensesList ',totalsByCategoryAndMonth[month]._monthTotal)
     if (expenses.length !== 0) {
-      expenses.forEach((exp, i) => {
-        newList.push({
-          ...exp,
-          // amount: convertToInt(exp.amount),
-        });
-      });
-      total = totalsByCategoryAndMonth[month][category];
+      setRows(expenses);
+      // console.log('organizeRowExpensesList ',organizeRowExpensesList)
+      total = category ? totalsByCategoryAndMonth[month][category] : totalsByCategoryAndMonth[month]._monthTotal;
     }
-
-    setRows(newList);
-    setMonthCatTotal(total)
+    setMonthCatTotal(total); // TODO: should this be last?
   };
+  // const organizeRowExpensesList = () => { // ListedExpensesByCategory
+  //   let newList = [];
+  //   let total = 0;
+  //   // console.log('->organizeRowExpensesList<- totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
+  //   // console.log('->organizeRowExpensesList<- yearTotalsByCategory ',yearTotalsByCategory)
+    
+  //   if (expenses.length !== 0) {
+  //     expenses.forEach((exp, i) => {
+  //       newList.push({
+  //         ...exp,
+  //         // amount: convertToInt(exp.amount),
+  //       });
+  //     });
+  //     total = totalsByCategoryAndMonth[month][category];
+  //   }
 
+  //   setRows(newList);
+  //   setMonthCatTotal(total)
+  // };
+
+  // const organizeRowExpensesList = () => { // ListedExpensesTally
+  //   // let newList = [];
+  //   // let total = 0;
+  //   // // console.log('->ListedExpensesTally<- totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
+  //   // // console.log('->ListedExpensesTally<- yearTotalsByCategory ',yearTotalsByCategory)
+    
+  //   // if (expenses.length !== 0) {
+  //   //   expenses.forEach((exp, i) => {
+  //   //     newList.push({
+  //   //       ...exp,
+  //   //       // amount: convertToInt(exp.amount),
+  //   //     });
+  //   //   });
+  //   //   // total = totalsByCategoryAndMonth[month][category];
+  //   // }
+
+  //   // setRows(newList);
+  //   // setMonthTotal(total)
+  // };
 
   const columns = [
     {
@@ -205,69 +239,102 @@ const ListedExpenses = ({ category, expenses, month}) => {
     }
   ];
 
+  // { // Category column from ListedExpenses (CatAndMonth and Month)
+  //   field: 'category',
+  //   headerName: 'Category',
+  //   headerClassName: 'dataGrid-column-header',
+  //   editable: true,
+  //   cellClassName: 'dataGrid-cell',
+  //   flex: 3,
+  //   // width: 224,
+  // },
+
+  // useEffect(() => { // Listed ExpensesTally
+  //   // organizeRowExpensesList();
+  //   // if (expenses.length > 0) {
+  //     // console.log('resetting rows ',month, expenses)
+  //     setRows(expenses);
+  //   // }
+  // // eslint-disable-next-line
+  // }, [expenses]); // react-hooks/exhaustive-deps
+
+
   useEffect(() => {
     organizeRowExpensesList();
-  // }, [category, month, totalsByCategoryAndMonth]);
   // eslint-disable-next-line
-  }, [expenses, yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
+  }, [expenses, totalsByCategoryAndMonth, yearTotalsByCategory]); // react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    // setMonthCatTotal(totalsByCategoryAndMonth[month][category]);
-    // console.log(month, category, totalsByCategoryAndMonth ? true : false)
-    // console.log(month, category, !totalsByCategoryAndMonth[month])
-    let moCatTtl = totalsByCategoryAndMonth;
-    if (totalsByCategoryAndMonth) {
-      if (!totalsByCategoryAndMonth[month]) {
-        moCatTtl[month] = {};
-      }
-      // if (moCatTtl[month]) {
-      //   moCatTtl[month][category] = 0;
-      // }
-      // console.log('moCatTtl ',moCatTtl[month][category]);
-      setMonthCatTotal(moCatTtl[month][category]);
-    }
-  // eslint-disable-next-line
-  }, [rows, yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   // console.log('totalsByCategoryAndMonth ',totalsByCategoryAndMonth);
+  //   let moCatTtl = totalsByCategoryAndMonth;
+  //   if (totalsByCategoryAndMonth) {
+  //     if (!totalsByCategoryAndMonth[month]) {
+  //       moCatTtl[month] = {};
+  //     }
+  //     // if (moCatTtl[month]) {
+  //     //   moCatTtl[month][category] = 0;
+  //     // }
+  //     // console.log('moCatTtl ',category,moCatTtl[month][category]);
+  //     // setMonthCatTotal(moCatTtl[month][category]);
+  //   }
+  // // }, [organizeRowExpensesList]);
+  // // eslint-disable-next-line
+  // }, [rows, totalsByCategoryAndMonth], yearTotalsByCategory); // react-hooks/exhaustive-deps
 
   return (
-    <div className='dataGrid-page-container'>
-      {rows.length > 0 ? (
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          autoHeight
-          editMode="row"
-          sx={styleProps}
-          rowHeight={25}
-          hideFooter
-          processRowUpdate={processRowUpdate}
-          onProcessRowUpdateError={handleProcessRowUpdateError}
-          rowModesModel={rowModesModel}
-          onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-          getRowClassName={(params) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
-          }
-          experimentalFeatures={{ newEditingApi: true }}
+    <div>
+      {category && <div className='dataGrid-tableHeader dataGrid-tableHeader-title'>
+          {`${categoryName}:`}
+      </div>}
+      <div className='dataGrid-table-container-multiple'>
+        {rows.length > 0 ? (
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            autoHeight
+            editMode="row"
+            sx={styleProps}
+            rowHeight={25}
+            hideFooter
+            // onRowEditStart={handleRowEditStart}
+            // onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            onProcessRowUpdateError={handleProcessRowUpdateError}
+            rowModesModel={rowModesModel} /////
+            onRowModesModelChange={(newModel) => setRowModesModel(newModel)} /////
+            // componentsProps={{ /////
+            //   toolbar: { setRows, setRowModesModel },
+            // }}
+            getRowClassName={(params) =>
+              params.indexRelativeToCurrentPage % 2 === 0 ? 'dataGrid-row-even' : 'dataGrid-row-odd'
+            }
+            experimentalFeatures={{ newEditingApi: true }}
+          />
+        ) : (
+          <div className='color-title-text'>
+            {`There are no expenses for ${categoryName} in ${months[month]}`}
+            {/* {`There are no expenses for ${categoryName} in ${convertToString(months[month])}`} */}
+          </div>
+        )}
+        <div className='dataGrid-total-row-multiple'>
+          <div className='dataGrid-totalTxt'>
+            {`${category ? categoryName : months[month]} Total:`}
+          </div>
+        {/* <div className='dataGrid-total-row'>
+          <div className='dataGrid-totalTxt'>
+            {`${months[month]} ${categoryName} Total:`} */}
+          <div className='dataGrid-totalAmt'>{`$ ${convertToString(monthCatTotal)}`}</div>
+        </div>
+        <AddNewExpense // TODO: maybe don't need this button every single category/table
+          category={category}
+          itemCategoryName={categoryName}
+          isAddingExpense={isAddingExpense}
+          setIsAddingExpense={setIsAddingExpense}
+          addNewRow={addNewRow}
+          month={month}
         />
-      ) : (
-        <div className='color-title-text'>
-          {`There are no expenses for ${categoryName} in ${convertToString(months[month])}`}
-        </div>
-      )}
-      <div className='dataGrid-total-row'>
-        <div className='dataGrid-totalTxt'>
-          {`${months[month]} ${categoryName} Total:`}
-        </div>
-        <div className='dataGrid-totalAmt'>{`$ ${convertToString(monthCatTotal)}`}</div>
+        {/* <Divider className='divider' /> */}
       </div>
-      <AddNewExpense
-        category={category}
-        itemCategoryName={categoryName}
-        isAddingExpense={isAddingExpense}
-        setIsAddingExpense={setIsAddingExpense}
-        addNewRow={addNewRow}
-        month={month}
-      />
     </div>
   );
 }

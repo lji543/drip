@@ -4,8 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControl, IconButton, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
 
-//  import ListedExpenses from './secondaryComponents/ListedExpenses';
-import ListedExpensesByCategory from './secondaryComponents/ListedExpensesByCategory';
+import ListedExpenses from './secondaryComponents/ListedExpenses';
 import Tabs from './utilComponents/Tabs';
 
 import { categories, months, monthsFull, statusMessages } from '../utils/ericConstants';
@@ -27,7 +26,7 @@ const CategoryTablesList = ({ expenses = {}, month }) => {
             expenses: [],
           };
         }
-        return <ListedExpensesByCategory key={cat} category={cat} expenses={expenses[cat].expenses} month={month} />;
+        return <ListedExpenses key={cat} category={cat} expenses={expenses[cat].expenses} month={month} />;
       })}
     </div>
   );

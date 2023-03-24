@@ -28,6 +28,7 @@ Current Tasks:
   -recurring expenses page
 -whole system really only works for one year - will have to update to store/show data based on multiple years of data
 -combine all the expense list components
+-combine newItem and newExpense forms as well as addNewExpense and addNewItem components
 -add 'scroll to top'/'scroll to bottom' button for long pages
   -https://stackabuse.com/how-to-scroll-to-top-in-react-with-a-button-component/
 -on addItem form, add option to mark as expense and add it to epense list

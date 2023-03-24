@@ -4,8 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControl, IconButton, InputLabel, MenuItem, Select, Snackbar } from '@mui/material';
 
-//  import ListedExpenses from './secondaryComponents/ListedExpenses';
-import ListedExpenses from './secondaryComponents/ListedExpenses';
+import ExpensesList from './utilComponents/ExpensesList';
 import Tabs from './utilComponents/Tabs';
 
 import { categories, months, monthsFull, statusMessages } from '../utils/ericConstants';
@@ -113,7 +112,7 @@ const ExpensesListTallyByMonth = () => {
           {months.map((month, idx) => <MenuItem key={month} value={idx - 1}>{months[idx-1]}</MenuItem>)}
         </Select>
       </FormControl>
-      <ListedExpenses expenses={allMonthExpenses} month={monthShown}/>
+      <ExpensesList expenses={allMonthExpenses} month={monthShown}/>
     </div>
   );
 }

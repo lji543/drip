@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControl, IconButton, MenuItem, Select, Snackbar } from '@mui/material';
 
-import ListedExpenses from './secondaryComponents/ListedExpenses';
+import ExpensesList from './utilComponents/ExpensesList';
 import Tabs from './utilComponents/Tabs';
 
 import { categories, months, statusMessages } from '../utils/ericConstants';
@@ -14,7 +14,7 @@ import useUtility from '../state/useUtility';
  ///// Month tabs, with categories as parent /////
  ///// Child of ExpenseListByCategory /////
  ///// TabContent/Children of ExpenseList is ListedExpenses /////
-const ExpenseList = ({ category, handleCategoryChange }) => {
+const ExpensesListContainer = ({ category, handleCategoryChange }) => {
   // console.log('ExpenseList ', category)
   const expenseListRef = useRef(null);
   const { expensesByCategoryAndMonth, statusState, yearTotalsByCategory, totalsByCategoryAndMonth } = useExpenses();
@@ -63,7 +63,7 @@ const ExpenseList = ({ category, handleCategoryChange }) => {
 
       tabContent.push({
         label: mo,
-        panel: <ListedExpenses category={category} expenses={listedExpenses} month={i} />,
+        panel: <ExpensesList category={category} expenses={listedExpenses} month={i} />,
       });
     });
 
@@ -147,7 +147,7 @@ const ExpensesListByCategoryAndMonth = () => { // Category tabs, with months as 
     categories.forEach((cat, i) => {
       organizedTabContent.push({
         label: `${yearTotalsByCategory[cat] ? yearTotalsByCategory[cat].name : cat}`,
-        panel: <ExpenseList category={cat} handleCategoryChange={handleCategoryChange} />
+        panel: <ExpensesListContainer category={cat} handleCategoryChange={handleCategoryChange} />
       });
     });
 

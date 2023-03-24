@@ -47,6 +47,12 @@ function Navigation({ handleSelectionChange, isActive }) {
 					<Link className='nav-links' to='/Categorically'>Categorically</Link>
 				</Button>
 				<Button
+					className={`nav-buttonLink ${isActive === '/Recurring' && 'nav-activeButtonLink'}`}
+					onClick={() => handleSelectionChange('/Recurring')}
+				>
+					<Link className='nav-links' to='/Recurring'>Recurring</Link>
+				</Button>
+				<Button
 					className={`nav-buttonLink ${isActive === '/Tracker' && 'nav-activeButtonLink'}`}
 					onClick={() => handleSelectionChange('/Tracker')}
 				>

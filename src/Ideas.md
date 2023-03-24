@@ -24,10 +24,9 @@ Bugs:
 -date workaround not working for every expense addition (defaults to day before entered value)
 
 Current Tasks:
--ability to delete/edi recurring expenses - deleting or editing the whole series
+-ability to delete/edit recurring expenses - deleting or editing the whole series
   -recurring expenses page
 -whole system really only works for one year - will have to update to store/show data based on multiple years of data
--combine all the expense list components
 -combine newItem and newExpense forms as well as addNewExpense and addNewItem components
 -add 'scroll to top'/'scroll to bottom' button for long pages
   -https://stackabuse.com/how-to-scroll-to-top-in-react-with-a-button-component/
@@ -38,6 +37,7 @@ Current Tasks:
 -organize what is details, name, etc etc for each type of item/expense
 
 
+-combine all the expense list components
 -only add owed item to expense list one time
 -add tooltips to expense/item grid icons
 -ability to check/uncheck owed expenses to mark as completed (but still have record)

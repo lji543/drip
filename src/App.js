@@ -5,9 +5,10 @@ import { Container, LinearProgress } from '@mui/material';
 
 import dinoLogoFull from './styles/assets/dinoLogoFull.png';
 import Dashboard from './components/Dashboard';
-import ExpensesListByMonth from './components/ExpensesListByMonth';
-import ExpensesListTallyByMonth from './components/ExpensesListTallyByMonth';
-import ExpensesListByCategoryAndMonth from './components/ExpensesListByCategoryAndMonth';
+import ExpensesMonthlyByCategory from './components/ExpensesMonthlyByCategory';
+import ExpensesRecurring from './components/ExpensesRecurring';
+import ExpensesMonthly from './components/ExpensesMonthly';
+import ExpensesByCategoryAndMonth from './components/ExpensesByCategoryAndMonth';
 import Login from "./components/authentication/Login";
 import Logout from "./components/authentication/Logout";
 import MortgageCalculator from './components/premium/MortgageCalculator';
@@ -87,9 +88,10 @@ function App() {
               <Routes>
                 <Route path='/' element={<Dashboard />} />
                 <Route path='/Summary' element={<SummaryTotalsTable />} />
-                <Route path='/Monthly' element={<ExpensesListByMonth />} />
-                <Route path='/MonthlyTally' element={<ExpensesListTallyByMonth />} />
-                <Route path='/Categorically' element={<ExpensesListByCategoryAndMonth />} />
+                <Route path='/Monthly' element={<ExpensesMonthlyByCategory />} />
+                <Route path='/MonthlyTally' element={<ExpensesMonthly />} />
+                <Route path='/Categorically' element={<ExpensesByCategoryAndMonth />} />
+                <Route path='/Recurring' element={<ExpensesRecurring />} />
                 <Route path='/Tracker' element={<OwedTracker />} />
                 <Route path='/Mortgage' element={<MortgageCalculator />} />
                 <Route path='/Logout' element={<Logout />} />

@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import { DataGrid, GridActionsCellItem, GridRowModes } from '@mui/x-data-grid';
 
-import AddNewExpense from '../utilComponents/AddNewExpense';
+import AddNewExpense from './AddNewExpense';
 import { months } from '../../utils/ericConstants';
 import useExpenses from '../../state/useExpenses';
 import { formatDate, convertToString } from '../../utils/utilFunctions';

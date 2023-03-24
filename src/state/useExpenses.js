@@ -278,14 +278,15 @@ const useExpenses = () => {
   return {
     addNewExpense,
     deleteExpense,
-    expensesByCategoryAndMonth: spending.expensesByCategoryAndMonth,
     getTotalsByCategoryAndMonth,
-    id: spending.id,
-    statusState: status,
-    yearTotalsByCategory: spending.yearTotalsByCategory,
-    totalsByCategoryAndMonth: spending.totalsByCategoryAndMonth,
     totalByCategoryAndMonth,
     updateExpense,
+    expensesByCategoryAndMonth: spending.expensesByCategoryAndMonth,
+    id: spending.id,
+    recurringExpenses: spending.recurringExpenses,
+    statusState: status,
+    totalsByCategoryAndMonth: spending.totalsByCategoryAndMonth,
+    yearTotalsByCategory: spending.yearTotalsByCategory,
   }
 };
 

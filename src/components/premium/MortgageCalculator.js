@@ -128,7 +128,7 @@ const MortgageCalculator = () => {
   }, []); // react-hooks/exhaustive-deps
 
 	return (
-		<div className="page-wrapper">
+		<div>
       <div className="flex-row">
         {/* SUMMARY COLUMNN */}
         <div className='flex-column right-margin-68'>

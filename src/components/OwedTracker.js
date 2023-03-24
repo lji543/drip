@@ -124,7 +124,7 @@ const OwedTracker = () => {
   }, [owedItems]); // react-hooks/exhaustive-deps
 
   return (
-    <div className='page-wrapper dataGrid-page-container'>
+    <div className='dataGrid-page-container'>
       <div> {/* Items owed BY Eric */}
         <div className='dataGrid-container'>
           <div className='dataGrid-title'>Debts to Pay:</div>

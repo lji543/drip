@@ -818,19 +818,19 @@ export const baseItemSchema = {
   owedToBy: '',
 };
 
-// export const baseExpenseSchema = {
-//   amount: 0,
-//   category: '',
-//   date: '',
-//   details: '',
-//   id: '',
-//   isNew: false, // from DataGrid
-//   name: '',
-//   // isRecurring: false,
-//   isMonthly: false,
-//   isYearly: false,
-// }
 export const baseExpenseSchema = {
+  amount: 0,
+  category: '',
+  date: '',
+  details: '',
+  id: '',
+  isNew: false, // from DataGrid
+  name: '',
+  // isRecurring: false,
+  isMonthly: false,
+  isYearly: false,
+}
+export const baseExpenseSchemaWithData = {
   amount: 55,
   category: 'autoIns',
   date: '2023-03-22',
@@ -867,3 +867,58 @@ export const baseExpenseSchema = {
 //   'security',
 //   'solar',
 // ]
+
+export const recurringExpenses = {
+  monthly: [
+    {
+      amount: 55,
+      category: 'autoIns',
+      date: '2023-03-22',
+      details: '',
+      id: 'afs388645vx',
+      isNew: false, // from DataGrid
+      name: 'testing recurring',
+      // isRecurring: false,
+      isMonthly: true,
+      isYearly: false,
+    },
+    {
+      amount: 55,
+      category: 'autoIns',
+      date: '2023-03-22',
+      details: '',
+      id: 'afs45vx',
+      isNew: false, // from DataGrid
+      name: 'testing recurring',
+      // isRecurring: false,
+      isMonthly: true,
+      isYearly: false,
+    }
+  ],
+  yearlly: [
+    {
+      amount: 55,
+      category: 'autoIns',
+      date: '2023-03-22',
+      details: '',
+      id: 'afs388645vx',
+      isNew: false, // from DataGrid
+      name: 'testing recurring',
+      // isRecurring: false,
+      isMonthly: true,
+      isYearly: false,
+    },
+    {
+      amount: 55,
+      category: 'autoIns',
+      date: '2023-03-22',
+      details: '',
+      id: 'afs45vx',
+      isNew: false, // from DataGrid
+      name: 'testing recurring',
+      // isRecurring: false,
+      isMonthly: true,
+      isYearly: false,
+    }
+  ],
+}

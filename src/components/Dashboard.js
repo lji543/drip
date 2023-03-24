@@ -27,7 +27,7 @@ const Dashboard = () => {
   }, [yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
-    <div className="page-wrapper">
+    <div>
       {authenticatedUser.name && <div className='dataGrid-tableHeader-title'>{`Hi ${authenticatedUser.name}`}</div>}
     </div>
   );

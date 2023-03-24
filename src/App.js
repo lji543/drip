@@ -85,17 +85,19 @@ function App() {
           {authenticatedUser.email ? (
             <div>
               <Navigation handleSelectionChange={handleSelectionChange} isActive={isActive}/>
-              <Routes>
-                <Route path='/' element={<Dashboard />} />
-                <Route path='/Summary' element={<SummaryTotalsTable />} />
-                <Route path='/Monthly' element={<ExpensesMonthlyByCategory />} />
-                <Route path='/MonthlyTally' element={<ExpensesMonthly />} />
-                <Route path='/Categorically' element={<ExpensesByCategoryAndMonth />} />
-                <Route path='/Recurring' element={<ExpensesRecurring />} />
-                <Route path='/Tracker' element={<OwedTracker />} />
-                <Route path='/Mortgage' element={<MortgageCalculator />} />
-                <Route path='/Logout' element={<Logout />} />
-              </Routes>
+                <div className='page-wrapper'>
+                  <Routes>
+                    <Route path='/' element={<Dashboard />} />
+                    <Route path='/Summary' element={<SummaryTotalsTable />} />
+                    <Route path='/Monthly' element={<ExpensesMonthlyByCategory />} />
+                    <Route path='/MonthlyTally' element={<ExpensesMonthly />} />
+                    <Route path='/Categorically' element={<ExpensesByCategoryAndMonth />} />
+                    <Route path='/Recurring' element={<ExpensesRecurring />} />
+                    <Route path='/Tracker' element={<OwedTracker />} />
+                    <Route path='/Mortgage' element={<MortgageCalculator />} />
+                    <Route path='/Logout' element={<Logout />} />
+                  </Routes>
+                </div>
             </div>
           ) : (
             <Login />

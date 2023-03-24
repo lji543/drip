@@ -103,7 +103,7 @@ const ListedExpenses = ({ category, expenses, month}) => {
     // console.log('expenses ',expenses)
     // console.log('expenses ',month, category)
     // console.log('organizeRowExpensesList ',totalsByCategoryAndMonth[month]._monthTotal)
-    if (expenses.length !== 0) {
+    if (expenses.length !== 0 && (category || month)) {
       setRows(expenses);
       // console.log('organizeRowExpensesList ',organizeRowExpensesList)
       total = category ? totalsByCategoryAndMonth[month][category] : totalsByCategoryAndMonth[month]._monthTotal;

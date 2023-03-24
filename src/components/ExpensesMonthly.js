@@ -97,7 +97,7 @@ const ExpensesListTallyByMonth = () => {
   }, [monthShown]); // react-hooks/exhaustive-deps
 
   return ( 
-    <div className='page-wrapper'>
+    <div>
       <FormControl
         sx={{ m: 1, minWidth: 120 }}
         size="small"

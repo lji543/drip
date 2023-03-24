@@ -2,7 +2,7 @@
 // or maybe split up useExpenses instead
 import React, { useState } from 'react';
 
-import { yearTotalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth, trackedExpenses } from '../utils/ericConstants';
+import { yearTotalsByCategory, expensesByCategoryAndMonth, totalsByCategoryAndMonth, recurringExpenses } from '../utils/ericConstants';
 
 const BudgetContext = React.createContext([{}, () => {}]);
 
@@ -45,6 +45,7 @@ const BudgetProvider = (props) => {
     yearTotalsByCategory: yearTotalsByCategory,
     expensesByCategoryAndMonth: expensesByCategoryAndMonth,
     totalsByCategoryAndMonth: totalsByCategoryAndMonth,
+    recurringExpenses: recurringExpenses,
     // yearTotalsByCategory: {},
     // expensesByCategoryAndMonth: [],
     // totalsByCategoryAndMonth: {},

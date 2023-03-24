@@ -1,42 +1,69 @@
 :root {
+  /* --blue: #1976d2; */
+  /* --darkLavendar: #6658ff; */
+
+  /* Using: */
+  --veryLightTeal: #e0f2f1; /* ? dataGrid row even */
+  --lightTeal: #b2dfdb; /* ? dataGrid row hover */
+  --logoTeal: #8bedd8; /* button color */
+  /* --lightGrayBlue: #b2dfdb; /* table header, totals row --more like light teal? */ /**/
+  
+  /* Using in Component Variables Now: */
+  --bluePurple: #2a2c76;
+  --lightGray: #cfd8dc;
+  --gray: #90a4ae; /* disabled button */
   --darkBlue: #02174c;
-  /* --darkBlueOpacity: rgba(5, 23, 76, 0.50); */
   --darkBlueOpacity: #1e3e90;
   --veryDarkBlue: #02035e;
-  --grayBlue: #8bafc1;
-  --veryLightBlue: #d0e5ff;
-  --blue: #1976d2;
-  --darkLavendar: #6658ff;
-  --veryDarkLavendar: #3a38bf;
+  --darkGrayBlue: #5b7bba;
+  /* --grayBlue: #8bafc1; */
+  --grayBlue: #9bafd7;
+  --lightGrayBlue: #b8c6e4;
+  --veryLightGrayBlue: #cedaf2;
+  --veryVeryLightGrayBlue: #dce6fb;
+  
 
-  --bluePurple: #2a2c76;
-  /* --veryLightTeal: #e4f9f5; */
-  --veryLightTeal: #e0f2f1;
-  /* --lightTeal: #baf0e6; */
-  --lightTeal: #b2dfdb;
-  --teal: #81e4c4;
-  --logoTeal: #8bedd8;
-  --lightGray: #cfd8dc;
-  --gray: #90a4ae;
-  --lightGrayBlue: #b2dfdb;
-  --darkGray: #607d8b; /* TODO: too dark (used for hover on tables) */
-  --green: #06c96c;
-
+  /* COMPONENT COLOR VARIABLES */
   --black: #111111;
   --red: rgba(255, 0, 0, 0.693);
+
+  --disabled: var(--gray); /* either this or gray */
+  --disabledHover: var(--lightGray); /* either this or gray */
+  --disabledOther: rgba(0, 0, 0, 0.54); /* update */
+  --border: var(--lightGray); /* Container, Tables */
+  --divider: var(--veryDarkBlue); /* Dividing border within tables, etc */
+
+  --mainHeader: var(--darkBlue); /* App/Navigation Bar */
+  --mainHeaderHover: var(--darkBlueOpacity);  /* update / not using? */
+  --mainHeaderText: var(--darkBlueOpacity);
+  --secondaryHeader: var(--darkGrayBlue); /* Tables */
+  --secondaryHeaderHover: var(--darkGrayBlue); /* update / not using? */
+  --tertiaryHeader: var(--grayBlue);
+  --tertiaryHeaderHover: var(--darkGrayBlue);
+  --tertiarySubHeader: var(--veryVeryLightGrayBlue); /* Tabs */
+  --tertiarySubHeaderHover: var(--darkGrayBlue);  /* update / not using? */
+
+  --pageBackground: #e6e6e678;
+  
+  --buttonBorder: var(--veryDarkBlue);
+
+  --tableBackground: #8bafc1;
+  --tableRow: var(--veryLightGrayBlue);
+  --tableRowHover: var(--lightGrayBlue);
+
+  --textColor: var(--veryDarkBlue);
+  --textColorSecondary: var(--bluePurple);
+  --textFieldBackground: aliceblue;
 }
 
 
 .App {
-  background-color: #e6e6e678;
-  /* height: 100vh; */
+  background-color: var(--pageBackground);
   height: 100vw; /* TODO: */
   text-align: center;
 }
 .page-wrapper {
-  margin: 24px;
-  width: 100%;
-  /* background-color: #e6e6e6; */
+  margin: 12px;
 }
 .page-heading {
   font-size: 24px;
@@ -48,19 +75,13 @@
 /* //////////// */
 /*/ NAVIGATION /*/
 /* //////////// */
-/* .navigation { */
-  /* width: 100%; */
-/* } */
 .nav-appBar {
   /* width: 100% !important; TODO: figure out how to get the scroll buttons maybe? */
-  background-color: var(--darkBlue) !important;
+  background-color: var(--mainHeader) !important;
   display: flex;
   flex-direction: row !important;
   height: 48px;
 }
-/* .navigation .MuiPaper-root {
-  background-color: var(--darkBlue);
-} */
 .nav-buttonLink {
   border-radius: 0px !important;
   margin-bottom: 8px !important;
@@ -98,24 +119,22 @@
 /*/ TABS /*/
 /* ////// */
 .tabs {
-  /* max-width: 1200px;
-  width: 100%; */
   width: 100%;
 }
 .tabs .MuiButtonBase-root {
-  color: var(--veryDarkBlue) !important;
+  color: var(--textColor) !important;
 }
 .tabs .MuiTabs-indicator {
-  background-color: var(--veryDarkBlue); 
+  background-color: var(--textColor); 
 }
 .tabs .Mui-disabled.MuiTabScrollButton-root {
   display: none; /* Hide disabled tab scroll when all the way left or right */
 }
 .tabs-hover:hover {
-  background-color: var(--lightTeal);
+  background-color: var(--tertiaryHeader);
 }
 .tabs-hover.Mui-selected:hover {
-  background-color: var(--veryLightTeal);
+  background-color: var(--tertiaryHeaderHover);
 }
 
 .tabs-vertical {
@@ -125,13 +144,13 @@
   overflow: visible; /* Show vertical tabs on large screens */
 }
 .tabs-vertical .Mui-selected {
-  background-color: var(--veryLightTeal);
+  background-color: var(--tertiarySubHeader);
   border-radius: 4px 0px 0px 4px;
   font-weight: 600;
 }
 
 .tabPanel-vertical {
-  background-color: var(--veryLightTeal);
+  background-color: var(--tertiarySubHeader);
   border-radius: 0px 4px 4px 4px;
   max-width: 85%;
 }
@@ -141,79 +160,62 @@
 /*/ DATA GRID /*/
 /* /////////// */
 .dataGrid-table-container-multiple {
-  border: solid 1px var(--lightGray);
+  border: solid 1px var(--border);
   margin-bottom: 24px;
-  /* margin-top: 8px; */
   padding: 8px;
 }
 .dataGrid-container {
-  /* height: 100%; */
-  /* padding: 32px 24px 12px 24px; */
   padding-top: 24px;
-  /* width: 100%; */
 }
 .dataGrid-title {
-  color: var(--veryDarkBlue);
+  color: var(--textColor);
   font-weight: 600;
-  /* padding: 32px 24px 12px 24px; */
-  /* padding-bottom: 4px; */
 }
 .dataGrid-tableHeader {
-  /* background-color: var(--teal); */
-  background-color: var(--lightGrayBlue);
-  /* border-top: solid 1px var(--veryDarkBlue); */
+  background-color: var(--tertiaryHeader); /* update */
   display: flex;
   font-size: 18px;
-  /* justify-content: space-between; */
   justify-content: center;
-  /* margin-bottom: 40px; */
   margin-top: 8px;
   padding: 12px;
 }
 .dataGrid-tableHeader-title {
-  color: var(--veryDarkBlue);
+  color: var(--textColor);
   font-weight: bold;
 }
 /* Columns */
 .dataGrid-column-header {
-  color: var(--veryDarkBlue);
-  /* color: var(--bluePurple); */
+  color: var(--textColor);
   text-decoration: underline;
 }
 /* Rows */
 .dataGrid-row-total {
-  background-color: var(--lightGrayBlue);
-  border-top: solid 1px var(--veryDarkBlue);
+  background-color: var(--tertiaryHeader);
+  border-top: solid 1px var(--divider);
   font-size: 16px;
   font-weight: 600;
 }
 .dataGrid-row-even {
-  /* background-color: var(--teal); */
-  /* background-color: var(--lightGrayBlue); */
-  background-color: var(--veryLightTeal);
+  background-color: var(--tableRow);
 }
 .dataGrid-row-even:hover {
-  background-color: var(--lightTeal) !important;
+  background-color: var(--tableRowHover) !important;
 }
 .dataGrid-row-odd:hover {
-  background-color: var(--lightTeal) !important;
+  background-color: var(--tableRowHover) !important;
 }
 .dataGrid-row-disabled {
-  background-color: var(--gray);
-  /* color: gray !important; */
+  background-color: var(--disabled);
 }
 .dataGrid-row-disabled:hover {
-  background-color: var(--gray) !important;
-  /* color: gray !important; */
+  background-color: var(--disabledHover) !important;
 }
 .dataGrid-row-disabled .dataGrid-cell {
-  color: rgba(0, 0, 0, 0.54) !important;
+  color: var(--disabledOther) !important;
 }
 /* Cells */
 .dataGrid-cell {
-  /* color: var(--veryDarkBlue); */
-  color: var(--bluePurple);
-  /* justify-content: flex-start !important; */
+  color: var(--textColorSecondary);
 }
 .dataGrid-cell-amount {
   padding-right: 12px !important;
@@ -222,41 +224,38 @@
   padding: 0px 8px !important;
 }
 .dataGrid-cell-action .icon-button-disabled {
-  color: var(--lightGray);
+  color: var(--disabled);
 }
 .dataGrid-cell-action .icon-button-disabled:hover {
   background-color: transparent;
 }
 /* Total */
 .dataGrid-total-row {
-  background-color: var(--lightGrayBlue);
-  border-top: solid 1px var(--veryDarkBlue);
+  background-color: var(--tertiaryHeader);
+  border-top: solid 1px var(--divider);
   display: flex;
   justify-content: space-between;
-  /* margin-bottom: 40px; */
   margin-top: 60px;
   padding: 8px;
 }
 .dataGrid-total-row-multiple {
-  background-color: var(--lightGrayBlue);
-  border-top: solid 1px var(--veryDarkBlue);
+  background-color: var(--tertiaryHeader);
+  border-top: solid 1px var(--divider);
   display: flex;
   justify-content: space-between;
-  /* margin-bottom: 40px; */
   margin-top: 24px;
   padding: 8px;
 }
 .dataGrid-totalTxt {
-  color: var(--veryDarkBlue);
+  color: var(--textColor);
   font-weight: bold;
 }
 .dataGrid-totalAmt {
-  color: var(--veryDarkBlue);
+  color: var(--textColor);
   font-weight: bold;
 }
 .dataGrid-totalAmt-multiple {
-  color: var(--veryDarkBlue);
-  /* font-size: 16px; */
+  color: var(--textColor);
   font-weight: bold;
 }
 
@@ -266,10 +265,9 @@
 /* //////////// */
 .button-container {
   display: flex;
-  /* padding-top: 24px; */
 }
 .button {
-  color: var(--veryDarkBlue) !important;
+  color: var(--textColor) !important;
 }
 .button-main {
   background-color: var(--logoTeal) !important;
@@ -281,27 +279,25 @@
 .button-main-small {
   background-color: var(--logoTeal) !important;
   border-radius: 4px !important;
-  /* font-weight: 600 !important; */
-  /* padding: 8px 16px !important; */
 }
 .button-disabled {
-  color: var(--gray) !important;
+  color: var(--disabled) !important;
 }
 .icon-button-disabled:hover {
-  color: var(--lightGray) !important;
+  color: var(--disabledHover) !important;
   cursor: default;
 }
 .button-outlined {
-  border: solid 1px var(--veryDarkBlue) !important;
-  color: var(--veryDarkBlue) !important;
+  border: solid 1px var(--buttonBorder) !important;
+  color: var(--textColor) !important;
 }
 .button-outlined-light {
-  border: solid 1px var(--veryDarkBlue) !important;
-  color: var(--veryDarkBlue) !important;
+  border: solid 1px var(--buttonBorder) !important;
+  color: var(--textColor) !important;
 }
 
 .border {
-  border: solid 1px var(--lightGray);
+  border: solid 1px var(--border);
   border-radius: 4px;
   padding: 12px;
 }
@@ -312,29 +308,23 @@
 }
 
 .form {
-  /* padding-top: 56px; */
   padding: 56px 8px 0px 8px
 }
 .form-title-large {
-  color: var(--veryDarkBlue);
-  /* color: var(--darkBlue); */
+  color: var(--textColor);
   font-size: 18px;
   font-weight: bold;
-  /* padding-bottom: 24px; */
   text-align: left;
 }
 .form-title {
-  color: var(--veryDarkBlue);
-  /* color: var(--darkBlue); */
+  color: var(--textColor);
   font-size: 18px;
   font-weight: 600;
   padding-bottom: 24px;
   text-align: left;
 }
 .form-subtitle {
-  color: var(--veryDarkBlue);
-  /* color: var(--darkBlue); */
-  /* font-size: 12px; */
+  color: var(--textColor);
   padding-bottom: 24px;
   text-align: left;
 }
@@ -362,7 +352,6 @@
 
 .actions-row {
   display: flex;
-  /* justify-content: space-around; */
   justify-content: center;
   padding-top: 40px; 
 }
@@ -373,14 +362,12 @@
 }
 
 .color-title-text {
-  color: var(--veryDarkBlue);
+  color: var(--textColor);
 }
 
 .image-container {
-  /* align-items: center; */
   display: flex !important;
   flex-direction: column;
-  /* justify-content: center; */
 }
 
 .text-size-18 {
@@ -410,7 +397,7 @@
 
 
 .textField-background .MuiInputBase-root {
-  background-color: aliceblue;
+  background-color: var(--textFieldBackground);
   max-width: 192px;
 }
 .textField-small .MuiInputBase-root {
@@ -418,9 +405,6 @@
 }
 
 /*/ Spacing /*/
-/* .bottom-margin-12 {
-  margin-bottom: 12px !important;
-} */
 .bottom-margin-48 {
   margin-bottom: 48px !important;
 }
@@ -480,10 +464,6 @@
 /* /////// */
 /*/ TABLE /*/
 /* /////// */
-/* .table-container .MuiGrid-root {
-  background-color: #8bafc1 !important;
-} */
-
 .table-row {
   display: flex;
   flex-direction: row;
@@ -492,21 +472,18 @@
 }
 
 .table-gridRowsContainer {
-  background-color: #8bafc1;
+  background-color: var(--tableBackground);
   padding: 12px 12px 0px 12px;
   margin-bottom: 12px;
 }
 .table-gridCell-xs {
   min-width: 48px;
-  /* text-align: left; */
 }
 .table-gridCell-sm {
   min-width: 120px;
-  /* text-align: left; */
 }
 .table-gridCell-med {
   min-width: 120px;
-  /* text-align: left; */
 }
 
 .table-gridCell-med .MuiInputBase-input.MuiOutlinedInput-input {
@@ -516,38 +493,6 @@
 .set-width-34 {
   width: 34px;
 }
-
-/*
-// gray Palette:
-// darkGreenGray: #40514e
-// veryLightTeal: #e4f9f5 var(--veryLightTeal)
-// gray: #576d69
-// darkGray: #293533
-// white: #ffffff
-// lightTeal: #baf0e6 var(--lightTeal)
-
-
-// blueGrayGreen Palette:
-// green: #64ee85
-// veryDarkBlue: 0a3042
-// white: #ffffff
-// lightGreen: #92f3a9
-// green: #36e961
-// darkBlue: #11506e
-
-
-
-// Dino Palette:
-// darkBlue: #293851
-// green: #5ea570
-// lightGreen: #cbe7af
-// medGreen: #65dca2
-// darkGreen: #528e61
-// lightTeal: #65dca2
-// white: #f9f6f9
-// black: #454045
-// almostBlack: #544f57
-*/
 
 
 /*///// TAB SIZING /////*/
@@ -576,7 +521,6 @@
     width: 100%;
   }
   .tabs-vertical .MuiTabs-root {
-    /* overflow: hidden; */
     display: none;
   }
   .tabPanel-vertical {
@@ -616,34 +560,8 @@
   /* .small-screen .MuiInputBase-root { */
   .small-screen {
     background-color: #112a6eac;
-    /* display: visible; */
     font-size: 18px;
     font-weight: 600;
     width: 100%;
   }
 }
-
-
-
-
-/* OTHER IMAGES */
-/* {
-  "src": "tealBlackLogo.png",
-  "type": "image/png",
-  "sizes": "411x309"
-},
-{
-  "src": "tealBlackTagline.png",
-  "type": "image/png",
-  "sizes": "424x37"
-},
-{
-  "src": "tealBlackName.png",
-  "type": "image/png",
-  "sizes": "452x320"
-},
-{
-  "src": "blueGreenWhiteLogo.png",
-  "type": "image/png",
-  "sizes": "133x111"
-} */

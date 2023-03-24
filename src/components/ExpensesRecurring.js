@@ -20,7 +20,7 @@ import { categories } from '../utils/ericConstants';
 
 const ExpensesListRecurring = () => {
   const { authenticatedUser } = useAuth();
-  const { yearTotalsByCategory, totalsByCategoryAndMonth } = useExpenses();
+  const { recurringExpenses, totalsByCategoryAndMonth, yearTotalsByCategory } = useExpenses();
 
   useEffect(() => {
     // console.log('->ExpensesListRecurring<- totalsByCategoryAndMonth ',totalsByCategoryAndMonth)
@@ -29,8 +29,8 @@ const ExpensesListRecurring = () => {
   }, [yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
-    <div className="page-wrapper">
-      {authenticatedUser.name && <div className='dataGrid-tableHeader-title'>{`Hi ${authenticatedUser.name}`}</div>}
+    <div>
+      <ExpensesList expenses={recurringExpenses}/>
     </div>
   );
 }

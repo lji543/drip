@@ -91,7 +91,7 @@ const ExpensesListContainer = ({ category, handleCategoryChange }) => {
   }, [screenWidth]); // react-hooks/exhaustive-deps
 
   return ( 
-    <div className='page-wrapper' ref={expenseListRef}>
+    <div ref={expenseListRef}>
       {/* <div className={smallScreen ? 'small-screen' : 'large-screen'} > */}
       {smallScreen &&
         <div className='small-screen'>

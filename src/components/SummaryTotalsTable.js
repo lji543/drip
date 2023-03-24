@@ -246,7 +246,7 @@ const SummaryTotalsTable = () => {
   }, [yearTotalsByCategory, totalsByCategoryAndMonth]); // react-hooks/exhaustive-deps
 
   return (
-    <div ref={pageRef} className='page-wrapper dataGrid-table-container'>
+    <div ref={pageRef} className='dataGrid-table-container'>
       {rows.length > 0 ? (
         <DataGrid
           autoHeight
